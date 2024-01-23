@@ -109,6 +109,8 @@ class DemoSTOPIT{
 
         }catch(IOException ignored){
             System.err.println("Problema con Socket");
+        }catch(NullPointerException e){
+            System.err.println("Problema con Socket per l'imput");
         }
     }
 }
@@ -123,7 +125,7 @@ class Client implements Runnable{
         int rip = 0;
         String response;
         String gigi = null;
-        connect : while(true) {
+        while(true) {
             try {
                 Scanner scanner = new Scanner(System.in);
 
@@ -178,19 +180,21 @@ class Client implements Runnable{
                     }
                 }
                 if (exit){
+                    scanner.close();
                     break;
                 }
-            } catch (IOException ex) {
+                socket.close();
+            } catch (IOException e) {
                 try {
                     rip++;
                     Thread.sleep(500);
-                } catch (InterruptedException e) {
+                } catch (InterruptedException e1) {
                     throw new RuntimeException(e);
                 }
                 if (rip>4){
                     try {
                         throw new PersonalException("Provato 5 volte a riconettermi, nessuna speranza chiudo l'applicazione");
-                    } catch (PersonalException e) {
+                    } catch (PersonalException e1) {
                         throw new RuntimeException(e);
                     }
                 }
@@ -199,6 +203,7 @@ class Client implements Runnable{
             }
         }
         System.out.println("Sto uscendo dal thread");
+        
     }
 }
 
