@@ -55,7 +55,7 @@ public class Server implements Runnable{
                     app.add(clientHandlerTemporaneo);
                     Thread appthread = new Thread(clientHandlerTemporaneo);
                     appthread.start();
-                    app.clientHandlerTemporaneo.setNumber(appthread.getId());
+                    clientHandlerTemporaneo.setNumber(appthread.getId());
                     threads.add(appthread);
                 }catch (IllegalThreadStateException e){
                     System.out.println("L'applicazione ha provato a rilanciare un thread, cià non dovrebbe mai succedere quindi non so cosa sta succedendo, per sicurezza chiudo l'app");
