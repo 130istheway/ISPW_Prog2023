@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
-import server.com.serverISPW.Server;
-import server.com.serverISPW.exception.PersonalException;
+import server.com.server.Server;
+import server.com.server.exception.PersonalException;
 
 
 class DemoServer{
