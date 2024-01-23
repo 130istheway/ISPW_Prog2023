@@ -25,13 +25,12 @@ public class ClientHandler implements Runnable {
     }
 
     public void run(){
-        String messaggio;
         try {
             try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 String inputLine;
-                while ((messaggio = inputLine = in.readLine()) != null) {
+                while ((inputLine = in.readLine()) != null) {
                     System.out.println("Server " + number + ": " + inputLine);
                     if (!running) {
                         out.println("STOPTHAT");

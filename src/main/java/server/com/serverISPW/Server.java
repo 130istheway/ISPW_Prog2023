@@ -35,7 +35,6 @@ public class Server implements Runnable{
 
     public void handlerConnection () throws IOException, PersonalException{
         ServerSocket serverSocket = new ServerSocket(5000);
-        int a = 0;
         while (true) {
             try {
                 System.out.println("Attendo connessioni...");
