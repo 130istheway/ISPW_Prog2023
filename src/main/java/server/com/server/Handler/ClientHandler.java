@@ -12,6 +12,8 @@ import server.com.server.exception.PersonalException;
 
 public class ClientHandler implements Runnable {
     private final Socket socket;
+    private static final String action_1 = "quindi questo thread :";
+    private static final String action_2 = " : si arrestera";
 
     ControllerInfoSulThread info;
 
@@ -47,15 +49,15 @@ public class ClientHandler implements Runnable {
             }catch (PersonalException  e) {
                 switch (e.getMessage()) {
                     case "NON si è voluto autenticare":
-                        System.out.println("Login non effettuato perchè non si è voluto autenticare" + "quindi questo thread :" + this.info.getThreadId() + " : si arrestera" );
+                        System.out.println("Login non effettuato perchè non si è voluto autenticare" + action_1 + this.info.getThreadId() + action_2 );
                         break;
                     
                     case "Sono uscito dal login perchè il server ha chiuso":
-                        System.out.println("Login non effettuato perchè il server stava chiudendo" + "quindi questo thread :" + this.info.getThreadId() + " : si arrestera" );
+                        System.out.println("Login non effettuato perchè il server stava chiudendo" + action_1 + this.info.getThreadId() + action_2 );
                         break;
 
                     case "Ha sbagliato ad autenticarsi":
-                        System.out.println("Login non effetuato perchè ha sbagliato troppe volte" + "quindi questo thread :" + this.info.getThreadId() + " : si arrestera" );
+                        System.out.println("Login non effetuato perchè ha sbagliato troppe volte" + action_1 + this.info.getThreadId() + action_2 );
                         break;
 
                     default:
