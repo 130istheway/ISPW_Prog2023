@@ -16,7 +16,7 @@ public class ControllerInfoSulThread {
     private PrintWriter out;
 
     public ControllerInfoSulThread(BufferedReader input, PrintWriter output) {
-        this.threadId = (long) 0;
+        this.threadId = 0;
         this.running = true;
         this.in = input;
         this.out = output;
@@ -30,16 +30,6 @@ public class ControllerInfoSulThread {
 
     public boolean isRunning(){
         return running;
-    }
-
-
-
-    public void setSocket(Socket socket){
-        this.socket = socket;
-    }
-
-    public Socket getSocket(){
-        return socket;
     }
 
     public void setThreadId(long threadId){

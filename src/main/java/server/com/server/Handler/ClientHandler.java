@@ -26,6 +26,10 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    public Socket getSocket(){
+        return this.socket;
+    }
+
     public void setNumber(long id) {
         this.info.setThreadId(id);
     }
@@ -41,7 +45,24 @@ public class ClientHandler implements Runnable {
             } catch (IOException e) {
                 System.out.println("Thread server " + this.info.getThreadId() + ": Sta terminando : " + e.getMessage());
             }catch (PersonalException  e) {
-                System.out.println("Login non effettuato perchè il server stava chiudendo");
+                switch (e.getMessage()) {
+                    case "NON si è voluto autenticare":
+                        System.out.println("Login non effettuato perchè non si è voluto autenticare" + "quindi questo thread :" + this.info.getThreadId() + " : si arrestera" );
+                        break;
+                    
+                    case "Sono uscito dal login perchè il server ha chiuso":
+                        System.out.println("Login non effettuato perchè il server stava chiudendo" + "quindi questo thread :" + this.info.getThreadId() + " : si arrestera" );
+                        break;
+
+                    case "Ha sbagliato ad autenticarsi":
+                        System.out.println("Login non effetuato perchè ha sbagliato troppe volte" + "quindi questo thread :" + this.info.getThreadId() + " : si arrestera" );
+                        break;
+
+                    default:
+                        System.out.println("\n\n" + e.getMessage() + "\n\n" + this.info.getThreadId()  + "\n\n" );
+                        break;
+                    
+                }
             }
             if (!this.info.isRunning()) {
                 System.out.println("il capo mi sta chiudendo | thread number: " + this.info.getThreadId() );

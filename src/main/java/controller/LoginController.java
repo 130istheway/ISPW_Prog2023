@@ -16,6 +16,8 @@ public class LoginController {
 
     public Credential execute() throws IOException, PersonalException {
         String inputLine;
+        final String accettata = "Accettata";
+        final String rifiutata = "Rifiutato";
         int retryCount = 0;
 
         if (!info.isRunning()) {
@@ -30,27 +32,26 @@ public class LoginController {
                 Credential cred = new Credential(null,null, Role.NONE);
                 System.out.println("STOPTHAT " + (cred.getRole()).ordinal());
                 return cred;
-            }
-            if (inputLine.equals("user:gigi,pass:gigi")) {
+            }else if (inputLine.equals("user:gigi,pass:gigi")) {
                 Credential cred = new Credential("gigi","gigi", Role.NEGOZIO);
-                info.sendmessage("accettata");
-                System.out.println("Accettata " + (cred.getRole()).ordinal());
+                info.sendmessage(accettata);
+                System.out.println(accettata + (cred.getRole()).ordinal());
                 return cred;
-            }if (inputLine.equals("user:lollo,pass:lollo")) {
+            }else if(inputLine.equals("user:lollo,pass:lollo")) {
                 Credential cred = new Credential("lollo","lollo", Role.UTENTE);
-                info.sendmessage("accettata");
-                System.out.println("Accettata " + (cred.getRole()).ordinal());
+                info.sendmessage(accettata);
+                System.out.println(accettata + (cred.getRole()).ordinal());
                 return cred;
             }
             info.sendmessage("Riprova");
             retryCount++;
             if (retryCount > 4) {
-                info.sendmessage("Rifiutrata ");
+                info.sendmessage(rifiutata);
                 throw new PersonalException("Ha sbagliato ad autenticarsi");
             }
         }
         Credential cred = new Credential(null,null, Role.NONE);
-        System.out.println("Accettata " + (cred.getRole()).ordinal());
+        System.out.println(rifiutata + (cred.getRole()).ordinal());
         return cred;
     }
 }
