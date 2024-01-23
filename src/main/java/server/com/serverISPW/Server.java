@@ -27,7 +27,7 @@ public class Server implements Runnable{
             // handle exception
 
             Thread currentThread = Thread.currentThread();
-            long threadId = currentThread.threadId();
+            long threadId = currentThread.getId();
 
             System.out.println("Il thread : " + threadId + " Si è concluso, il messaggio d'errore è : " + e.getMessage());
         }
@@ -54,7 +54,7 @@ public class Server implements Runnable{
                     app.addLast(new ClientHandler(socket));
                     Thread appthread = new Thread(app.getLast());
                     appthread.start();
-                    app.getLast().setNumber(appthread.threadId());
+                    app.getLast().setNumber(appthread.getId());
                     threads.add(appthread);
                 }catch (IllegalThreadStateException e){
                     System.out.println("L'applicazione ha provato a rilanciare un thread, cià non dovrebbe mai succedere quindi non so cosa sta succedendo, per sicurezza chiudo l'app");
