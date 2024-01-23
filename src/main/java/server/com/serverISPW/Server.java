@@ -27,7 +27,7 @@ public class Server implements Runnable{
             // handle exception
 
             Thread currentThread = Thread.currentThread();
-            long threadId = currentThread.getId();
+            long threadId = currentThread.getId();     //avrei voluto usare threadId() ma sonarcloud ha detto di no
 
             System.out.println("Il thread : " + threadId + " Si è concluso, il messaggio d'errore è : " + e.getMessage());
         }
@@ -51,10 +51,11 @@ public class Server implements Runnable{
                         throw new PersonalException("STOPIT");
                     }
                     out.println("Stai entrando nel sistema"); // rispondo al client che lo sto accettando nel sistema
-                    app.addLast(new ClientHandler(socket));
-                    Thread appthread = new Thread(app.getLast());
+                    ClientHandler clientHandlerTemporaneo = new ClientHandler(socket);                       //non posso usare addLast() perchè sonar è molto bello
+                    app.add(clientHandlerTemporaneo);
+                    Thread appthread = new Thread(clientHandlerTemporaneo);
                     appthread.start();
-                    app.getLast().setNumber(appthread.getId());
+                    app.clientHandlerTemporaneo.setNumber(appthread.getId());
                     threads.add(appthread);
                 }catch (IllegalThreadStateException e){
                     System.out.println("L'applicazione ha provato a rilanciare un thread, cià non dovrebbe mai succedere quindi non so cosa sta succedendo, per sicurezza chiudo l'app");
