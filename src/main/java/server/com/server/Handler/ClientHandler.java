@@ -25,7 +25,6 @@ public class ClientHandler implements Runnable {
     }
 
     public void run(){
-        try {
             try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
@@ -43,15 +42,8 @@ public class ClientHandler implements Runnable {
                 System.out.println("Thread server " + number + ": Sta terminando");
             }
             if (!running) {
-                try {
-                    throw new PersonalException("il capo mi sta chiudendo");
-                } catch (PersonalException e) {
-                    throw new RuntimeException(e);
-                }
+                System.out.println("il capo mi sta chiudendo");
             }
-        }catch (Exception e){
-            System.out.println(e.getMessage() + " | thread number: " + number);
-        }
-        return;
+            System.out.print(" | thread number: " + number);
     }
 }
