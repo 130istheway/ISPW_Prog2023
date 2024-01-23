@@ -49,12 +49,7 @@ public class Server implements Runnable{
                 for (ClientHandler ClientHandlerapp : app) {
                     ClientHandlerapp.stopRunning();
                 }
-                break;
-            }
-            if (onlytopreventSonarCloudFromErroring) {
-                onlytopreventSonarCloudFromErroring = true;
-            }else {
-                break;
+                onlytopreventSonarCloudFromErroring = false;
             }
         }
         serverSocket.close();
