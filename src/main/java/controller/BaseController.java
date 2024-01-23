@@ -13,7 +13,7 @@ public class BaseController {
     LoginController login;
     Credential cred;
 
-    private static final String stopThat = "STOPIT";
+    private static final String STOPTHAT = "STOPIT";
 
 
     private void controll(String message) throws PersonalException, IOException{
@@ -23,14 +23,14 @@ public class BaseController {
                 cred = login.execute();
             }catch (PersonalException e){
                 if (e.getMessage().equals("Non rispondo che il server sta chiudendo")){
-                    info.sendmessage(stopThat);
+                    info.sendmessage(STOPTHAT);
                     throw new PersonalException("Sono uscito dal login perchè il server ha chiuso");
                 }
-                info.sendmessage(stopThat);
+                info.sendmessage(STOPTHAT);
                 throw new PersonalException ("Ha sbagliato ad autenticarsi");
             }
         } else if (message.equals("EXIT")) {
-            info.sendmessage(stopThat);
+            info.sendmessage(STOPTHAT);
             throw new PersonalException("NON si è voluto autenticare");
         }
     }
@@ -57,7 +57,7 @@ public class BaseController {
             while ((inputLine = info.getMessage()) != null) {
                 System.out.println("Server " + this.info.getThreadId()  + ": " + inputLine);
                 if (!this.info.isRunning()) {
-                    info.sendmessage(stopThat);
+                    info.sendmessage(STOPTHAT);
                     System.out.println("Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
                     break;
                 }
