@@ -1,19 +1,28 @@
 package model.domain;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ControllerInfoSulThread {
 
     private long threadId;
     private boolean running;
+
     Socket socket;
 
-    public ControllerInfoSulThread(){
+    private BufferedReader in;
+    private PrintWriter out;
+
+    public ControllerInfoSulThread(BufferedReader input, PrintWriter output) {
         this.threadId = (long) 0;
         this.running = true;
+        this.in = input;
+        this.out = output;
     }
 
-
+    public ControllerInfoSulThread(){}
 
     public void running(boolean run){
         this.running = run;
@@ -42,4 +51,11 @@ public class ControllerInfoSulThread {
     }
 
 
+    public void sendmessage(String message){
+        out.println(message);
+    }
+
+    public String getMessage() throws IOException{
+        return in.readLine();
+    }
 }

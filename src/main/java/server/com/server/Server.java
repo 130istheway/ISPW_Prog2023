@@ -40,7 +40,7 @@ public class Server implements Runnable{
                 handler(socket);
             } catch (IOException e) {
                 serverSocket.close();
-                throw new PersonalException("Qualcosa è andato storto con la socket cazzo | " + e.getMessage());
+                throw new PersonalException("Qualcosa è andato storto con la socket | " + e.getMessage());
             }catch (PersonalException e){
                 System.out.println("Server shutDown");
                 serverSocket.close();
@@ -53,7 +53,6 @@ public class Server implements Runnable{
         }
         serverSocket.close();
         throw new PersonalException("Il server è stato chiuso");
-
     }
 
 

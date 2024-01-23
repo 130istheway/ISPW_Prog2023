@@ -1,23 +1,16 @@
 package controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
 import model.domain.Role;
 import server.com.server.exception.PersonalException;
 
 public class LoginController {
-    BufferedReader in;
-    PrintWriter out;
 
     ControllerInfoSulThread info;
     
-    public LoginController(BufferedReader input, PrintWriter output, ControllerInfoSulThread infoest){
-        this.in = input;
-        this.out = output;
+    public LoginController(ControllerInfoSulThread infoest){
         this.info = infoest;
     }
 
@@ -25,29 +18,34 @@ public class LoginController {
         String inputLine;
         int retryCount = 0;
 
-        out.println("Autenticarsi: ");
-        while ((inputLine = in.readLine()) != null) {
+        if (!info.isRunning()) {
+            info.sendmessage("STOPIT Non rispondo che il server sta chiudendo");
+            throw new PersonalException("Non rispondo che il server sta chiudendo");
+        }
+        info.sendmessage("Autenticarsi: ");
+        while ((inputLine = info.getMessage()) != null) {
             if (!this.info.isRunning()) {
-                out.println("STOPTHAT");
+                info.sendmessage("STOPTHAT");
                 System.out.println("Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
                 Credential cred = new Credential(null,null, Role.NONE);
-                System.out.println("Accettata " + (cred.getRole()).ordinal());
+                System.out.println("STOPTHAT " + (cred.getRole()).ordinal());
                 return cred;
             }
             if (inputLine.equals("user:gigi,pass:gigi")) {
                 Credential cred = new Credential("gigi","gigi", Role.NEGOZIO);
-                out.println("accettata" + (cred.getRole()).ordinal());
+                info.sendmessage("accettata");
                 System.out.println("Accettata " + (cred.getRole()).ordinal());
                 return cred;
             }if (inputLine.equals("user:lollo,pass:lollo")) {
                 Credential cred = new Credential("lollo","lollo", Role.UTENTE);
-                out.println("accettata" + (cred.getRole()).ordinal());
+                info.sendmessage("accettata");
                 System.out.println("Accettata " + (cred.getRole()).ordinal());
                 return cred;
             }
-            out.println("Riprova");
+            info.sendmessage("Riprova");
             retryCount++;
             if (retryCount > 4) {
+                info.sendmessage("Rifiutrata ");
                 throw new PersonalException("Ha sbagliato ad autenticarsi");
             }
         }

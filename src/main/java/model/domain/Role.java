@@ -14,7 +14,9 @@ public enum Role {
 
     public static Role fromint(int id) {
         for (Role ruolo : values()) {
-            return ruolo;
+            if (ruolo.ordinal()==id){
+                return ruolo;
+            }
         }
         return null;
     }

@@ -13,10 +13,17 @@ import server.com.server.exception.PersonalException;
 public class ClientHandler implements Runnable {
     private final Socket socket;
 
-    ControllerInfoSulThread info = new ControllerInfoSulThread();
+    ControllerInfoSulThread info;
 
-    public ClientHandler(Socket socket) {
+    public ClientHandler(Socket socket) throws PersonalException {
         this.socket = socket;
+        try{
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            info = new ControllerInfoSulThread(in, out);
+        } catch (IOException e) {
+            throw new PersonalException("Errore nella creazione dei buffer per leggere e  scrivere");
+        }
     }
 
     public void setNumber(long id) {
@@ -29,13 +36,12 @@ public class ClientHandler implements Runnable {
 
     public void run(){
             try {
-                System.out.println("Sono dentro l'handler del Client");
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                BaseController app = new BaseController(in, out, this.info);
+                BaseController app = new BaseController(this.info);
                 app.execute();
-            } catch (IOException | PersonalException e) {
+            } catch (IOException e) {
                 System.out.println("Thread server " + this.info.getThreadId() + ": Sta terminando : " + e.getMessage());
+            }catch (PersonalException  e) {
+                System.out.println("Login non effettuato perchè il server stava chiudendo");
             }
             if (!this.info.isRunning()) {
                 System.out.println("il capo mi sta chiudendo | thread number: " + this.info.getThreadId() );

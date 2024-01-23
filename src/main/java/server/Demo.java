@@ -159,7 +159,7 @@ class Client implements Runnable{
                         out.println(gigi);
                         response = in.readLine();
                         System.out.println(rispostaServer + response);
-                        if (Objects.equals(response, "STOPTHAT")) {
+                        if (response.contains("STOPIT")) {
                             break connect;
                         }
                     } else {

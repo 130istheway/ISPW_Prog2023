@@ -1,17 +1,11 @@
 package controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
 import server.com.server.exception.PersonalException;
 
 public class BaseController {
-
-    BufferedReader in;
-    PrintWriter out;
 
     ControllerInfoSulThread info;
 
@@ -19,26 +13,26 @@ public class BaseController {
 
     Credential cred;
 
-    public BaseController(BufferedReader input, PrintWriter output, ControllerInfoSulThread infoest){
-        this.in = input;
-        this.out = output;
+    public BaseController(ControllerInfoSulThread infoest){
         this.info = infoest;
     }
 
     public void execute() throws IOException, PersonalException {
-        System.out.println("Sei dentro il basecontroller");
         String inputLine;
         if (this.info.isRunning()) {
-            System.out.println("Stai aspettando un input");
             
-            out.println("Cosa si desidera fare?");
+            info.sendmessage("Cosa si desidera fare?");
             inputLine = null;
-            while ((inputLine = in.readLine()) != null) {
+            while ((inputLine = info.getMessage()) != null) {
                 if (inputLine.equals("LOGIN")) {
-                    login = new LoginController(in, out, info);
+                    login = new LoginController(info);
                     try{cred = login.execute();
                     }catch (PersonalException e){
-                        out.println("STOPTHAT");
+                        if (e.getMessage().equals("Non rispondo che il server sta chiudendo")){
+                            info.sendmessage("STOPTHAT");
+                            throw new PersonalException("Sono uscito dal login perchè il server ha chiuso");
+                        }
+                        info.sendmessage("STOPTHAT");
                         throw new PersonalException ("Ha sbagliato ad autenticarsi");
                     }
                     break;
@@ -50,15 +44,17 @@ public class BaseController {
             if ((cred.getRole()).ordinal()>3) {
                 throw new PersonalException("Non si è autenticato");
             }
+
+
             
-            while ((inputLine = in.readLine()) != null) {
+            while ((inputLine = info.getMessage()) != null) {
                 System.out.println("Server " + this.info.getThreadId()  + ": " + inputLine);
                 if (!this.info.isRunning()) {
-                    out.println("STOPTHAT");
+                    info.sendmessage("STOPTHAT");
                     System.out.println("Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
                     break;
                 }    
-                out.println(inputLine);
+                info.sendmessage(inputLine);
             }
             System.out.println("Sto uscendo da vbuhfvedbgesdzbvuyedfvbguedfbvd ");
         }
