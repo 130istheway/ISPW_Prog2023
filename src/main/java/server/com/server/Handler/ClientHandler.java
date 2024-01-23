@@ -6,44 +6,39 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import controller.BaseController;
+import model.domain.ControllerInfoSulThread;
 import server.com.server.exception.PersonalException;
 
 public class ClientHandler implements Runnable {
-    private volatile boolean running = true;
     private final Socket socket;
-    private long number;
+
+    ControllerInfoSulThread info = new ControllerInfoSulThread();
+
     public ClientHandler(Socket socket) {
         this.socket = socket;
     }
 
     public void setNumber(long id) {
-        number = id;
+        this.info.setThreadId(id);
     }
 
     public void stopRunning() {
-        this.running = false;
+        this.info.running(false);
     }
 
     public void run(){
             try {
+                System.out.println("Sono dentro l'handler del Client");
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                String inputLine;
-                while ((inputLine = in.readLine()) != null) {
-                    System.out.println("Server " + number + ": " + inputLine);
-                    if (!running) {
-                        out.println("STOPTHAT");
-                        System.out.println("Server " + number + ": Non rispondo poichè sto chiudendo la connessione");
-                        break;
-                    }
-                    out.println(inputLine);
-                }
-            } catch (IOException e) {
-                System.out.println("Thread server " + number + ": Sta terminando");
+                BaseController app = new BaseController(in, out, this.info);
+                app.execute();
+            } catch (IOException | PersonalException e) {
+                System.out.println("Thread server " + this.info.getThreadId() + ": Sta terminando : " + e.getMessage());
             }
-            if (!running) {
-                System.out.println("il capo mi sta chiudendo");
+            if (!this.info.isRunning()) {
+                System.out.println("il capo mi sta chiudendo | thread number: " + this.info.getThreadId() );
             }
-            System.out.print(" | thread number: " + number);
     }
 }

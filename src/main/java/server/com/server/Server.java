@@ -40,7 +40,7 @@ public class Server implements Runnable{
                 handler(socket);
             } catch (IOException e) {
                 serverSocket.close();
-                throw new PersonalException("Qualcosa è andato storto con la socket");
+                throw new PersonalException("Qualcosa è andato storto con la socket cazzo | " + e.getMessage());
             }catch (PersonalException e){
                 System.out.println("Server shutDown");
                 serverSocket.close();
@@ -49,9 +49,7 @@ public class Server implements Runnable{
                     ClientHandlerapp.stopRunning();
                 }
                 break;
-            }finally{
-                serverSocket.close();
-            };
+            }
         }
         serverSocket.close();
         throw new PersonalException("Il server è stato chiuso");
@@ -67,18 +65,19 @@ public class Server implements Runnable{
                 out.println("Ok sto avviando la chiusura dell'applicativo che funge da server");
                 throw new PersonalException("STOPIT");
             }
-            out.println("Stai entrando nel sistema"); // rispondo al client che lo sto accettando nel sistema
+            //out.println("Stai entrando nel sistema"); // rispondo al client che lo sto accettando nel sistema
             ClientHandler clientHandlerTemporaneo = new ClientHandler(socket);                       //non posso usare addLast() perchè sonar è molto bello
             app.add(clientHandlerTemporaneo);
             Thread appthread = new Thread(clientHandlerTemporaneo);
             appthread.start();
             clientHandlerTemporaneo.setNumber(appthread.getId());
             threads.add(appthread);
+            System.out.println("aviato il thread : " + appthread.getId());
         }catch (IllegalThreadStateException e){
             System.out.println("L'applicazione ha provato a rilanciare un thread, cià non dovrebbe mai succedere quindi non so cosa sta succedendo, per sicurezza chiudo l'app");
             throw e;
         }catch(IOException e){
-
+            System.out.println("o cazzo");
         }catch (PersonalException e){
             System.err.println("mi hanno detto di : " + e.getMessage());
             throw new PersonalException("Server ShutDown");

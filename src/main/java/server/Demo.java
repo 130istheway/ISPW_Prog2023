@@ -87,8 +87,6 @@ class conn {
 }
 
 
-
-
 class DemoSTOPIT{
     static String rispostaServer = "The server Response : ";
     public static void main(String[] args) {
@@ -153,16 +151,6 @@ class Client implements Runnable{
                 // Read the server's response
                 response = in.readLine();
                 System.out.println(rispostaServer + response);
-
-                if (repeat){
-                    out.println(gigi);
-                    response = in.readLine();
-                    System.out.println(rispostaServer + response);
-                    repeat = false;
-                    if (Objects.equals(response, "STOPTHAT")){
-                        break;
-                    }
-                }
 
                 while (true) {
                     System.out.println("Enter a line of text:");
