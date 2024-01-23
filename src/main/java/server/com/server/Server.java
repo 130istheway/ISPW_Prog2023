@@ -13,10 +13,8 @@ import server.com.server.Handler.ClientHandler;
 import server.com.server.exception.PersonalException;
 
 public class Server implements Runnable{
-    ArrayList<Thread> threads = new ArrayList<Thread>();
-    ArrayList<ClientHandler> app = new ArrayList<ClientHandler>();
-
-    public Server(){}
+    ArrayList<Thread> threads = new ArrayList<>();
+    ArrayList<ClientHandler> app = new ArrayList<>();
 
     @Override
     public void run() {
@@ -40,12 +38,11 @@ public class Server implements Runnable{
                 System.out.println("Attendo connessioni...");
 
                 Socket socket = serverSocket.accept();
-                String inputLine = "null";
 
                 try {
                     BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                    if (Objects.equals(inputLine = in.readLine(), "STOPIT")) {
+                    if (Objects.equals(in.readLine(), "STOPIT")) {
                         out.println("Ok sto avviando la chiusura dell'applicativo che funge da server");
                         throw new PersonalException("STOPIT");
                     }
@@ -75,6 +72,7 @@ public class Server implements Runnable{
                 break;
             }
         }
+        serverSocket.close();
         throw new PersonalException("Il server è stato chiuso");
 
     }
