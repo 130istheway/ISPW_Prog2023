@@ -16,7 +16,7 @@ public class Credential {
         return username;
     }
 
-    public String getPassword(String username) {
+    public String getPassword() {
         return password;
     }
 
