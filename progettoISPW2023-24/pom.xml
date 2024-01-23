@@ -62,7 +62,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.app.progettoispw202324/com.app.progettoispw202324.HelloApplication
+                            <mainClass>com.app.progettoispw2023-24/com.app.progettoispw2023-24.HelloApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
