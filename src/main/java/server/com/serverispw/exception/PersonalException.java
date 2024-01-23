@@ -1,4 +1,4 @@
-package server.com.serverispw.exception;
+package server.com.serverISPW.exception;
 
 public class PersonalException extends Exception {
     public PersonalException(String errorMessage) {

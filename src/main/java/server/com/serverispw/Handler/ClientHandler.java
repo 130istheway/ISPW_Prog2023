@@ -1,4 +1,4 @@
-package server.com.serverispw.Handler;
+package server.com.serverISPW.Handler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import server.com.serverispw.exception.PersonalException;
+import server.com.serverISPW.exception.PersonalException;
 
 public class ClientHandler implements Runnable {
     private volatile boolean running = true;

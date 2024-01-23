@@ -1,4 +1,4 @@
-package server.com.serverispw;
+package server.com.serverISPW;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,8 +9,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import server.com.serverispw.Handler.ClientHandler;
-import server.com.serverispw.exception.PersonalException;
+import server.com.serverISPW.Handler.ClientHandler;
+import server.com.serverISPW.exception.PersonalException;
 
 public class Server implements Runnable{
     ArrayList<Thread> threads = new ArrayList<Thread>();
