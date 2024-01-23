@@ -1,4 +1,4 @@
-package server.com.serverISPW.Handler;
+package server.com.serverispw.Handler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import server.com.serverISPW.exception.PersonalException;
+import server.com.serverispw.exception.PersonalException;
 
 public class ClientHandler implements Runnable {
     private volatile boolean running = true;
@@ -31,13 +31,12 @@ public class ClientHandler implements Runnable {
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 String inputLine;
-                ricezzione:
                 while ((messaggio = inputLine = in.readLine()) != null) {
                     System.out.println("Server " + number + ": " + inputLine);
                     if (!running) {
                         out.println("STOPTHAT");
                         System.out.println("Server " + number + ": Non rispondo poichè sto chiudendo la connessione");
-                        break ricezzione;
+                        break;
                     }
                     out.println(inputLine);
                 }

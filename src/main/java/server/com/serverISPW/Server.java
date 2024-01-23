@@ -1,4 +1,4 @@
-package server.com.serverISPW;
+package server.com.serverispw;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,8 +9,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import server.com.serverISPW.Handler.ClientHandler;
-import server.com.serverISPW.exception.PersonalException;
+import server.com.serverispw.Handler.ClientHandler;
+import server.com.serverispw.exception.PersonalException;
 
 public class Server implements Runnable{
     ArrayList<Thread> threads = new ArrayList<Thread>();
@@ -22,7 +22,7 @@ public class Server implements Runnable{
     public void run() {
         System.out.println("Starting the Server...");
         try {
-            HandlerConnection();
+            handlerConnection();
         } catch (Exception e) {
             // handle exception
 
@@ -33,10 +33,10 @@ public class Server implements Runnable{
         }
     }
 
-    public void HandlerConnection () throws IOException, PersonalException{
+    public void handlerConnection () throws IOException, PersonalException{
         ServerSocket serverSocket = new ServerSocket(5000);
         int a = 0;
-        accettazione : while (true) {
+        while (true) {
             try {
                 System.out.println("Attendo connessioni...");
 
@@ -73,7 +73,7 @@ public class Server implements Runnable{
                 for (ClientHandler ClientHandlerapp : app) {
                     ClientHandlerapp.stopRunning();
                 }
-                break accettazione;
+                break;
             }
         }
         throw new PersonalException("Il server è stato chiuso");
