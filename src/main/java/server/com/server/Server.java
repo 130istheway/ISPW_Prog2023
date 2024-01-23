@@ -36,30 +36,9 @@ public class Server implements Runnable{
         while (true) {
             try {
                 System.out.println("Attendo connessioni...");
-
                 Socket socket = serverSocket.accept();
-
-                try {
-                    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                    if (Objects.equals(in.readLine(), "STOPIT")) {
-                        out.println("Ok sto avviando la chiusura dell'applicativo che funge da server");
-                        throw new PersonalException("STOPIT");
-                    }
-                    out.println("Stai entrando nel sistema"); // rispondo al client che lo sto accettando nel sistema
-                    ClientHandler clientHandlerTemporaneo = new ClientHandler(socket);                       //non posso usare addLast() perchè sonar è molto bello
-                    app.add(clientHandlerTemporaneo);
-                    Thread appthread = new Thread(clientHandlerTemporaneo);
-                    appthread.start();
-                    clientHandlerTemporaneo.setNumber(appthread.getId());
-                    threads.add(appthread);
-                }catch (IllegalThreadStateException e){
-                    System.out.println("L'applicazione ha provato a rilanciare un thread, cià non dovrebbe mai succedere quindi non so cosa sta succedendo, per sicurezza chiudo l'app");
-                    throw e;
-                }
+                handler(socket);
             } catch (IOException e) {
-                // handle exception
-
                 serverSocket.close();
                 throw new PersonalException("Qualcosa è andato storto con la socket");
             }catch (PersonalException e){
@@ -70,10 +49,39 @@ public class Server implements Runnable{
                     ClientHandlerapp.stopRunning();
                 }
                 break;
-            }
+            }finally{
+                serverSocket.close();
+            };
         }
         serverSocket.close();
         throw new PersonalException("Il server è stato chiuso");
 
+    }
+
+
+    protected void handler(Socket socket) throws PersonalException{
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            if (Objects.equals(in.readLine(), "STOPIT")) {
+                out.println("Ok sto avviando la chiusura dell'applicativo che funge da server");
+                throw new PersonalException("STOPIT");
+            }
+            out.println("Stai entrando nel sistema"); // rispondo al client che lo sto accettando nel sistema
+            ClientHandler clientHandlerTemporaneo = new ClientHandler(socket);                       //non posso usare addLast() perchè sonar è molto bello
+            app.add(clientHandlerTemporaneo);
+            Thread appthread = new Thread(clientHandlerTemporaneo);
+            appthread.start();
+            clientHandlerTemporaneo.setNumber(appthread.getId());
+            threads.add(appthread);
+        }catch (IllegalThreadStateException e){
+            System.out.println("L'applicazione ha provato a rilanciare un thread, cià non dovrebbe mai succedere quindi non so cosa sta succedendo, per sicurezza chiudo l'app");
+            throw e;
+        }catch(IOException e){
+
+        }catch (PersonalException e){
+            System.err.println("mi hanno detto di : " + e.getMessage());
+            throw new PersonalException("Server ShutDown");
+    }
     }
 }
