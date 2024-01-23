@@ -125,7 +125,7 @@ class Client implements Runnable{
         int rip = 0;
         String response;
         String gigi = null;
-        while(true) {
+        connect : while(true) {
             try {
                 Scanner scanner = new Scanner(System.in);
 
