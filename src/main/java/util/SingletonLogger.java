@@ -8,39 +8,40 @@ import model.domain.LivelloInformazione;
 
 public class SingletonLogger{
 
-    private static SingletonLogger INSTANCE;
+    private static SingletonLogger istance;
 
     private final Logger logger;
+
     private SingletonLogger() {
         logger = LogManager.getLogger(SingletonLogger.class);
     }
 
     public static SingletonLogger getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new SingletonLogger();
+        if (istance == null) {
+            istance = new SingletonLogger();
         }
-        return INSTANCE;
+        return istance;
     }
 
     public void sendInformazione(LivelloInformazione livello, String message){
         switch (livello){
-            case info:
+            case INFO:
                 logger.info(message);
                 break;
             
-            case error:
+            case ERROR:
                 logger.error(message);
                 break;
             
-            case debug:
+            case DEBUG:
                 logger.debug(message);
                 break;
             
-            case fatal:
+            case FATAL:
                 logger.fatal(message);
                 break;
 
-            case trace:
+            case TRACE:
                 logger.trace(message);
                 break;
 
