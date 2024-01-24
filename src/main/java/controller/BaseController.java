@@ -35,20 +35,20 @@ public class BaseController {
                 info.sendMessage(STOPTHAT);
                 if (cred!=null) throw new PersonalException("Esco, " + cred.getUsername() + " si era autenticato ma è voluto uscire");
                 throw new PersonalException("NON si è voluto autenticare");
-                
+
             case "WRITEBACK":
                 info.sendMessage("WRITEBACK MODE");
-                this.info.sendlog( LivelloInformazione.trace ,"WRITEBACK MODE");
+                this.info.sendlog( LivelloInformazione.TRACE ,"WRITEBACK MODE");
                 String inputLine;
                 while ((inputLine = info.getMessage()) != null) {
-                    this.info.sendlog( LivelloInformazione.info ,"Server " + this.info.getThreadId()  + ": " + inputLine);
+                    this.info.sendlog( LivelloInformazione.INFO ,"Server " + this.info.getThreadId()  + ": " + inputLine);
                     if (inputLine.equals("STOPWRITEBACK")){
                         info.sendMessage("WRITEBACKENDED");
                         break;
                     }
                     if (!this.info.isRunning()) {
                         info.sendMessage(STOPTHAT);
-                        this.info.sendlog( LivelloInformazione.debug ,"Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
+                        this.info.sendlog( LivelloInformazione.DEBUG ,"Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
                         break;
                     }
                     info.sendMessage(inputLine);

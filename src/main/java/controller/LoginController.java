@@ -29,19 +29,19 @@ public class LoginController {
         while ((inputLine = info.getMessage()) != null) {
             if (!this.info.isRunning()) {
                 info.sendMessage("STOPTHAT");
-                this.info.sendlog( LivelloInformazione.debug ,"Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
+                this.info.sendlog( LivelloInformazione.DEBUG ,"Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
                 Credential cred = new Credential(null,null, Role.NONE);
-                this.info.sendlog( LivelloInformazione.debug ,"STOPTHAT " + (cred.getRole()).ordinal());
+                this.info.sendlog( LivelloInformazione.DEBUG ,"STOPTHAT " + (cred.getRole()).ordinal());
                 return cred;
             }else if (inputLine.equals("user:gigi,pass:gigi")) {
                 Credential cred = new Credential("gigi","gigi", Role.NEGOZIO);
                 info.sendMessage(accettata);
-                this.info.sendlog( LivelloInformazione.trace ,accettata + " " + " " + cred.getUsername() + " " +(cred.getRole()).ordinal());
+                this.info.sendlog( LivelloInformazione.TRACE ,accettata + " " + " " + cred.getUsername() + " " +(cred.getRole()).ordinal());
                 return cred;
             }else if(inputLine.equals("user:lollo,pass:lollo")) {
                 Credential cred = new Credential("lollo","lollo", Role.UTENTE);
                 info.sendMessage(accettata);
-                this.info.sendlog( LivelloInformazione.trace ,accettata + " " + " " + cred.getUsername() + " " +(cred.getRole()).ordinal());
+                this.info.sendlog( LivelloInformazione.TRACE ,accettata + " " + " " + cred.getUsername() + " " +(cred.getRole()).ordinal());
                 return cred;
             }
             info.sendMessage("Riprova");
@@ -52,7 +52,7 @@ public class LoginController {
             }
         }
         Credential cred = new Credential(null,null, Role.NONE);
-        this.info.sendlog( LivelloInformazione.trace ,rifiutata + (cred.getRole()).ordinal());
+        this.info.sendlog( LivelloInformazione.TRACE ,rifiutata + (cred.getRole()).ordinal());
         return cred;
     }
 }

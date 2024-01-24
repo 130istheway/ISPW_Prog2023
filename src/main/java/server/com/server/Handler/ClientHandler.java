@@ -50,29 +50,29 @@ public class ClientHandler implements Runnable {
                 BaseController app = new BaseController(this.info);
                 app.execute();
             } catch (IOException e) {
-                this.info.sendlog( LivelloInformazione.error ,"Thread server " + this.info.getThreadId() + ": Sta terminando : " + e.getMessage());
+                this.info.sendlog( LivelloInformazione.ERROR ,"Thread server " + this.info.getThreadId() + ": Sta terminando : " + e.getMessage());
             }catch (PersonalException  e) {
                 switch (e.getMessage()) {
                     case "NON si è voluto autenticare":
-                        this.info.sendlog( LivelloInformazione.error ,"Login non effettuato perchè non si è voluto autenticare " + ACTION_1 + this.info.getThreadId() + ACTION_2 );
+                        this.info.sendlog( LivelloInformazione.ERROR ,"Login non effettuato perchè non si è voluto autenticare " + ACTION_1 + this.info.getThreadId() + ACTION_2 );
                         break;
                     
                     case "Sono uscito dal login perchè il server ha chiuso":
-                        this.info.sendlog( LivelloInformazione.error ,"Login non effettuato perchè il server stava chiudendo " + ACTION_1 + this.info.getThreadId() + ACTION_2 );
+                        this.info.sendlog( LivelloInformazione.ERROR ,"Login non effettuato perchè il server stava chiudendo " + ACTION_1 + this.info.getThreadId() + ACTION_2 );
                         break;
 
                     case "Ha sbagliato ad autenticarsi":
-                        this.info.sendlog( LivelloInformazione.error ,"Login non effetuato perchè ha sbagliato troppe volte " + ACTION_1 + this.info.getThreadId() + ACTION_2 );
+                        this.info.sendlog( LivelloInformazione.ERROR ,"Login non effetuato perchè ha sbagliato troppe volte " + ACTION_1 + this.info.getThreadId() + ACTION_2 );
                         break;
 
                     default:
-                        this.info.sendlog( LivelloInformazione.error ,e.getMessage() + " the thread is : " + this.info.getThreadId());
+                        this.info.sendlog( LivelloInformazione.ERROR ,e.getMessage() + " the thread is : " + this.info.getThreadId());
                         break;
                     
                 }
             }
             if (!this.info.isRunning()) {
-                this.info.sendlog( LivelloInformazione.debug ,"il capo mi sta chiudendo | thread number: " + this.info.getThreadId() );
+                this.info.sendlog( LivelloInformazione.DEBUG ,"il capo mi sta chiudendo | thread number: " + this.info.getThreadId() );
             }
     }
 }
