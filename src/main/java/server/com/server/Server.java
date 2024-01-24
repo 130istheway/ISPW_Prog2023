@@ -15,7 +15,7 @@ import server.com.server.exception.PersonalException;
 public class Server implements Runnable{
     ArrayList<Thread> threads = new ArrayList<>();
     ArrayList<ClientHandler> app = new ArrayList<>();
-    private boolean onlytopreventSonarCloudFromErroring = true;
+    private boolean possoAvereAltreConnessioni = true;
 
     @Override
     public void run() {
@@ -28,14 +28,13 @@ public class Server implements Runnable{
             Thread currentThread = Thread.currentThread();
             long threadId = currentThread.getId();     //avrei voluto usare threadId() ma sonarcloud ha detto di no
 
-            System.out.println("Il thread : " + threadId + " Si è concluso, il messaggio d'errore è : " + e.getMessage());
+            System.out.println("Il Server al thread : " + threadId + " Si è concluso, il messaggio d'errore è : " + e.getMessage());
         }
-        System.out.println("Stodjsagv uifdneavdfrbv <aesfvbhefdc v");
     }
 
     public void handlerConnection () throws IOException, PersonalException{
         ServerSocket serverSocket = new ServerSocket(5000);
-        while (onlytopreventSonarCloudFromErroring) {
+        while (possoAvereAltreConnessioni) {
             try {
                 System.out.println("Attendo connessioni...");
                 Socket socket = serverSocket.accept();
@@ -49,7 +48,7 @@ public class Server implements Runnable{
                 for (ClientHandler ClientHandlerapp : app) {
                     ClientHandlerapp.stopRunning();
                 }
-                onlytopreventSonarCloudFromErroring = false;
+                possoAvereAltreConnessioni = false;
                 }
                 try {
                     Thread.sleep(300000);

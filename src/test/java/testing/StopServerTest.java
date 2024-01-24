@@ -40,6 +40,6 @@ public class StopServerTest {
         // Send a message to the server
         out.println("STOPIT");
         response = in.readLine();
-        System.out.println(response);
+        assert(response.equals("Ok sto avviando la chiusura dell'applicativo che funge da server"));
     }
 }
