@@ -21,6 +21,7 @@ public class BaseController {
             login = new LoginController(info);
             try{
                 cred = login.execute();
+                System.out.println("Ha funzionato dfsvbadsiuvfbhearfds vuiha<ivgbesadrf ib");
             }catch (PersonalException e){
                 if (e.getMessage().equals("Non rispondo che il server sta chiudendo")){
                     info.sendmessage(STOPTHAT);
@@ -32,6 +33,22 @@ public class BaseController {
         } else if (message.equals("EXIT")) {
             info.sendmessage(STOPTHAT);
             throw new PersonalException("NON si è voluto autenticare");
+        } else if (message.equals("WRITEBACK")){
+            info.sendmessage("WRITEBACK MODE");
+            String inputLine;
+            while ((inputLine = info.getMessage()) != null) {
+                System.out.println("Server " + this.info.getThreadId()  + ": " + inputLine);
+                if (inputLine.equals("STOPWRITEBACK")){
+                    info.sendmessage("WRITEBACKENDED");
+                    break;
+                }
+                if (!this.info.isRunning()) {
+                    info.sendmessage(STOPTHAT);
+                    System.out.println("Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
+                    break;
+                }
+                info.sendmessage(inputLine);
+            }
         }
     }
 
@@ -44,7 +61,7 @@ public class BaseController {
     public void execute() throws IOException, PersonalException {
         String inputLine;
         if (this.info.isRunning()) {
-            info.sendmessage("Cosa si desidera fare?");
+            info.sendmessage("LOGIN");
             while ((inputLine = info.getMessage()) != null) {
                     controll(inputLine);
                 }
@@ -53,16 +70,5 @@ public class BaseController {
             if ((cred.getRole()).ordinal()>3) {
                 throw new PersonalException("Non si è autenticato");
             }
-            
-            while ((inputLine = info.getMessage()) != null) {
-                System.out.println("Server " + this.info.getThreadId()  + ": " + inputLine);
-                if (!this.info.isRunning()) {
-                    info.sendmessage(STOPTHAT);
-                    System.out.println("Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
-                    break;
-                }
-
-            info.sendmessage(inputLine);
-        }
     }
 }

@@ -57,16 +57,77 @@ class DemoClient2{
 
 
 class DemoClient3{
-    public static void main(String[] args) {
-        Runnable client = new Client();
+    public static void main(String[] args) throws IOException {
+        String rispostaServer = "The server Response : ";
 
-        ArrayList<Thread> thread = new ArrayList<>();
+        final String host = "localhost";
+        int port = 5000;
+        Socket socket;
 
-        thread.add(new Thread(client));
+        String response;
 
-        for (Thread thread2 : thread) {
-            thread2.start();
-        }
+        Scanner scanner = new Scanner(System.in);
+
+        socket = new Socket(host, port);
+
+        System.out.println("Connected to server on port " + port);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
+        out.println("Hello, server!");
+
+        response = in.readLine();
+        System.out.println(response);
+
+        assert(response.equals("LOGIN"));
+
+        out.println("LOGIN");
+        response = in.readLine();
+        System.out.println(response);
+
+        assert(response.equals("Autenticarsi: "));
+
+        out.println("user:lollo,pass:gigi");
+        response = in.readLine();
+        System.out.println(response);
+
+        assert(response.equals("Riprova"));
+
+        out.println("user:popo,pass:gigi");
+        response = in.readLine();
+        System.out.println(response);
+
+        assert(response.equals("Riprova"));
+
+        out.println("user:brigido,pass:gigi");
+        response = in.readLine();
+        System.out.println(response);
+
+        assert(response.equals("Riprova"));
+
+        out.println("user:lolletta,pass:gigi");
+        response = in.readLine();
+        System.out.println(response);
+
+        assert(response.equals("Riprova"));
+
+        out.println("user:jonathanjoestar,pass:gigi");
+        response = in.readLine();
+        System.out.println(response);
+
+        assert(response.equals("Riprova"));
+
+        out.println("user:jonathanjoestar,pass:gigi");
+        response = in.readLine();
+        System.out.println(response);
+
+        assert(response.equals("Rifiutato"));
+
+        response = in.readLine();
+        System.out.println(response);
+
+        assert(response.equals("STOPIT"));
     }
 }
 

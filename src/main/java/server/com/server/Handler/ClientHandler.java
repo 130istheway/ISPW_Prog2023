@@ -18,6 +18,7 @@ public class ClientHandler implements Runnable {
     ControllerInfoSulThread info;
 
     public ClientHandler(Socket socket) throws PersonalException {
+        if (socket == null) throw new PersonalException("La socket passata come parametro è settata a null");
         this.socket = socket;
         try{
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));

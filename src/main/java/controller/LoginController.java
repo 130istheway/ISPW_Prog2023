@@ -35,7 +35,7 @@ public class LoginController {
             }else if (inputLine.equals("user:gigi,pass:gigi")) {
                 Credential cred = new Credential("gigi","gigi", Role.NEGOZIO);
                 info.sendmessage(accettata);
-                System.out.println(accettata + (cred.getRole()).ordinal());
+                System.out.println(accettata + " " +(cred.getRole()).ordinal());
                 return cred;
             }else if(inputLine.equals("user:lollo,pass:lollo")) {
                 Credential cred = new Credential("lollo","lollo", Role.UTENTE);

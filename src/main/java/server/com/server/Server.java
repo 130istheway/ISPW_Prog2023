@@ -44,12 +44,16 @@ public class Server implements Runnable{
                 serverSocket.close();
                 throw new PersonalException("Qualcosa è andato storto con la socket | " + e.getMessage());
             }catch (PersonalException e){
+                if (!(e.getMessage().contains("NONSTOPPAREILSERVER"))) {
                 System.out.println("Server shutDown");
-
                 for (ClientHandler ClientHandlerapp : app) {
                     ClientHandlerapp.stopRunning();
                 }
                 onlytopreventSonarCloudFromErroring = false;
+                }
+                try {
+                    Thread.sleep(300000);
+                } catch (InterruptedException ignored) {}
             }
         }
         serverSocket.close();
@@ -65,9 +69,10 @@ public class Server implements Runnable{
                 out.println("Ok sto avviando la chiusura dell'applicativo che funge da server");
                 throw new PersonalException("STOPIT");
             }
-            //out.println("Stai entrando nel sistema"); // rispondo al client che lo sto accettando nel sistema
-            ClientHandler clientHandlerTemporaneo = new ClientHandler(socket);                       //non posso usare addLast() perchè sonar è molto bello
-            app.add(clientHandlerTemporaneo);
+
+            ClientHandler clientHandlerTemporaneo = getClientHandler(socket);
+
+            app.add(clientHandlerTemporaneo);                           //non posso usare addLast() perchè sonar è molto bello
             Thread appthread = new Thread(clientHandlerTemporaneo);
             appthread.start();
             clientHandlerTemporaneo.setNumber(appthread.getId());
@@ -79,8 +84,29 @@ public class Server implements Runnable{
         }catch(IOException e){
             System.out.println("o cazzo");
         }catch (PersonalException e){
-            System.err.println("mi hanno detto di : " + e.getMessage());
+            if (e.getMessage().equals("Errore nella creazione dei buffer per leggere e  scrivere")) {
+                throw new PersonalException("NONSTOPPAREILSERVER ma penso abbiamo finito gli handle per gli agganci alle socket");
+            }
+            System.err.println("mi hanno detto : " + e.getMessage());
             throw new PersonalException("Server ShutDown");
+        }
     }
+
+
+    private static ClientHandler getClientHandler(Socket socket) throws PersonalException {
+        ClientHandler clientHandlerTemporaneo;
+        try {
+            clientHandlerTemporaneo = new ClientHandler(socket);
+        } catch (PersonalException e) {
+            switch (e.getMessage()) {
+                case "La socket passata come parametro è settata a null":
+                    throw e;
+                    case "Errore nella creazione dei buffer per leggere e  scrivere":
+                        throw new PersonalException("Errore crezione punti di aggancio socket");
+                        default:
+                            throw new PersonalException("Non so qual'è il problema non dovrei avere altri tipi di errore");
+            }
+        }
+        return clientHandlerTemporaneo;
     }
 }
