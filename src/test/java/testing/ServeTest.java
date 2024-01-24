@@ -1,5 +1,7 @@
 package testing;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,7 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.com.server.Server;
 
-public class ServeTest {
+class ServeTest {
     @BeforeEach
     void setUp(){
         ArrayList<Thread> thread = new ArrayList<>();
@@ -48,7 +50,7 @@ public class ServeTest {
         response = in.readLine();
         System.out.println(response);
 
-        assert(response.equals("LOGIN"));
+        assertEquals("LOGIN", response);
 
         out.println("LOGIN");
         response = in.readLine();
@@ -112,7 +114,7 @@ public class ServeTest {
         response = in.readLine();
         System.out.println(response);
 
-        assert(response.equals("LOGIN"));
+        assertEquals("LOGIN", response);
 
         out.println("LOGIN");
         response = in.readLine();

@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.com.server.Server;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,7 +13,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class StopServerTest {
+class StopServerTest {
 
     @BeforeEach
     void setUp(){
@@ -40,6 +42,6 @@ public class StopServerTest {
         // Send a message to the server
         out.println("STOPIT");
         response = in.readLine();
-        assert(response.equals("Ok sto avviando la chiusura dell'applicativo che funge da server"));
+        assertEquals("Ok sto avviando la chiusura dell'applicativo che funge da server", response);
     }
 }

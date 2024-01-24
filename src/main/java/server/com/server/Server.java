@@ -27,7 +27,6 @@ public class Server implements Runnable{
         try {
             handlerConnection();
         } catch (Exception e) {
-            // handle exception
 
             Thread currentThread = Thread.currentThread();
             long threadId = currentThread.getId();     //avrei voluto usare threadId() ma sonarcloud ha detto di no
@@ -57,8 +56,7 @@ public class Server implements Runnable{
                 try {
                     Thread.sleep(300000);
                 } catch (InterruptedException e1) {
-                    serverSocket.close();
-                    throw e1;
+                    Thread.currentThread().interrupt();
                 }
             }
         }
