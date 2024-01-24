@@ -37,3 +37,4 @@ build/
 ### Mac OS ###
 .DS_Store
 applogs/application_logs.log
+src/main/java/inutile/Demo.java
