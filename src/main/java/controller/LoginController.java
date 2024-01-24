@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
+import model.domain.LivelloInformazione;
 import model.domain.Role;
 import server.com.server.exception.PersonalException;
 
@@ -21,37 +22,37 @@ public class LoginController {
         int retryCount = 0;
 
         if (!info.isRunning()) {
-            info.sendmessage("STOPIT Non rispondo che il server sta chiudendo");
+            info.sendMessage("STOPIT Non rispondo che il server sta chiudendo");
             throw new PersonalException("Non rispondo che il server sta chiudendo");
         }
-        info.sendmessage("Autenticarsi: ");
+        info.sendMessage("Autenticarsi: ");
         while ((inputLine = info.getMessage()) != null) {
             if (!this.info.isRunning()) {
-                info.sendmessage("STOPTHAT");
-                System.out.println("Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
+                info.sendMessage("STOPTHAT");
+                this.info.sendlog( LivelloInformazione.debug ,"Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
                 Credential cred = new Credential(null,null, Role.NONE);
-                System.out.println("STOPTHAT " + (cred.getRole()).ordinal());
+                this.info.sendlog( LivelloInformazione.debug ,"STOPTHAT " + (cred.getRole()).ordinal());
                 return cred;
             }else if (inputLine.equals("user:gigi,pass:gigi")) {
                 Credential cred = new Credential("gigi","gigi", Role.NEGOZIO);
-                info.sendmessage(accettata);
-                System.out.println(accettata + " " +(cred.getRole()).ordinal());
+                info.sendMessage(accettata);
+                this.info.sendlog( LivelloInformazione.trace ,accettata + " " + " " + cred.getUsername() + " " +(cred.getRole()).ordinal());
                 return cred;
             }else if(inputLine.equals("user:lollo,pass:lollo")) {
                 Credential cred = new Credential("lollo","lollo", Role.UTENTE);
-                info.sendmessage(accettata);
-                System.out.println(accettata + (cred.getRole()).ordinal());
+                info.sendMessage(accettata);
+                this.info.sendlog( LivelloInformazione.trace ,accettata + " " + " " + cred.getUsername() + " " +(cred.getRole()).ordinal());
                 return cred;
             }
-            info.sendmessage("Riprova");
+            info.sendMessage("Riprova");
             retryCount++;
             if (retryCount > 4) {
-                info.sendmessage(rifiutata);
+                info.sendMessage(rifiutata);
                 throw new PersonalException("Ha sbagliato ad autenticarsi");
             }
         }
         Credential cred = new Credential(null,null, Role.NONE);
-        System.out.println(rifiutata + (cred.getRole()).ordinal());
+        this.info.sendlog( LivelloInformazione.trace ,rifiutata + (cred.getRole()).ordinal());
         return cred;
     }
 }

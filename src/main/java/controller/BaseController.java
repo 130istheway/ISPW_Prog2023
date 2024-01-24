@@ -3,9 +3,8 @@ package controller;
 import java.io.IOException;
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
+import model.domain.LivelloInformazione;
 import server.com.server.exception.PersonalException;
-
-
 
 public class BaseController {
 
@@ -21,33 +20,34 @@ public class BaseController {
             login = new LoginController(info);
             try{
                 cred = login.execute();
-                System.out.println("Ha funzionato dfsvbadsiuvfbhearfds vuiha<ivgbesadrf ib");
             }catch (PersonalException e){
                 if (e.getMessage().equals("Non rispondo che il server sta chiudendo")){
-                    info.sendmessage(STOPTHAT);
+                    info.sendMessage(STOPTHAT);
                     throw new PersonalException("Sono uscito dal login perchè il server ha chiuso");
                 }
-                info.sendmessage(STOPTHAT);
+                info.sendMessage(STOPTHAT);
                 throw new PersonalException ("Ha sbagliato ad autenticarsi");
             }
         } else if (message.equals("EXIT")) {
-            info.sendmessage(STOPTHAT);
+            info.sendMessage(STOPTHAT);
+            if (cred!=null) throw new PersonalException("Esco, " + cred.getUsername() + " si era autenticato ma è voluto uscire");
             throw new PersonalException("NON si è voluto autenticare");
         } else if (message.equals("WRITEBACK")){
-            info.sendmessage("WRITEBACK MODE");
+            info.sendMessage("WRITEBACK MODE");
+            this.info.sendlog( LivelloInformazione.trace ,"WRITEBACK MODE");
             String inputLine;
             while ((inputLine = info.getMessage()) != null) {
-                System.out.println("Server " + this.info.getThreadId()  + ": " + inputLine);
+                this.info.sendlog( LivelloInformazione.info ,"Server " + this.info.getThreadId()  + ": " + inputLine);
                 if (inputLine.equals("STOPWRITEBACK")){
-                    info.sendmessage("WRITEBACKENDED");
+                    info.sendMessage("WRITEBACKENDED");
                     break;
                 }
                 if (!this.info.isRunning()) {
-                    info.sendmessage(STOPTHAT);
-                    System.out.println("Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
+                    info.sendMessage(STOPTHAT);
+                    this.info.sendlog( LivelloInformazione.debug ,"Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
                     break;
                 }
-                info.sendmessage(inputLine);
+                info.sendMessage(inputLine);
             }
         }
     }
@@ -61,7 +61,7 @@ public class BaseController {
     public void execute() throws IOException, PersonalException {
         String inputLine;
         if (this.info.isRunning()) {
-            info.sendmessage("LOGIN");
+            info.sendMessage("LOGIN");
             while ((inputLine = info.getMessage()) != null) {
                     controll(inputLine);
                 }
