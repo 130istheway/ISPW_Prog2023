@@ -26,8 +26,7 @@ public class Server implements Runnable{
         log.sendInformazione( LivelloInformazione.TRACE ,"Starting the Server...");
         try {
             handlerConnection();
-        } catch (InterruptedException ignored) {}
-            catch (Exception e) {
+        }catch (Exception e) {
 
             Thread currentThread = Thread.currentThread();
             long threadId = currentThread.getId();     //avrei voluto usare threadId() ma sonarcloud ha detto di no
