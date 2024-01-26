@@ -35,7 +35,7 @@ public class Server implements Runnable{
         }
     }
 
-    public void handlerConnection () throws IOException, PersonalException, InterruptedException{
+    public void handlerConnection () throws IOException, PersonalException{
         ServerSocket serverSocket = new ServerSocket(5000);
         while (possoAvereAltreConnessioni) {
             try {
