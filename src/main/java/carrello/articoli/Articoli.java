@@ -129,7 +129,7 @@ public class Articoli {
      * @return ID generato casualmente
      */
     private int getRandom() {
-        return (int) Math.abs(rand.nextInt());
+        return (int) rand.nextInt();
     }
 
     public String toString() {

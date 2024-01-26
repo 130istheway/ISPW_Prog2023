@@ -89,7 +89,7 @@ public class BaseController {
                     info.sendMessage(STOPTHAT);
                     throw new PersonalException ("Ha sbagliato ad autenticarsi");
                 }catch (Exception e){
-                    if (e.getClass().equals("PersonalException")) {
+                    if (e.getCause().getClass().equals("PersonalException")) {
                         throw e;
                     }
                     info.sendMessage(STOPTHAT);
