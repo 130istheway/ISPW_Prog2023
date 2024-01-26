@@ -18,6 +18,7 @@ public class AggiungiUserController {
     CarrelloCache cache;
     
     public AggiungiUserController(String username){
+        //aggiungere la DAO per recuperare la lista da inserire nel carrello, si recupera tramite lo username
         List<Articoli> list = new ArrayList<>();
         cache = new CarrelloCache( list);
     }

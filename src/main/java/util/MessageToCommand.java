@@ -1,15 +1,24 @@
 package util;
 
+import java.util.StringTokenizer;
+
 public class MessageToCommand {
     
     private String command;
     private String payload;
     
     public void fromMessage(String message){
-        String[] parti = message.split("|");
-        command = parti[0].trim();
-        if (parti.length > 1) {
-            payload = parti[1].trim();
+        String support;
+        if (message.contains("|")) {
+            StringTokenizer parti = new StringTokenizer(message.substring(0, message.length()), "|");
+            while (parti.hasMoreTokens()) {
+                command = parti.nextToken().trim();
+                if ((support = parti.nextToken()) != null) {
+                    payload = support.trim();
+                }
+            }
+        }else{
+            command = message;
         }
     }
 

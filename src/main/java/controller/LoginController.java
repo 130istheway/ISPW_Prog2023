@@ -33,7 +33,7 @@ public class LoginController {
                 Credential cred = new Credential(null,null, Role.NONE);
                 this.info.sendlog( LivelloInformazione.DEBUG ,"STOPTHAT " + (cred.getRole()).ordinal());
                 return cred;
-            }else if (inputLine.equals("user:gigi,pass:gigi")) {
+            }else if (inputLine.equals("user:gigi,pass:gigi")) {/* qui cambiare per autenticarsi attraverso una dao che restituisce il ROLE da una tabella del BD */
                 Credential cred = new Credential("gigi","gigi", Role.NEGOZIO);
                 info.sendMessage(accettata);
                 this.info.sendlog( LivelloInformazione.TRACE ,accettata + " " + " " + cred.getUsername() + " " +(cred.getRole()).ordinal());
@@ -46,7 +46,7 @@ public class LoginController {
             }
             info.sendMessage("Riprova");
             retryCount++;
-            if (retryCount > 4) {
+            if (retryCount > 3) {
                 info.sendMessage(rifiutata);
                 throw new PersonalException("Ha sbagliato ad autenticarsi");
             }
