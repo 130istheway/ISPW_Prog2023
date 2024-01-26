@@ -76,7 +76,7 @@ public class BaseController {
     }
 
 
-    private void tryLogin() throws Exception {
+    private void tryLogin() throws PersonalException {
         info.sendlog(LivelloInformazione.TRACE, "Entering LOGIN");
                 login = new LoginController(info);
                 try{
@@ -88,8 +88,11 @@ public class BaseController {
                     }
                     info.sendMessage(STOPTHAT);
                     throw new PersonalException ("Ha sbagliato ad autenticarsi");
+                }catch (IOException e1){
+                    info.sendMessage(STOPTHAT);
+                    info.sendlog(LivelloInformazione.TRACE, "Login failed");
                 }catch (Exception e){
-                    if (e.getClass().getName().equals("PersonalException")) {
+                    if (e instanceof PersonalException) {
                         throw e;
                     }
                     info.sendMessage(STOPTHAT);

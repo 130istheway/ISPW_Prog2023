@@ -1,5 +1,5 @@
 package controller.notifica;
 
-public class NotificaNegozio {
+public interface NotificaNegozio {
     
 }

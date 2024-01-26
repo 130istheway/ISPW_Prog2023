@@ -45,5 +45,4 @@ public class MessageToCommand {
 
 /*
 qui devo andare avanti e fare la conversione da stringa a due parametri, il comando e il payload
-La stringa sarà divisa da | in due, il comando e il parametro, per entrambi sia il client e il server questo metodo è identicoyatta));
 */

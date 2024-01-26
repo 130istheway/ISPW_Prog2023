@@ -65,8 +65,8 @@ public class Articoli {
      *
      * @param nome_articolo Nome dell'articolo
      */
-    public void setNomeArticolo(String nome_articolo) {
-        this.nomeArticolo = nome_articolo;
+    public void setNomeArticolo(String nomeArticolo) {
+        this.nomeArticolo = nomeArticolo;
     }
 
     /**
@@ -74,8 +74,8 @@ public class Articoli {
      *
      * @param prezzo_articolo Prezzo dell'articolo
      */
-    public void setPrezzoArticolo(double prezzo_articolo) {
-        this.prezzoArticolo = prezzo_articolo;
+    public void setPrezzoArticolo(double prezzoArticolo) {
+        this.prezzoArticolo = prezzoArticolo;
     }
 
     /**
@@ -83,8 +83,8 @@ public class Articoli {
      *
      * @param quantita_articolo Quantità dell'articolo
      */
-    public void setQuantitaArticolo(float quantita_articolo) {
-        this.quantitaArticolo = quantita_articolo;
+    public void setQuantitaArticolo(float quantitaArticolo) {
+        this.quantitaArticolo = quantitaArticolo;
     }
 
     /**

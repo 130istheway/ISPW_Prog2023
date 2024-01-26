@@ -128,7 +128,7 @@ public class Pane extends ArticoliAlimentari{
      * @param quantita Nuova quantità dell'articolo
      * @return True se la quantità è stata modificata con successo, altrimenti false
      */
-    public boolean Cambia_Quantita_articolo(float quantita) {
+    public boolean CambiaQuantitaArticolo(float quantita) {
         if (getQuantitaArticolo() > quantita && quantita > (0.25)) {
             setQuantitaArticolo(quantita);
             return true;
