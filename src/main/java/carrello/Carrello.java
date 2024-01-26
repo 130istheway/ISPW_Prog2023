@@ -2,6 +2,8 @@ package carrello;
 
 
 import model.domain.ControllerInfoSulThread;
+import model.domain.LivelloInformazione;
+import util.SingletonLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +20,9 @@ import carrello.articoli.Factory;
  * @author Simone
  */
 public class Carrello extends CarrelloCache{
-    /** Lista degli articoli nel carrello */
-    List<Articoli> carrellino;
 
+    SingletonLogger log = SingletonLogger.getInstance();
+    
     /** Flag che indica se il pagamento è stato effettuato */
     boolean pagato;
     
@@ -40,15 +42,6 @@ public class Carrello extends CarrelloCache{
     public Carrello(List<Articoli> carrello, boolean pagato) {
         super(carrello);
         this.pagato = pagato;
-    }
-
-    /**
-     * Imposta la lista degli articoli nel carrello.
-     *
-     * @param carrello Lista degli articoli nel carrello
-     */
-    public void setcarrellino(List<Articoli> carrello) {
-        super.setcarrellino(carrello);
     }
 
     /**
@@ -82,18 +75,22 @@ public class Carrello extends CarrelloCache{
     public boolean aggiungiProdotto(List<Object> inserire) {
 
         Articoli prodotto = Factory.factoryProdotto(inserire);
+        if (prodotto == null) {
+            log.sendInformazione(LivelloInformazione.ERROR , "problem whit the insertion of the articolo from the factory");
+            return false;
+        }
         try {
             this.carrellino.add(prodotto);
             return true;
         } catch (Exception e) {
-            System.err.println("problem whit the insertion of the articolo");
+            log.sendInformazione(LivelloInformazione.ERROR , "problem whit the insertion of the articolo");
             return false;
         }
     }
 
     public boolean aggiungi(Articoli articoloDaAggiungere, int count){
         if(articoloDaAggiungere != null){
-            articoloDaAggiungere.setQuantita_articolo(count);
+            articoloDaAggiungere.setQuantitaArticolo(count);
             carrellino.add(articoloDaAggiungere);
             return true;
         }else{
@@ -117,7 +114,7 @@ public class Carrello extends CarrelloCache{
         if (id > carrellino.size()) {
             return false;
         }else{
-            carrellino.get(id).setQuantita_articolo(quantity);
+            carrellino.get(id).setQuantitaArticolo(quantity);
             return true;
         }
     }
@@ -129,18 +126,5 @@ public class Carrello extends CarrelloCache{
             ritornaList.add(articoli.getId());
         }
         return ritornaList;
-    }
-
-
-    public void RitornaArticolo(ControllerInfoSulThread info, int number) {
-        super.RitornaArticolo(info, number);
-    }
-
-    public Articoli RitornaArticolo(int number) {
-        if (number > carrellino.size()) {
-            return null;
-        }else{
-            return carrellino.get(number);
-        }
     }
 }

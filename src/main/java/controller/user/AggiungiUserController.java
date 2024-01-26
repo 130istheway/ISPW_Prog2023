@@ -47,7 +47,7 @@ public class AggiungiUserController {
 
         switch (command) {
             case "VISUALIZZAART":
-                cache.RitornaArticolo(info, Integer.parseInt(number));
+                cache.ritornaArticolo(info, Integer.parseInt(number));
                 break;
 
             case "AGGIUNGILISTA":
@@ -62,7 +62,7 @@ public class AggiungiUserController {
                     numberPezzi = 1;
                 }
 
-                boolean aggiunto = carrello.aggiungi(cache.RitornaArticolo(numberId), numberPezzi);
+                boolean aggiunto = carrello.aggiungi(cache.ritornaArticolo(numberId), numberPezzi);
 
                 if (!aggiunto) {
                     info.sendlog(LivelloInformazione.INFO, "non è stato possibile inserire l'articolo :" + number + " " +credentials.getUsername());

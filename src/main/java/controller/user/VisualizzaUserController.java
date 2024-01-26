@@ -36,7 +36,7 @@ public class VisualizzaUserController {
 
         switch (command) {
             case "VISUALIZZAART":
-                carrello.RitornaArticolo(info, number);
+                carrello.ritornaArticolo(info, number);
                 break;
 
             case "RIMUOVIART":

@@ -11,7 +11,8 @@ import java.util.List;
 public class Pizza extends ArticoliAlimentari {
 
     private int tempoCottura;
-    private boolean lievitatura, dimensione;
+    private boolean lievitatura;
+    private boolean dimensione;
     private String descrizione;
 
     /**
@@ -38,8 +39,8 @@ public class Pizza extends ArticoliAlimentari {
      * @param dimensione       Flag per indicare la dimensione della pizza
      * @param descrizione      Descrizione dell'articolo
      */
-    public Pizza(String nome_articolo, double prezzo_articolo, float quantita_articolo, List<String> ingredienti, double peso, int tempoCottura, boolean lievitatura, boolean dimensione, String descrizione) {
-        super(nome_articolo, prezzo_articolo, quantita_articolo, ingredienti, peso);
+    public Pizza(String nomeArticolo, double prezzoArticolo, float quantitaArticolo, List<String> ingredienti, double peso, int tempoCottura, boolean lievitatura, boolean dimensione, String descrizione) {
+        super(nomeArticolo, prezzoArticolo, quantitaArticolo, ingredienti, peso);
         this.tempoCottura = tempoCottura;
         this.lievitatura = lievitatura;
         this.dimensione = dimensione;
@@ -111,9 +112,9 @@ public class Pizza extends ArticoliAlimentari {
      *
      * @param quantita Nuova quantità dell'articolo
      */
-    public void Cambia_Quantita_articolo(int quantita) throws IllegalArgumentException{
-        if (getQuantita_articolo() > quantita && getQuantita_articolo() > 0) {
-            setQuantita_articolo(quantita);
+    public void cambiaQuantitaArticolo(int quantita) throws IllegalArgumentException{
+        if (getQuantitaArticolo() > quantita && getQuantitaArticolo() > 0) {
+            setQuantitaArticolo(quantita);
         } else {
             throw new IllegalArgumentException("illegal quantità");
         }
@@ -126,11 +127,11 @@ public class Pizza extends ArticoliAlimentari {
 
         setId((int)ins.get(0));
 
-        setNome_articolo((String)ins.get(1));
+        setNomeArticolo((String)ins.get(1));
                 
-        setPrezzo_articolo((double)ins.get(2));
+        setPrezzoArticolo((double)ins.get(2));
                 
-        setQuantita_articolo((float)ins.get(3));
+        setQuantitaArticolo((float)ins.get(3));
         
         setIngredienti((List<String>)ins.get(4));
                 

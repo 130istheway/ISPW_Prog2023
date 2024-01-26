@@ -10,7 +10,8 @@ import java.util.List;
  */
 public class Pane extends ArticoliAlimentari{
 
-    private int tempoCottura, tempoLievitatura;
+    private int tempoCottura;
+    private int tempoLievitatura;
     private boolean lievitatura;
     private String descrizione;
 
@@ -38,8 +39,8 @@ public class Pane extends ArticoliAlimentari{
      * @param lievitatura       Flag per indicare se la lievitatura è naturale o meno
      * @param descrizione      Descrizione dell'articolo
      */
-    public Pane(String nome_articolo, double prezzo_articolo, float quantita_articolo, List<String> ingredienti, double peso, int tempoCottura, int tempoLievitatura, boolean lievitatura, String descrizione) {
-        super(nome_articolo, prezzo_articolo, quantita_articolo, ingredienti, peso);
+    public Pane(String nomeArticolo, double prezzoArticolo, float quantitaArticolo, List<String> ingredienti, double peso, int tempoCottura, int tempoLievitatura, boolean lievitatura, String descrizione) {
+        super(nomeArticolo, prezzoArticolo, quantitaArticolo, ingredienti, peso);
         this.tempoCottura = tempoCottura;
         this.tempoLievitatura = tempoLievitatura;
         this.lievitatura = lievitatura;
@@ -128,8 +129,8 @@ public class Pane extends ArticoliAlimentari{
      * @return True se la quantità è stata modificata con successo, altrimenti false
      */
     public boolean Cambia_Quantita_articolo(float quantita) {
-        if (getQuantita_articolo() > quantita && quantita > ((double) (1 / 4))) {
-            setQuantita_articolo(quantita);
+        if (getQuantitaArticolo() > quantita && quantita > ((1 / 4))) {
+            setQuantitaArticolo(quantita);
             return true;
         } else {
             return false;
@@ -157,11 +158,11 @@ public class Pane extends ArticoliAlimentari{
 
         setId((int)ins.get(0));
 
-        setNome_articolo((String)ins.get(1));
+        setNomeArticolo((String)ins.get(1));
         
-        setPrezzo_articolo((double)ins.get(2));
+        setPrezzoArticolo((double)ins.get(2));
         
-        setQuantita_articolo((float)ins.get(3));
+        setQuantitaArticolo((float)ins.get(3));
         
         setIngredienti((List<String>)ins.get(4));
         

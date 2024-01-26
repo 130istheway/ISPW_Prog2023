@@ -70,6 +70,8 @@ public class ClientHandler implements Runnable {
                         break;
                     
                 }
+            }catch (Exception e){
+                this.info.sendlog( LivelloInformazione.ERROR ,e.getMessage() + " the thread is : " + this.info.getThreadId());
             }
             if (!this.info.isRunning()) {
                 this.info.sendlog( LivelloInformazione.DEBUG ,"il capo mi sta chiudendo | thread number: " + this.info.getThreadId() );

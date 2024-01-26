@@ -32,14 +32,14 @@ public class ArticoliAlimentari extends Articoli {
     /**
      * Costruttore che consente di specificare tutti gli attributi dell'articolo alimentare.
      *
-     * @param nome_articolo    Nome dell'articolo
-     * @param prezzo_articolo  Prezzo dell'articolo
-     * @param quantita_articolo Quantità dell'articolo
+     * @param nomeArticolo    Nome dell'articolo
+     * @param prezzoArticolo  Prezzo dell'articolo
+     * @param quantitaArticolo Quantità dell'articolo
      * @param ingredienti      Lista degli ingredienti
      * @param peso             Peso dell'articolo
      */
-    public ArticoliAlimentari(String nome_articolo, double prezzo_articolo, float quantita_articolo, List<String> ingredienti, double peso) {
-        super(nome_articolo, prezzo_articolo, quantita_articolo);
+    public ArticoliAlimentari(String nomeArticolo, double prezzoArticolo, float quantitaArticolo, List<String> ingredienti, double peso) {
+        super(nomeArticolo, prezzoArticolo, quantitaArticolo);
         this.ingredienti = ingredienti;
         this.peso = peso;
     }
@@ -80,6 +80,7 @@ public class ArticoliAlimentari extends Articoli {
         return peso;
     }
 
+    @Override
     public String toString() {
         String linea = "|";
         String str;

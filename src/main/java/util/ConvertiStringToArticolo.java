@@ -6,10 +6,14 @@ import java.util.StringTokenizer;
 
 public class ConvertiStringToArticolo {
 
+    private ConvertiStringToArticolo() {
+        throw new IllegalStateException("Utility class");
+      }
+
     public static List<Object> convertToArticolo(String string){
 
-        List<String> input = new ArrayList<String>();
-        List<Object> output = new ArrayList<Object>();
+        List<String> input = new ArrayList<>();
+        List<Object> output = new ArrayList<>();
         String yatta;
         String yatta2;
 
@@ -27,15 +31,15 @@ public class ConvertiStringToArticolo {
 
         String token = input.get(0);
         output.add(token);
-        int Id =Integer.parseInt(input.get(1));
-        output.add(Id);
+        int id =Integer.parseInt(input.get(1));
+        output.add(id);
         String nome = input.get(2);
         output.add(nome);
         double prezo =Double.parseDouble(input.get(3));
         output.add(prezo);
         float qua =Float.parseFloat(input.get(4));
         output.add(qua);
-        List<String> ingredienti = new ArrayList<String>();
+        List<String> ingredienti;
         ingredienti = getList(input.get(5));
         output.add(ingredienti);
         double peso = Double.parseDouble(input.get(6));
@@ -54,7 +58,7 @@ public class ConvertiStringToArticolo {
     }
 
     private static List<String> getList(String a){
-        List<String> output = new ArrayList<String>();
+        List<String> output = new ArrayList<>();
         String yatta;
         a = a.substring(1, a.length()-1);
         StringTokenizer st = new StringTokenizer(a, ",");

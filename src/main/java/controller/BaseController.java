@@ -20,7 +20,9 @@ public class BaseController {
     ControllerInfoSulThread info;
     LoginController login;
     Credential cred;
+    
     Carrello carrellino = new Carrello();
+    MessageToCommand messageToCommand = new MessageToCommand();
 
     VisualizzaUserController userVisualizza = new VisualizzaUserController();
     NegozioBDController negozioInserisci = new NegozioBDController();
@@ -28,88 +30,42 @@ public class BaseController {
     private static final String STOPTHAT = "STOPIT";
     private static final String NAUTORIZZATO = "NON AUTORIZATO";
 
-    private void controll(String message) throws PersonalException, IOException{
+    private void controll(String message) throws Exception{
 
-        MessageToCommand messageToCommand = new MessageToCommand();
         messageToCommand.fromMessage(message);
 
         switch (messageToCommand.getCommand()) {
 
             case "LOGIN":
-                info.sendlog(LivelloInformazione.TRACE, "Entering LOGIN");
-                login = new LoginController(info);
-                try{
-                    cred = login.execute();
-                }catch (PersonalException e){
-                    if (e.getMessage().equals("Non rispondo che il server sta chiudendo")){
-                        info.sendMessage(STOPTHAT);
-                        throw new PersonalException("Sono uscito dal login perchè il server ha chiuso");
-                    }
-                    info.sendMessage(STOPTHAT);
-                    throw new PersonalException ("Ha sbagliato ad autenticarsi");
-                }
+                tryLogin();
                 break;
 
-
             case "EXIT":
-                info.sendlog(LivelloInformazione.TRACE, "Entering EXIT");
-                info.sendMessage(STOPTHAT);
-                if (cred!=null) throw new PersonalException("Esco, " + cred.getUsername() + " si era autenticato ma è voluto uscire");
-                throw new PersonalException("NON si è voluto autenticare");
+                exit();
 
 
             case "WRITEBACK":
-                info.sendlog(LivelloInformazione.TRACE, "Entering Writeback");
                 rispondereACioCheMandaComeUnPappagallo(info);
             break;
 
 
             case "VISUALIZZA":
-                if (cred!=null && (cred.getRole().ordinal()<4)){
-                    info.sendlog(LivelloInformazione.TRACE, "Entering Visualizza per l'utente : " + cred.getUsername());
-                    userVisualizza.viusalizzaController(cred, info, carrellino);
-                    break;
-                };
-                info.sendlog(LivelloInformazione.TRACE, "Ha provato a VISUALIZARE senza essere Loggato");
-                info.sendMessage(NAUTORIZZATO);
+                visualizza();
             break;
 
 
             case "AGGIUNGILISTA":
-            if (cred!=null && (cred.getRole().ordinal()<4)){
-                AggiungiUserController aggiungi = new AggiungiUserController(cred.getUsername());
-                info.sendlog(LivelloInformazione.TRACE, "Entering AggiungiLista per l'utente : " + cred.getUsername());
-                aggiungi.aggiungiUserController(cred, info, carrellino);
-                break;
-            };
-            info.sendlog(LivelloInformazione.TRACE, "Ha provato ad AGGIUNGERE alla Lista senza essere Loggato");
-            info.sendMessage(NAUTORIZZATO);
+                aggiungiLista();
             break;
 
             
             case "AGGIUNGIARTICOLODB":
-            if (cred!=null && (cred.getRole().ordinal()<3)){
-                cred.getUsername();
-                info.sendlog(LivelloInformazione.TRACE, "Entering AggiungiArticoloDB per l'utente : " + cred.getUsername());
-                negozioInserisci.aggiungiDBController(cred, info, messageToCommand.getPayload());
-                info.sendMessage("Not Yet Implemented");
-                break;
-            };
-            info.sendlog(LivelloInformazione.TRACE, "Ha provato ad AGGIUNGERE un Articolo al DB senza essere Loggato");
-            info.sendMessage(NAUTORIZZATO);
+                aggiungiArticoloDB();
             break;
 
 
             case "RIMUOVIARTICOLODB":
-            if (cred!=null && (cred.getRole().ordinal()<3)){
-                cred.getUsername();
-                info.sendlog(LivelloInformazione.TRACE, "Entering RimuoviArticoloDB per l'utente : " + cred.getUsername());
-                negozioInserisci.aggiungiDBController(cred, info, messageToCommand.getPayload());
-                info.sendMessage("Not Yet Implemented");
-                break;
-            };
-            info.sendlog(LivelloInformazione.TRACE, "Ha provato ad RIMUOVERE un Articolo al DB senza essere Loggato");
-            info.sendMessage(NAUTORIZZATO);
+                rimuoviArticoloDB()
             break;
 
 
@@ -120,11 +76,49 @@ public class BaseController {
     }
 
 
+    private void tryLogin() throws Exception {
+        info.sendlog(LivelloInformazione.TRACE, "Entering LOGIN");
+                login = new LoginController(info);
+                try{
+                    cred = login.execute();
+                }catch (PersonalException e){
+                    if (e.getMessage().equals("Non rispondo che il server sta chiudendo")){
+                        info.sendMessage(STOPTHAT);
+                        throw new PersonalException("Sono uscito dal login perchè il server ha chiuso");
+                    }
+                    info.sendMessage(STOPTHAT);
+                    throw new PersonalException ("Ha sbagliato ad autenticarsi");
+                }catch (Exception e){
+                    if (e.getClass().equals("PersonalException")) {
+                        throw e;
+                    }
+                    info.sendMessage(STOPTHAT);
+                    info.sendlog(LivelloInformazione.TRACE, "Login failed");
+                }
+    }
 
 
+    private void exit() throws PersonalException{
+        info.sendlog(LivelloInformazione.TRACE, "Entering EXIT");
+        info.sendMessage(STOPTHAT);
+        if (cred!=null) throw new PersonalException("Esco, " + cred.getUsername() + " si era autenticato ma è voluto uscire");
+        throw new PersonalException("NON si è voluto autenticare");
+    }
+
+
+    private void visualizza(){
+        if (cred!=null && (cred.getRole().ordinal()<4)){
+            info.sendlog(LivelloInformazione.TRACE, "Entering Visualizza per l'utente : " + cred.getUsername());
+            userVisualizza.viusalizzaController(cred, info, carrellino);
+            return;
+        }
+        info.sendlog(LivelloInformazione.TRACE, "Ha provato a VISUALIZARE senza essere Loggato");
+        info.sendMessage(NAUTORIZZATO);
+    }
 
 
     private void rispondereACioCheMandaComeUnPappagallo(ControllerInfoSulThread info) throws IOException {
+        info.sendlog(LivelloInformazione.TRACE, "Entering Writeback");
         info.sendMessage("WRITEBACK MODE");
         this.info.sendlog( LivelloInformazione.TRACE ,"WRITEBACK MODE");
         String inputLine;
@@ -145,11 +139,42 @@ public class BaseController {
     }
 
 
+    private void aggiungiLista(){
+        if (cred!=null && (cred.getRole().ordinal()<4)){
+            AggiungiUserController aggiungi = new AggiungiUserController(cred.getUsername());
+            info.sendlog(LivelloInformazione.TRACE, "Entering AggiungiLista per l'utente : " + cred.getUsername());
+            aggiungi.aggiungiUserController(cred, info, carrellino);
+            return;
+        }
+        info.sendlog(LivelloInformazione.TRACE, "Ha provato ad AGGIUNGERE alla Lista senza essere Loggato");
+        info.sendMessage(NAUTORIZZATO);
+    }
 
 
+    private void aggiungiArticoloDB(){
+        if (cred!=null && (cred.getRole().ordinal()<3)){
+            cred.getUsername();
+            info.sendlog(LivelloInformazione.TRACE, "Entering AggiungiArticoloDB per l'utente : " + cred.getUsername());
+            negozioInserisci.aggiungiDBController(cred, info, messageToCommand.getPayload());
+            info.sendMessage("Not Yet Implemented");
+            return;
+        }
+        info.sendlog(LivelloInformazione.TRACE, "Ha provato ad AGGIUNGERE un Articolo al DB senza essere Loggato");
+        info.sendMessage(NAUTORIZZATO);
+    }
 
 
-
+    private void rimuoviArticoloDB(){
+        if (cred!=null && (cred.getRole().ordinal()<3)){
+            cred.getUsername();
+            info.sendlog(LivelloInformazione.TRACE, "Entering RimuoviArticoloDB per l'utente : " + cred.getUsername());
+            negozioInserisci.aggiungiDBController(cred, info, messageToCommand.getPayload());
+            info.sendMessage("Not Yet Implemented");
+            return;
+        }
+        info.sendlog(LivelloInformazione.TRACE, "Ha provato ad RIMUOVERE un Articolo al DB senza essere Loggato");
+        info.sendMessage(NAUTORIZZATO);
+    }
 
 
     public BaseController(ControllerInfoSulThread infoest){
@@ -157,7 +182,7 @@ public class BaseController {
     }
 
 
-    public void execute() throws IOException, PersonalException {
+    public void execute() throws Exception {
         String inputLine;
         if (this.info.isRunning()) {
             info.sendMessage("LOGIN");

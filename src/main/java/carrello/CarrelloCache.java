@@ -46,7 +46,7 @@ public class CarrelloCache{
     }
 
 
-    public void RitornaArticolo(ControllerInfoSulThread info, int number) {
+    public void ritornaArticolo(ControllerInfoSulThread info, int number) {
 
         MessageToCommand message = new MessageToCommand();
 
@@ -65,7 +65,7 @@ public class CarrelloCache{
         }
     }
 
-    public Articoli RitornaArticolo(int number) {
+    public Articoli ritornaArticolo(int number) {
         if (number > carrellino.size()) {
             return null;
         }else{

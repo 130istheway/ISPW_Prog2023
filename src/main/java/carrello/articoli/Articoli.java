@@ -10,27 +10,30 @@ package carrello.articoli;
 
  
 public class Articoli {
+
+    java.util.Random rand = new java.util.Random();
+
     /** ID univoco dell'articolo */
     private int id;
 
     /** Nome dell'articolo */
-    private String nome_articolo;
+    private String nomeArticolo;
 
     /** Prezzo dell'articolo */
-    private double prezzo_articolo;
+    private double prezzoArticolo;
 
     /** Quantità disponibile dell'articolo */
-    private float quantita_articolo;
+    private float quantitaArticolo;
 
     /**
      * Costruttore di default.
      * Inizializza gli attributi con valori predefiniti.
      */
     public Articoli() {
-        setId(get_Random());
-        this.nome_articolo = "HUBBUHB";
-        this.prezzo_articolo = 0.0;
-        this.quantita_articolo = 0;
+        setId(getRandom());
+        this.nomeArticolo = "Prova";
+        this.prezzoArticolo = 0.0;
+        this.quantitaArticolo = 0;
     }
 
     /**
@@ -42,10 +45,10 @@ public class Articoli {
      * @param quantita_articolo Quantità dell'articolo
      */
     public Articoli(String nome_articolo, double prezzo_articolo, float quantita_articolo) {
-        setId(get_Random());
-        this.nome_articolo = nome_articolo;
-        this.prezzo_articolo = prezzo_articolo;
-        this.quantita_articolo = quantita_articolo;
+        setId(getRandom());
+        this.nomeArticolo = nome_articolo;
+        this.prezzoArticolo = prezzo_articolo;
+        this.quantitaArticolo = quantita_articolo;
     }
 
     /**
@@ -62,8 +65,8 @@ public class Articoli {
      *
      * @param nome_articolo Nome dell'articolo
      */
-    public void setNome_articolo(String nome_articolo) {
-        this.nome_articolo = nome_articolo;
+    public void setNomeArticolo(String nome_articolo) {
+        this.nomeArticolo = nome_articolo;
     }
 
     /**
@@ -71,8 +74,8 @@ public class Articoli {
      *
      * @param prezzo_articolo Prezzo dell'articolo
      */
-    public void setPrezzo_articolo(double prezzo_articolo) {
-        this.prezzo_articolo = prezzo_articolo;
+    public void setPrezzoArticolo(double prezzo_articolo) {
+        this.prezzoArticolo = prezzo_articolo;
     }
 
     /**
@@ -80,8 +83,8 @@ public class Articoli {
      *
      * @param quantita_articolo Quantità dell'articolo
      */
-    public void setQuantita_articolo(float quantita_articolo) {
-        this.quantita_articolo = quantita_articolo;
+    public void setQuantitaArticolo(float quantita_articolo) {
+        this.quantitaArticolo = quantita_articolo;
     }
 
     /**
@@ -98,8 +101,8 @@ public class Articoli {
      *
      * @return Nome dell'articolo
      */
-    public String getNome_articolo() {
-        return nome_articolo;
+    public String getNomeArticolo() {
+        return nomeArticolo;
     }
 
     /**
@@ -107,8 +110,8 @@ public class Articoli {
      *
      * @return Prezzo dell'articolo
      */
-    public double getPrezzo_articolo() {
-        return prezzo_articolo;
+    public double getPrezzoArticolo() {
+        return prezzoArticolo;
     }
 
     /**
@@ -116,8 +119,8 @@ public class Articoli {
      *
      * @return Quantità dell'articolo
      */
-    public float getQuantita_articolo() {
-        return quantita_articolo;
+    public float getQuantitaArticolo() {
+        return quantitaArticolo;
     }
 
     /**
@@ -125,14 +128,14 @@ public class Articoli {
      *
      * @return ID generato casualmente
      */
-    private int get_Random() {
-        return (int) Math.abs(Math.random());
+    private int getRandom() {
+        return (int) Math.abs(rand.nextInt());
     }
 
     public String toString() {
         String linea = "|";
         String str;
-        str = "{" + id + linea + nome_articolo + linea + prezzo_articolo + linea + quantita_articolo +"}";
+        str = "{" + id + linea + nomeArticolo + linea + prezzoArticolo + linea + quantitaArticolo +"}";
         return str;
     }
 }
