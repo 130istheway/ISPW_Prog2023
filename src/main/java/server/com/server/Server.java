@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import server.com.server.Handler.ClientHandler;
+import server.com.server.handler.ClientHandler;
 import server.com.server.exception.PersonalException;
 import util.SingletonLogger;
 import model.domain.LivelloInformazione;
