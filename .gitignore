@@ -41,4 +41,4 @@ applogs/application_logs.log
 
 ### Windows ###
 src/main/java/inutile/Demo.java
-src/main/java/Sensitive/Sensitive.java
+src/main/resources/Sensitive/
