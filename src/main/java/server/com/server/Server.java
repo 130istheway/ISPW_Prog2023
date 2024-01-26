@@ -41,6 +41,7 @@ public class Server implements Runnable{
             try {
                 log.sendInformazione(LivelloInformazione.TRACE,"Attendo connessioni...");
                 Socket socket = serverSocket.accept();
+
                 handler(socket);
             } catch (IOException e) {
                 serverSocket.close();
