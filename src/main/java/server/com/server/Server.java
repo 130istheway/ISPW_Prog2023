@@ -32,6 +32,7 @@ public class Server implements Runnable{
             long threadId = currentThread.getId();     //avrei voluto usare threadId() ma sonarcloud ha detto di no
 
             log.sendInformazione( LivelloInformazione.ERROR ,"Il Server al thread : " + threadId + " Si è concluso, il messaggio d'errore è : " + e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 

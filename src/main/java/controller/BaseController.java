@@ -65,7 +65,7 @@ public class BaseController {
 
 
             case "RIMUOVIARTICOLODB":
-                rimuoviArticoloDB()
+                rimuoviArticoloDB();
             break;
 
 
