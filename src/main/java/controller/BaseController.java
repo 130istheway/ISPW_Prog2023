@@ -42,7 +42,7 @@ public class BaseController {
 
             case "EXIT":
                 exit();
-            break
+            break;
 
             case "WRITEBACK":
                 rispondereACioCheMandaComeUnPappagallo(info);
