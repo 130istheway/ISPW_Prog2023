@@ -30,7 +30,7 @@ public class BaseController {
     private static final String STOPTHAT = "STOPIT";
     private static final String NAUTORIZZATO = "NON AUTORIZATO";
 
-    private void controll(String message) throws Exception{
+    private void controll(String message) throws PersonalException, IOException {
 
         messageToCommand.fromMessage(message);
 
