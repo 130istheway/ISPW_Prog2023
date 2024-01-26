@@ -1,4 +1,4 @@
-package carrello.articoli.articoliAlimentari;
+package carrello.articoli.articoli_alimentari;
 
 import java.util.List;
 
@@ -147,6 +147,7 @@ public class Pizza extends ArticoliAlimentari {
     
     }
 
+    @Override
     public String toString() {
         String linea = "|";
         String str;

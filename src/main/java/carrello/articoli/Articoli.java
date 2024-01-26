@@ -44,11 +44,11 @@ public class Articoli {
      * @param prezzo_articolo   Prezzo dell'articolo
      * @param quantita_articolo Quantità dell'articolo
      */
-    public Articoli(String nome_articolo, double prezzo_articolo, float quantita_articolo) {
+    public Articoli(String nomeArticolo, double prezzoArticolo, float quantitaArticolo) {
         setId(getRandom());
-        this.nomeArticolo = nome_articolo;
-        this.prezzoArticolo = prezzo_articolo;
-        this.quantitaArticolo = quantita_articolo;
+        this.nomeArticolo = nomeArticolo;
+        this.prezzoArticolo = prezzoArticolo;
+        this.quantitaArticolo = quantitaArticolo;
     }
 
     /**
@@ -129,7 +129,7 @@ public class Articoli {
      * @return ID generato casualmente
      */
     private int getRandom() {
-        return (int) rand.nextInt();
+        return rand.nextInt();
     }
 
     public String toString() {

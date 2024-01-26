@@ -1,4 +1,4 @@
-package carrello.articoli.articoliAlimentari;
+package carrello.articoli.articoli_alimentari;
 
 import java.util.ArrayList;
 import java.util.List;

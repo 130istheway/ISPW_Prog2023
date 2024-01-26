@@ -1,4 +1,4 @@
-package carrello.articoli.articoliAlimentari;
+package carrello.articoli.articoli_alimentari;
 
 import java.util.List;
 
@@ -129,7 +129,7 @@ public class Pane extends ArticoliAlimentari{
      * @return True se la quantità è stata modificata con successo, altrimenti false
      */
     public boolean Cambia_Quantita_articolo(float quantita) {
-        if (getQuantitaArticolo() > quantita && quantita > (((double)1 / 4))) {
+        if (getQuantitaArticolo() > quantita && quantita > (0.25)) {
             setQuantitaArticolo(quantita);
             return true;
         } else {
@@ -178,6 +178,7 @@ public class Pane extends ArticoliAlimentari{
 
     }
 
+    @Override
     public String toString() {
         String linea = "|";
         String str;

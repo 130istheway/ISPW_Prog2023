@@ -42,7 +42,7 @@ public class BaseController {
 
             case "EXIT":
                 exit();
-
+            break
 
             case "WRITEBACK":
                 rispondereACioCheMandaComeUnPappagallo(info);
@@ -71,7 +71,7 @@ public class BaseController {
 
             default:
                 info.sendMessage("NOT A VALID COMAND");
-            break;
+                break;
         }
     }
 
@@ -89,7 +89,7 @@ public class BaseController {
                     info.sendMessage(STOPTHAT);
                     throw new PersonalException ("Ha sbagliato ad autenticarsi");
                 }catch (Exception e){
-                    if (e.getClass().getName() == "PersonalException") {
+                    if (e.getClass().getName().equals("PersonalException")) {
                         throw e;
                     }
                     info.sendMessage(STOPTHAT);

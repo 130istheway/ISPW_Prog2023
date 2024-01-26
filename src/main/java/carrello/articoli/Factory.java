@@ -2,7 +2,7 @@ package carrello.articoli;
 
 import java.util.List;
 
-import carrello.articoli.articoliAlimentari.*;
+import carrello.articoli.articoli_alimentari.*;
 import model.domain.LivelloInformazione;
 import util.SingletonLogger;
 
