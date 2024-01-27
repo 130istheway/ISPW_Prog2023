@@ -21,7 +21,7 @@ public class BaseController {
     LoginController login;
     Credential cred;
     
-    Carrello carrellino = new Carrello();
+    Carrello carrellino = null;
     MessageToCommand messageToCommand = new MessageToCommand();
 
     VisualizzaUserController userVisualizza = new VisualizzaUserController();
@@ -55,7 +55,7 @@ public class BaseController {
 
 
             case "AGGIUNGILISTA":
-                aggiungiLista();
+                aggiungiLista(messageToCommand.getPayload());
             break;
 
             
@@ -142,9 +142,9 @@ public class BaseController {
     }
 
 
-    private void aggiungiLista(){
+    private void aggiungiLista(String negozio){
         if (cred!=null && (cred.getRole().ordinal()<4)){
-            AggiungiUserController aggiungi = new AggiungiUserController(cred.getUsername());
+            AggiungiUserController aggiungi = new AggiungiUserController(negozio, info);
             info.sendlog(LivelloInformazione.TRACE, "Entering AggiungiLista per l'utente : " + cred.getUsername());
             aggiungi.aggiungiUserController(cred, info, carrellino);
             return;
@@ -157,8 +157,9 @@ public class BaseController {
     private void aggiungiArticoloDB(){
         if (cred!=null && (cred.getRole().ordinal()<3)){
             cred.getUsername();
+            
             info.sendlog(LivelloInformazione.TRACE, "Entering AggiungiArticoloDB per l'utente : " + cred.getUsername());
-            //negozioInserisci.aggiungiDBArticolo(cred, info, messageToCommand.getPayload());
+            negozioInserisci.aggiungiDBArticolo(cred, info, messageToCommand.getPayload());
             info.sendMessage("Not Yet Implemented");
             return;
         }

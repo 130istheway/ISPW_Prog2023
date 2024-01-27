@@ -8,13 +8,13 @@ public class MessageToCommand {
     private String payload;
     
     public void fromMessage(String message){
-        String support;
         if (message.contains("|")) {
             StringTokenizer parti = new StringTokenizer(message.substring(0, message.length()), "|");
             while (parti.hasMoreTokens()) {
                 command = parti.nextToken().trim();
-                if ((support = parti.nextToken()) != null) {
-                    payload = support.trim();
+                if ((parti.nextToken()) != null) {
+                    payload = message.substring(command.length()+3, message.length());
+                    return;
                 }
             }
         }else{

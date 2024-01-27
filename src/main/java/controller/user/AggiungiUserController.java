@@ -3,24 +3,27 @@ package controller.user;
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
 import model.domain.LivelloInformazione;
+import server.com.server.exception.PersonalException;
 import util.MessageToCommand;
+import util.RecuperaArticolo;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import carrello.Carrello;
 import carrello.CarrelloCache;
-import carrello.articoli.Articoli;
 
 public class AggiungiUserController {
 
     CarrelloCache cache;
     
-    public AggiungiUserController(String username){
+    public AggiungiUserController(String username, ControllerInfoSulThread info){
         //aggiungere la DAO per recuperare la lista da inserire nel carrello, si recupera tramite lo username
-        List<Articoli> list = new ArrayList<>();
-        cache = new CarrelloCache( list);
+        try {
+            cache = RecuperaArticolo.recuperaCarelloDaNegozio(username);
+            return;
+        } catch (PersonalException e) {
+            info.sendlog(LivelloInformazione.ERROR, e.getMessage());
+        }
+        cache = new CarrelloCache();
     }
     
     boolean cambiaAttivita = false;
@@ -38,6 +41,7 @@ public class AggiungiUserController {
             info.sendlog(LivelloInformazione.ERROR, e.getMessage());
         }
     }
+    
 
 
     private void controll(String inputLine, Credential credentials, ControllerInfoSulThread info, Carrello carrello){

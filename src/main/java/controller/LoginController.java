@@ -1,11 +1,17 @@
 package controller;
 
 import java.io.IOException;
+
+import model.dao.login.DAOLogin;
+
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
 import model.domain.LivelloInformazione;
 import model.domain.Role;
+
 import server.com.server.exception.PersonalException;
+
+import util.PayloadToCredential;
 
 public class LoginController {
 
@@ -16,6 +22,7 @@ public class LoginController {
     }
 
     public Credential execute() throws IOException, PersonalException {
+        Credential cred = null;
         String inputLine;
         final String accettata = "Accettata";
         final String rifiutata = "Rifiutato";
@@ -30,20 +37,33 @@ public class LoginController {
             if (!this.info.isRunning()) {
                 info.sendMessage("STOPTHAT");
                 this.info.sendlog( LivelloInformazione.DEBUG ,"Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
-                Credential cred = new Credential(null,null, Role.NONE);
+                cred = new Credential(null,null, Role.NONE);
                 this.info.sendlog( LivelloInformazione.DEBUG ,"STOPTHAT " + (cred.getRole()).ordinal());
                 return cred;
-            }else if (inputLine.equals("user:gigi,pass:gigi")) {/* qui cambiare per autenticarsi attraverso una dao che restituisce il ROLE da una tabella del BD */
-                Credential cred = new Credential("gigi","gigi", Role.NEGOZIO);
-                info.sendMessage(accettata);
-                this.info.sendlog( LivelloInformazione.TRACE ,accettata + " " + " " + cred.getUsername() + " " +(cred.getRole()).ordinal());
-                return cred;
-            }else if(inputLine.equals("user:lollo,pass:lollo")) {
+            }/* qui cambiare per autenticarsi attraverso una dao che restituisce il ROLE da una tabella del BD */
+            DAOLogin dao = new DAOLogin();
+            PayloadToCredential p = new PayloadToCredential();
+            boolean autenticato;
+            try {
+                cred = dao.execute(p.getCredentials(inputLine));
+                autenticato = true;
+            } catch (Exception e) {
+                autenticato = false;
+            }
+            if (autenticato) {
+            info.sendMessage(accettata);
+            this.info.sendlog( LivelloInformazione.TRACE ,accettata + " " + " " + cred.getUsername() + " " +(cred.getRole()).ordinal());
+            return cred;       
+            }
+
+            /*
+            else if(inputLine.equals("user:lollo,pass:lollo")) {
                 Credential cred = new Credential("lollo","lollo", Role.UTENTE);
                 info.sendMessage(accettata);
                 this.info.sendlog( LivelloInformazione.TRACE ,accettata + " " + " " + cred.getUsername() + " " +(cred.getRole()).ordinal());
                 return cred;
             }
+            */
             info.sendMessage("Riprova");
             retryCount++;
             if (retryCount > 3) {
@@ -51,7 +71,7 @@ public class LoginController {
                 throw new PersonalException("Ha sbagliato ad autenticarsi");
             }
         }
-        Credential cred = new Credential(null,null, Role.NONE);
+        cred = new Credential(null,null, Role.NONE);
         this.info.sendlog( LivelloInformazione.TRACE ,rifiutata + (cred.getRole()).ordinal());
         return cred;
     }

@@ -1,77 +1,118 @@
 package controller.negozio;
 
-import java.io.IOException;
-
-import carrello.articoli.Articoli;
-import carrello.articoli.Factory;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
 import model.domain.LivelloInformazione;
 
-import server.com.server.exception.PersonalException;
-
-import util.ConvertiStringToArticolo;
 import util.MessageToCommand;
+
+import model.dao.exception.DAOException;
+import model.dao.negozio.*;
 
 public class NegozioBDController {
 
     MessageToCommand message = new MessageToCommand();
     
-    public boolean aggiungiDBArticolo(Credential credential, ControllerInfoSulThread Info, String string){
+    public boolean aggiungiDBArticolo(Credential credential, ControllerInfoSulThread info, String string){
 
-        Articoli articolo = Factory.factoryProdotto(ConvertiStringToArticolo.convertToArticolo(string));
-        String stringForDb = articolo.toString();
+        Integer negozioId;
 
-        if (/* Recuperare ID negozio */) {
-            message.setCommand("NO");
-            message.setPayload("ID negozio non recuperato");
+        List<Object> input = new ArrayList<>();
 
-            info.sendMessage(message);
-            return false;
-        }
-        /* Ottenere il numero di articoli che ha il negozio */
-        
-        if (/* Calcolare l'ID per l'inserimento e controllare che questo ID sia valido per l'inserimento con le dovute limitazioni */) {
-            message.setCommand("NO");
-            message.setPayload("ID non valido");
+        try {
+            DAOIdNegozio daoIdNegozio = new DAOIdNegozio();
+            if ((negozioId = daoIdNegozio.execute(credential.getUsername())) == 0) {
+                message.setCommand("NO");
+                message.setPayload("ID negozio non recuperato");
+    
+                info.sendMessage(message.toMessage());
+                return false;
+            }
+            
+            /* Ottenere il numero di articoli che ha il negozio */
+            DAOCountArticoli daoCountArticoli = new DAOCountArticoli();
+            Integer number = daoCountArticoli.execute(negozioId);
+            
 
-            info.sendMessage(message);
-            return false;
-        }
-        
-        if (/* Aggiungere funzione che inserisca l'elemento e faccia tornare un bool */) {
+            /*Vedere se sono all'interno del range 0 - 9999 */
+            if (number > 9999){
+                message.setCommand("NO");
+                message.setPayload("articolo non aggiunto, troppi Articoli");
+
+                info.sendMessage(message.toMessage());
+                return false;
+            }
+
+
+            DAOAggiungiNegozio daoAggiungiNegozio = new DAOAggiungiNegozio();
+
+            input.add(string);
+            input.add(negozioId);
+
+            if (!daoAggiungiNegozio.execute(input)) {
+                message.setCommand("NO");
+                message.setPayload("articolo non aggiunto");
+    
+                info.sendMessage(message.toMessage());
+                return false;
+            }
+            
+            
+            info.sendMessage("SI");
+            return true;
+
+        } catch (DAOException e) {
             message.setCommand("NO");
             message.setPayload("articolo non aggiunto");
 
-            info.sendMessage(message);
+            info.sendMessage(message.toMessage());
+            info.sendlog(LivelloInformazione.ERROR, e.getMessage());
             return false;
         }
-
-        info.sendMessage(message);
-        return true;
     }
 
-    public boolean rimuoviDBArticolo(Credential credential, ControllerInfoSulThread Info, String string){
-        int number = Integer.parseInt(string);
+    
 
-        if (number > /*Aggiungere funzione che faccia tornare il count degli elementi*/ || number <= 1 ) {
-            message.setCommand("NO");
-            message.setPayload("number fuori da standard");
+    public boolean rimuoviDBArticolo(Credential credential, ControllerInfoSulThread info, Integer number){
+        int idNegozio;
 
-            info.sendMessage(message);
+        try {
+            DAOIdNegozio daoIdNegozio = new DAOIdNegozio();
+            if ((idNegozio = daoIdNegozio.execute(credential.getUsername())) == 0) {
+                message.setCommand("NO");
+                message.setPayload("ID negozio non recuperato");
+    
+                info.sendMessage(message.toMessage());
+                return false;
+            }
 
-            throw new PersonalException("Out of range");
-        }
-        if (/* Aggiungere funzione che elimini l'elemento e faccia tornare un booleano */) {
+            DAOEliminaArticolo daoEliminaArticolo = new DAOEliminaArticolo();
+
+            List<Object> list = new ArrayList<>();
+            list.add(number);
+            list.add(idNegozio);
+
+            if (daoEliminaArticolo.execute(list)) {
+                message.setCommand("NO");
+                message.setPayload("articolo non eliminato");
+    
+                info.sendMessage(message.toMessage());
+                return false;
+    
+            }
+            info.sendMessage("SI");
+            return true;
+        
+        } catch (DAOException e) {
             message.setCommand("NO");
             message.setPayload("articolo non eliminato");
 
-            info.sendMessage(message);
+            info.sendMessage(message.toMessage());
+            info.sendlog(LivelloInformazione.ERROR, e.getMessage());
             return false;
-
         }
-        info.sendMessage("SI");
-        return true;
     }
 }
