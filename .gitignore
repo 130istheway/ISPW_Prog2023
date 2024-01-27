@@ -37,4 +37,8 @@ build/
 ### Mac OS ###
 .DS_Store
 applogs/application_logs.log
+
+
+### Windows ###
 src/main/java/inutile/Demo.java
+src/main/resources/Sensitive/

@@ -1,40 +1,120 @@
 package controller.negozio;
 
-import java.io.IOException;
-
-import carrello.articoli.Articoli;
-import carrello.articoli.Factory;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
 import model.domain.LivelloInformazione;
 
-import util.ConvertiStringToArticolo;
+import util.MessageToCommand;
+
+import model.dao.exception.DAOException;
+import model.dao.negozio.*;
 
 public class NegozioBDController {
+
+    MessageToCommand message = new MessageToCommand();
     
-    public boolean aggiungiDBController(Credential credential, ControllerInfoSulThread Info, String string){
+    public boolean aggiungiDBArticolo(Credential credential, ControllerInfoSulThread info, String string){
+
+        Integer negozioId;
+
+        List<Object> input = new ArrayList<>();
 
         try {
-            Info.getMessage();    
-        } catch(IOException e1){
-            Info.sendlog(LivelloInformazione.ERROR, "Errore nella Socket in aggiungiDBController ");
-            return false;
-        } catch (Exception e) {
-            Info.sendlog(LivelloInformazione.ERROR,"Qualcosa è successo in aggiungiDBController");
+            DAOIdNegozio daoIdNegozio = new DAOIdNegozio();
+            if ((negozioId = daoIdNegozio.execute(credential.getUsername())) == 0) {
+                message.setCommand("NO");
+                message.setPayload("ID negozio non recuperato");
+    
+                info.sendMessage(message.toMessage());
+                return false;
+            }
+            
+            /* Ottenere il numero di articoli che ha il negozio */
+            DAOCountArticoli daoCountArticoli = new DAOCountArticoli();
+            Integer number = daoCountArticoli.execute(negozioId);
+            
+
+            /*Vedere se sono all'interno del range 0 - 9999 */
+            if (number > 9999){
+                message.setCommand("NO");
+                message.setPayload("articolo non aggiunto, troppi Articoli");
+
+                info.sendMessage(message.toMessage());
+                return false;
+            }
+
+
+            DAOAggiungiNegozio daoAggiungiNegozio = new DAOAggiungiNegozio();
+
+            input.add(string);
+            input.add(negozioId);
+            
+            boolean result = daoAggiungiNegozio.execute(input);
+            if (!result) {
+                message.setCommand("NO");
+                message.setPayload("articolo non aggiunto");
+    
+                info.sendMessage(message.toMessage());
+                return false;
+            }
+            
+            
+            info.sendMessage("SI");
+            return true;
+
+        } catch (DAOException e) {
+            message.setCommand("NO");
+            message.setPayload("articolo non aggiunto");
+
+            info.sendMessage(message.toMessage());
+            info.sendlog(LivelloInformazione.ERROR, e.getMessage());
             return false;
         }
+    }
 
-        Articoli articolo = Factory.factoryProdotto(ConvertiStringToArticolo.convertToArticolo(string));
-        String stringForDb = articolo.toString();
+    
 
-        //inserire la dao per recuperare il codice del negozio
-        //inserire la dao per ottenere il numero di articoli del negozio
-            //calcolare l'id che verrà applicato all'articolo
-            //verificare che l'id sia entro un limite accettabile, forse scritto in un file di configurazione?
-        //inserie la dao per inserire 
+    public boolean rimuoviDBArticolo(Credential credential, ControllerInfoSulThread info, Integer number){
+        int idNegozio;
 
+        try {
+            DAOIdNegozio daoIdNegozio = new DAOIdNegozio();
+            if ((idNegozio = daoIdNegozio.execute(credential.getUsername())) == 0) {
+                message.setCommand("NO");
+                message.setPayload("ID negozio non recuperato");
+    
+                info.sendMessage(message.toMessage());
+                return false;
+            }
 
-        return true;
+            DAOEliminaArticolo daoEliminaArticolo = new DAOEliminaArticolo();
+
+            List<Object> list = new ArrayList<>();
+            list.add(number);
+            list.add(idNegozio);
+
+            boolean result = daoEliminaArticolo.execute(list);
+            if (!result) {
+                message.setCommand("NO");
+                message.setPayload("articolo non eliminato");
+    
+                info.sendMessage(message.toMessage());
+                return false;
+    
+            }
+            info.sendMessage("SI");
+            return true;
+        
+        } catch (DAOException e) {
+            message.setCommand("NO");
+            message.setPayload("articolo non eliminato");
+
+            info.sendMessage(message.toMessage());
+            info.sendlog(LivelloInformazione.ERROR, e.getMessage());
+            return false;
+        }
     }
 }

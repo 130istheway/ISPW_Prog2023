@@ -10,7 +10,8 @@ public class ConvertiStringToArticolo {
         throw new IllegalStateException("Utility class");
       }
 
-    public static List<Object> convertToArticolo(String string){
+      
+    public static List<Object> convertToArticoloList(String string){
 
         List<String> input = new ArrayList<>();
         List<Object> output = new ArrayList<>();
@@ -27,8 +28,6 @@ public class ConvertiStringToArticolo {
                 input.add(yatta2);
             }
         }
-
-
         String token = input.get(0);
         output.add(token);
         int id =Integer.parseInt(input.get(1));
@@ -52,6 +51,7 @@ public class ConvertiStringToArticolo {
         output.add(lievitatura);
         String descrizione = input.get(10);
         output.add(descrizione);
+        
 
         return output;
 
