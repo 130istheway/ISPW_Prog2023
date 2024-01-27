@@ -16,9 +16,8 @@ public class DAOIdNegozio implements GenericProcedureDAO<Integer>{
         String username = (String) params[0];
         int id = 0;
 
-        try {
+        try (Connection conn = ConnectionFactory.getConnection()) {
             
-            Connection conn = ConnectionFactory.getConnection();
             String sql = "SELECT ID FROM login WHERE username = ? LIMIT 1";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, username);

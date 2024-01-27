@@ -16,9 +16,7 @@ public class DAOCountArticoli implements GenericProcedureDAO<Integer>{
         Integer username = (Integer) params[0];
         int id = 0;
 
-        try {
-            
-            Connection conn = ConnectionFactory.getConnection();
+        try (Connection conn = ConnectionFactory.getConnection()) {
             String sql = "SELECT COUNT(idARTICOLI) ad number FROM articoli WHERE `idNegozio` = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setLong(1, username);

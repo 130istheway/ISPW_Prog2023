@@ -17,9 +17,8 @@ public class DAORecuperaIdArticolo implements GenericProcedureDAO<List<Integer>>
         List<Integer> result = new ArrayList<>();
         Integer id = (Integer) params[0];
 
-        try {
+        try (Connection conn = ConnectionFactory.getConnection()) {
 
-            Connection conn = ConnectionFactory.getConnection();
             String sql = "SELECT idArticolo as ARTICOLO FROM articolinegozi WHERE idNegozio = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setLong(1, id);

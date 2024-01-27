@@ -15,9 +15,8 @@ public class DAOEliminaArticolo implements GenericProcedureDAO<Boolean>{
         Integer idArticoli = (Integer) params[0];
         Integer idNegozio = (Integer) params[1];
 
-        try {
+        try(Connection conn = ConnectionFactory.getConnection()) {
             
-            Connection conn = ConnectionFactory.getConnection();
             String sql = "DELETE FROM articoli WHERE idARTICOLI = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setLong(1, idArticoli);

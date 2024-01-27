@@ -18,9 +18,8 @@ public class DAOAggiungiNegozio implements GenericProcedureDAO<Boolean>{
         Integer id = (Integer) params[1];
         ResultSet rs;
 
-        try {
+        try (Connection conn = ConnectionFactory.getConnection()) {
             
-            Connection conn = ConnectionFactory.getConnection();
             String sql = "INSERT INTO articoli (ARTICOblob, idNegozio) VALUES (?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, dati);
