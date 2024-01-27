@@ -33,6 +33,8 @@ public class DAOEliminaArticolo implements GenericProcedureDAO<Boolean>{
 
             rowsInserted = stmt.executeUpdate();
 
+            stmt.close();
+
             if (rowsInserted > 0) return true;
 
             return false;

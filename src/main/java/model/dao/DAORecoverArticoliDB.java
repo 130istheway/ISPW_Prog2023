@@ -21,6 +21,8 @@ public class DAORecoverArticoliDB implements GenericProcedureDAO<String>{
 
             ResultSet rs = stmt.executeQuery();
 
+            stmt.close();
+
             if (rs.next()) {
                 string = rs.getString("DATI");
             }

@@ -25,6 +25,8 @@ public class DAORecuperaIdArticolo implements GenericProcedureDAO<List<Integer>>
 
             ResultSet rs = stmt.executeQuery();
 
+            stmt.close();
+
             if (rs.next()) {
                 result.add(rs.getInt("ARTICOLO"));
             }

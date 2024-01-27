@@ -24,6 +24,8 @@ public class DAOLogin implements GenericProcedureDAO<Credential>{
 
             ResultSet rs = stmt.executeQuery();
 
+            stmt.close();
+
             if (rs.next()) {
                 role = rs.getString("ROLE");
             }

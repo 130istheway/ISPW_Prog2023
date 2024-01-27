@@ -24,6 +24,8 @@ public class DAOIdNegozio implements GenericProcedureDAO<Integer>{
 
             ResultSet rs = stmt.executeQuery();
 
+            stmt.close();
+
             if (rs.next()) {
                 id = rs.getInt("ID");
             }

@@ -42,6 +42,8 @@ public class DAOAggiungiNegozio implements GenericProcedureDAO<Boolean>{
 
             int rowsInserted2 = stmt.executeUpdate();
 
+            stmt.close();
+
             if (rowsInserted2 > 0) return true;
             
             return false;
