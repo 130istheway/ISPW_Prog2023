@@ -11,7 +11,7 @@ public class DAORecoverArticoliDB implements GenericProcedureDAO<String>{
     
     @Override
     public String execute(Object... params) throws DAOException {
-        Integer ID = (Integer) params[0];
+        Integer id = (Integer) params[0];
         String string = null;
 
         try {
@@ -19,7 +19,7 @@ public class DAORecoverArticoliDB implements GenericProcedureDAO<String>{
             Connection conn = ConnectionFactory.getConnection();
             String sql = "SELECT `ARTICOblob` as DATI FROM articoli WHERE `idARTICOLI` = ? LIMIT 1";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setLong(1, ID);
+            stmt.setLong(1, id);
 
             ResultSet rs = stmt.executeQuery();
 

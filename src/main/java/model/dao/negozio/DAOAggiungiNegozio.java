@@ -43,9 +43,8 @@ public class DAOAggiungiNegozio implements GenericProcedureDAO<Boolean>{
 
             int rowsInserted2 = stmt.executeUpdate();
 
-            if (rowsInserted2 > 0) {
-                return true;
-            }
+            if (rowsInserted2 > 0) return true;
+            
             return false;
         } catch (SQLException e) {
             throw new DAOException("Logni error: " + e.getMessage());

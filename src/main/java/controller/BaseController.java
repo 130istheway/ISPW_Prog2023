@@ -172,7 +172,7 @@ public class BaseController {
         if (cred!=null && (cred.getRole().ordinal()<3)){
             cred.getUsername();
             info.sendlog(LivelloInformazione.TRACE, "Entering RimuoviArticoloDB per l'utente : " + cred.getUsername());
-            //negozioInserisci.rimuoviDBArticolo(cred, info, messageToCommand.getPayload());
+            negozioInserisci.rimuoviDBArticolo(cred, info, Integer.parseInt(messageToCommand.getPayload()));
             info.sendMessage("Not Yet Implemented");
             return;
         }

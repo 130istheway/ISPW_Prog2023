@@ -29,8 +29,7 @@ public class DAOLogin implements GenericProcedureDAO<Credential>{
                 role = rs.getString("ROLE");
             }
 
-            Credential credential = new Credential(username, password, model.domain.Role.valueOf(role));
-            return credential;
+            return new Credential(username, password, model.domain.Role.valueOf(role));
         } catch (SQLException e) {
             throw new DAOException("Logni error: " + e.getMessage());
         }

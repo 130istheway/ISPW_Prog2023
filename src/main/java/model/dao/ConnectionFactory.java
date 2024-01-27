@@ -28,11 +28,11 @@ public class ConnectionFactory {
             Properties properties = new Properties();
             properties.load(input);
 
-            String connection_url = properties.getProperty("CONNECTION_URL");
+            String connectionUrl = properties.getProperty("CONNECTION_URL");
             String username = properties.getProperty("USER");
             String password = properties.getProperty("PASS");
 
-            connection = DriverManager.getConnection(connection_url, username, password);
+            connection = DriverManager.getConnection(connectionUrl, username, password);
         } catch (IOException e) {
             log.sendInformazione(LivelloInformazione.ERROR, e.getMessage());
         } catch (SQLException e1) {
@@ -50,11 +50,11 @@ public class ConnectionFactory {
             Properties properties = new Properties();
             properties.load(input);
 
-            String connection_url = properties.getProperty("CONNECTION_URL");
+            String connectionUrl = properties.getProperty("CONNECTION_URL");
             String username = properties.getProperty(credentials.getRole() +("_USER"));
             String password = properties.getProperty(credentials.getRole() +("_PASS"));
 
-            connection = DriverManager.getConnection(connection_url, username, password);
+            connection = DriverManager.getConnection(connectionUrl, username, password);
         } catch (IOException e) {
             log.sendInformazione(LivelloInformazione.ERROR, e.getMessage());
         } catch (SQLException e1) {

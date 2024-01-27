@@ -27,16 +27,14 @@ public class DAOEliminaArticolo implements GenericProcedureDAO<Boolean>{
             if (rowsInserted < 1) {
                 return false;
             }
-             sql = "DELETE FROM articoli WHERE idARTICOLI = ?";
+             sql = "DELETE FROM articolinegozi WHERE idArticolo = ? AND idNegozio = ?;";
              stmt = conn.prepareStatement(sql);
             stmt.setLong(1, idArticoli);
             stmt.setLong(2, idNegozio);
 
             rowsInserted = stmt.executeUpdate();
 
-            if (rowsInserted > 0) {
-                return true;
-            }
+            if (rowsInserted > 0) return true;
 
             return false;
         } catch (SQLException e) {

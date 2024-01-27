@@ -15,14 +15,14 @@ public class DAORecuperaIdArticolo implements GenericProcedureDAO<List<Integer>>
     @Override
     public List<Integer> execute(Object... params) throws DAOException {
         List<Integer> result = new ArrayList<>();
-        Integer ID = (Integer) params[0];
+        Integer id = (Integer) params[0];
 
         try {
 
             Connection conn = ConnectionFactory.getConnection();
             String sql = "SELECT idArticolo as ARTICOLO FROM articolinegozi WHERE idNegozio = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setLong(1, ID);
+            stmt.setLong(1, id);
 
             ResultSet rs = stmt.executeQuery();
 

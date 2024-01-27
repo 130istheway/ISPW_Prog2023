@@ -55,15 +55,6 @@ public class LoginController {
             this.info.sendlog( LivelloInformazione.TRACE ,accettata + " " + " " + cred.getUsername() + " " +(cred.getRole()).ordinal());
             return cred;       
             }
-
-            /*
-            else if(inputLine.equals("user:lollo,pass:lollo")) {
-                Credential cred = new Credential("lollo","lollo", Role.UTENTE);
-                info.sendMessage(accettata);
-                this.info.sendlog( LivelloInformazione.TRACE ,accettata + " " + " " + cred.getUsername() + " " +(cred.getRole()).ordinal());
-                return cred;
-            }
-            */
             info.sendMessage("Riprova");
             retryCount++;
             if (retryCount > 3) {

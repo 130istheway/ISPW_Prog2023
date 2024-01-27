@@ -109,6 +109,8 @@ INSERT INTO articolinegozi (idNegozio, idArticolo) VALUES (3, 5);
 
 DELETE FROM articoli WHERE idARTICOLI = 3;
 
+DELETE FROM articolinegozi WHERE idArticolo = 3 AND idNegozio = 4;
+
 SELECT COUNT(idARTICOLI)as number FROM articoli WHERE `idNegozio` = "3";
 
 SELECT * FROM articoli

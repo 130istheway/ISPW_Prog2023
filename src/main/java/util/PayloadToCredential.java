@@ -10,7 +10,7 @@ public class PayloadToCredential {
         List<String> parameters = new ArrayList<>();
         String yatta2;
         
-        StringTokenizer yatta = new StringTokenizer(string.substring(0, string.length()), ":");
+        StringTokenizer yatta = new StringTokenizer(string, ":");
             while (yatta.hasMoreTokens()) {
                 yatta2 = yatta.nextToken();
                 parameters.add(yatta2.substring(4, yatta2.length()));

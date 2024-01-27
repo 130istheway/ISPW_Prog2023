@@ -9,7 +9,7 @@ public class MessageToCommand {
     
     public void fromMessage(String message){
         if (message.contains("|")) {
-            StringTokenizer parti = new StringTokenizer(message.substring(0, message.length()), "|");
+            StringTokenizer parti = new StringTokenizer(message, "|");
             while (parti.hasMoreTokens()) {
                 command = parti.nextToken().trim();
                 if ((parti.nextToken()) != null) {

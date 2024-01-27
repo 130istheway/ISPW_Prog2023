@@ -51,8 +51,9 @@ public class NegozioBDController {
 
             input.add(string);
             input.add(negozioId);
-
-            if (!daoAggiungiNegozio.execute(input)) {
+            
+            boolean result = daoAggiungiNegozio.execute(input);
+            if (!result) {
                 message.setCommand("NO");
                 message.setPayload("articolo non aggiunto");
     
@@ -95,7 +96,8 @@ public class NegozioBDController {
             list.add(number);
             list.add(idNegozio);
 
-            if (daoEliminaArticolo.execute(list)) {
+            boolean result = daoEliminaArticolo.execute(list);
+            if (!result) {
                 message.setCommand("NO");
                 message.setPayload("articolo non eliminato");
     

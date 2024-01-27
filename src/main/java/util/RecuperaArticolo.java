@@ -16,6 +16,10 @@ import server.com.server.exception.PersonalException;
 
 public class RecuperaArticolo {
 
+    private RecuperaArticolo(){
+        throw new IllegalStateException("Utility class");
+      }
+
     public static CarrelloCache recuperaCarelloDaNegozio(String username) throws PersonalException{
 
         Carrello carrelloTemporaneo = new Carrello();
