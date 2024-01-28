@@ -11,10 +11,9 @@ public class ConvertiStringToArticolo {
       }
 
       
-    public static List<Object> convertToArticoloList(String string){
+    public static List<String> convertToListStringFromString(String string){
 
         List<String> input = new ArrayList<>();
-        List<Object> output = new ArrayList<>();
         String yatta;
         String yatta2;
 
@@ -28,6 +27,18 @@ public class ConvertiStringToArticolo {
                 input.add(yatta2);
             }
         }
+
+        return input;
+        
+    }
+
+
+    public static List<Object> convertToArticoloList(String string){
+
+        List<String> input = convertToListStringFromString(string);
+ 
+        List<Object> output = new ArrayList<>();
+
         String token = input.get(0);
         output.add(token);
         int id =Integer.parseInt(input.get(1));
@@ -56,6 +67,8 @@ public class ConvertiStringToArticolo {
         return output;
 
     }
+
+
 
     private static List<String> getList(String a){
         List<String> output = new ArrayList<>();
