@@ -18,6 +18,7 @@ public class DAOLogin implements GenericProcedureDAO<Credential>{
         try (Connection conn = ConnectionFactory.getConnection()) {
             
             String sql = "SELECT role FROM login WHERE username = ? AND password = ? LIMIT 1";
+
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, username);
             stmt.setString(2, password);

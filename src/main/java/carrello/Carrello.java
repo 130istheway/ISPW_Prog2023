@@ -123,8 +123,19 @@ public class Carrello extends CarrelloCache{
     public List<Integer> ritornaIDList(){
         List<Integer> ritornaList = new ArrayList<>();
         for (Articoli articoli : carrellino) {
-            ritornaList.add(articoli.getId());
+            for (int i = 0; i < articoli.getQuantitaArticolo(); i++) {
+                ritornaList.add(articoli.getId());
+            }
         }
         return ritornaList;
+    }
+
+
+    public String getLista(){
+        String ritornaLista = "";
+        for (Articoli articoli : carrellino) {
+            ritornaLista = ritornaLista + "  "+articoli.getNomeArticolo()+" : "+articoli.getQuantitaArticolo()+",  ";
+        }
+        return ritornaLista;
     }
 }

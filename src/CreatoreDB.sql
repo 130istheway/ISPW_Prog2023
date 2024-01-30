@@ -1,4 +1,4 @@
--- Active: 1706304468707@@127.0.0.1@3306@lasciafareanoi
+-- Active: 1706304468707@@127.0.0.1@3306
 DROP DATABASE IF EXISTS stefyispw;
 
 

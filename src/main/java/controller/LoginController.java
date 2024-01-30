@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 
+import model.dao.ConnectionFactory;
 import model.dao.login.DAOLogin;
 
 import model.domain.ControllerInfoSulThread;
@@ -46,7 +47,11 @@ public class LoginController {
             boolean autenticato;
             try {
                 cred = dao.execute(p.getCredentials(inputLine));
-                autenticato = true;
+                if (cred.getRole().ordinal() < 4) {
+                    ConnectionFactory.changeRole(cred);
+                    autenticato = true;
+                }
+                autenticato = false;
             } catch (Exception e) {
                 autenticato = false;
             }

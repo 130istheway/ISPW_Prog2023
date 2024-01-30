@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import carrello.Carrello;
-import carrello.CarrelloCache;
-
 import model.dao.DAORecoverArticoliDB;
 import model.dao.DAORecuperaIdArticolo;
 import model.dao.exception.DAOException;
@@ -20,7 +18,7 @@ public class RecuperaArticolo {
         throw new IllegalStateException("Utility class");
       }
 
-    public static CarrelloCache recuperaCarelloDaNegozio(String username) throws PersonalException{
+    public static Carrello recuperaCarelloDaNegozio(String username) throws PersonalException{
 
         Carrello carrelloTemporaneo = new Carrello();
         List<Object> lista = new ArrayList<>();
@@ -51,5 +49,6 @@ public class RecuperaArticolo {
         }
         
     }
-    
+
 }
+    

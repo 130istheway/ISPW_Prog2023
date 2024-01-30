@@ -11,9 +11,12 @@ import server.com.server.exception.PersonalException;
 import util.MessageToCommand;
 
 import carrello.Carrello;
+
 import controller.negozio.NegozioBDController;
 import controller.user.AggiungiUserController;
 import controller.user.VisualizzaUserController;
+import controller.user.ConfermaListaController;
+import controller.notifica.NotificaNegozioController;
 
 public class BaseController {
 
@@ -58,6 +61,11 @@ public class BaseController {
                 aggiungiLista(messageToCommand.getPayload());
             break;
 
+
+            case "CONFERMALISTA":
+                confermaLista(messageToCommand.getPayload());
+            break;
+
             
             case "AGGIUNGIARTICOLODB":
                 aggiungiArticoloDB();
@@ -69,10 +77,31 @@ public class BaseController {
             break;
 
 
+            case "NOTIFICA":
+                notifica();
+            break;
+
+
             default:
                 info.sendMessage("NOT A VALID COMAND");
                 break;
         }
+    }
+
+
+    private void notifica() {
+        if (cred!=null && (cred.getRole().ordinal()<3)){
+            cred.getUsername();
+            info.sendlog(LivelloInformazione.TRACE, "Entering NOTIFICA per l'utente : " + cred.getUsername());
+            NotificaNegozioController notifica = new NotificaNegozioController();
+            info.sendlog(LivelloInformazione.TRACE, "Entering AggiungiLista per l'utente : " + cred.getUsername());
+            notifica.notificaController(cred, info, carrellino);
+
+            info.sendMessage("Not Yet Implemented");
+            return;
+        }
+        info.sendlog(LivelloInformazione.TRACE, "Ha provato ad RIMUOVERE un Articolo al DB senza essere Loggato");
+        info.sendMessage(NAUTORIZZATO);
     }
 
 
@@ -150,6 +179,18 @@ public class BaseController {
             return;
         }
         info.sendlog(LivelloInformazione.TRACE, "Ha provato ad AGGIUNGERE alla Lista senza essere Loggato");
+        info.sendMessage(NAUTORIZZATO);
+    }
+
+
+    private void confermaLista(String negozio){
+        if (cred!=null && (cred.getRole().ordinal()<4)){
+            ConfermaListaController conferma = new ConfermaListaController(negozio);
+            info.sendlog(LivelloInformazione.TRACE, "Entering Confermalista per l'utente : " + cred.getUsername());
+            conferma.confermaLista(cred, info, carrellino);
+            return;
+        }
+        info.sendlog(LivelloInformazione.TRACE, "Ha provato ad CONFERMALISTA senza essere Loggato");
         info.sendMessage(NAUTORIZZATO);
     }
 

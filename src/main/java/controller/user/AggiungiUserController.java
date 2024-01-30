@@ -3,9 +3,8 @@ package controller.user;
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
 import model.domain.LivelloInformazione;
-import server.com.server.exception.PersonalException;
+
 import util.MessageToCommand;
-import util.RecuperaArticolo;
 
 import java.io.IOException;
 import carrello.Carrello;
@@ -17,12 +16,6 @@ public class AggiungiUserController {
     
     public AggiungiUserController(String username, ControllerInfoSulThread info){
         //aggiungere la DAO per recuperare la lista da inserire nel carrello, si recupera tramite lo username
-        try {
-            cache = RecuperaArticolo.recuperaCarelloDaNegozio(username);
-            return;
-        } catch (PersonalException e) {
-            info.sendlog(LivelloInformazione.ERROR, e.getMessage());
-        }
         cache = new CarrelloCache();
     }
     
