@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="vediCarrello" alignment="CENTER" contentDisplay="CENTER" minHeight="75.0" minWidth="200.0" mnemonicParsing="false" text="VEDI" textAlignment="CENTER">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets bottom="3.0" left="50.0" right="50.0" top="3.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Button>
+            <Button fx:id="inserisciCarrello" alignment="CENTER" contentDisplay="CENTER" minHeight="75.0" minWidth="200.0" mnemonicParsing="false" text="INSERISCI" textAlignment="CENTER">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets bottom="3.0" left="50.0" right="50.0" top="3.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="confermaCarrello" alignment="CENTER" contentDisplay="CENTER" minHeight="75.0" minWidth="200.0" mnemonicParsing="false" text="CONFERMA" textAlignment="CENTER">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets bottom="3.0" left="50.0" right="50.0" top="3.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Button>
+            <Button fx:id="conferme" alignment="CENTER" contentDisplay="CENTER" minHeight="75.0" minWidth="200.0" mnemonicParsing="false" text="CONFERME" textAlignment="CENTER">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets bottom="3.0" left="50.0" right="50.0" top="3.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="aggiungi" alignment="CENTER" contentDisplay="CENTER" minHeight="75.0" minWidth="200.0" mnemonicParsing="false" text="AGGIUNGI" textAlignment="CENTER">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets bottom="3.0" left="50.0" right="50.0" top="3.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Button>
+            <Button fx:id="rimuovi" alignment="CENTER" contentDisplay="CENTER" minHeight="75.0" minWidth="200.0" mnemonicParsing="false" text="RIMUOVI" textAlignment="CENTER">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets bottom="3.0" left="50.0" right="50.0" top="3.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="notifica" alignment="CENTER" contentDisplay="CENTER" minHeight="75.0" minWidth="200.0" mnemonicParsing="false" text="NOTIFICA" textAlignment="CENTER">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets bottom="3.0" left="50.0" right="50.0" top="3.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Button>
+            <Button fx:id="ordini" alignment="CENTER" contentDisplay="CENTER" minHeight="75.0" minWidth="200.0" mnemonicParsing="false" text="ORDINI" textAlignment="CENTER">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets bottom="3.0" left="50.0" right="50.0" top="3.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="BOTTOM_CENTER">
+         <children>
+            <Button fx:id="logout" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="LOG OUT" textAlignment="CENTER">
+               <font>
+                  <Font size="30.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="3.0" top="3.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>

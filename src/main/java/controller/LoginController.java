@@ -41,7 +41,7 @@ public class LoginController {
                 cred = new Credential(null,null, Role.NONE);
                 this.info.sendlog( LivelloInformazione.DEBUG ,"STOPTHAT " + (cred.getRole()).ordinal());
                 return cred;
-            }/* qui cambiare per autenticarsi attraverso una dao che restituisce il ROLE da una tabella del BD */
+            }
             DAOLogin dao = new DAOLogin();
             PayloadToCredential p = new PayloadToCredential();
             boolean autenticato;

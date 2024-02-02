@@ -95,7 +95,7 @@ public class BaseController {
             info.sendlog(LivelloInformazione.TRACE, "Entering NOTIFICA per l'utente : " + cred.getUsername());
             NotificaNegozioController notifica = new NotificaNegozioController();
             info.sendlog(LivelloInformazione.TRACE, "Entering AggiungiLista per l'utente : " + cred.getUsername());
-            notifica.notificaController(cred, info, carrellino);
+            notifica.notificaController(cred, info);
 
             info.sendMessage("Not Yet Implemented");
             return;
@@ -230,7 +230,7 @@ public class BaseController {
     public void execute() throws IOException, PersonalException {
         String inputLine;
         if (this.info.isRunning()) {
-            info.sendMessage("LOGIN");
+            info.sendMessage("DECIDI");
             while ((inputLine = info.getMessage()) != null) {
                     controll(inputLine);
                 }
