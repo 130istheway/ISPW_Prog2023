@@ -3,7 +3,6 @@ package carrello.articoli;
 import java.util.List;
 
 import carrello.articoli.articoli_alimentari.*;
-import model.domain.LivelloInformazione;
 import util.SingletonLogger;
 
 
@@ -18,7 +17,6 @@ public abstract class Factory {
     public static Articoli factoryProdotto(List<Object> ins){
         
         Articoli art;
-        log.sendInformazione(LivelloInformazione.TRACE ,"Si sta inserendo da lista per " + ins.get(0));
 
         String tipo = (String)ins.get(0);
         ins.remove(0);

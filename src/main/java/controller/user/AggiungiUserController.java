@@ -1,33 +1,57 @@
 package controller.user;
 
+import model.dao.DAORecoverArticoliDB;
+import model.dao.DAORecuperaIdArticolo;
+import model.dao.exception.DAOException;
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
 import model.domain.LivelloInformazione;
-
+import util.ConvertiStringToArticolo;
 import util.MessageToCommand;
 
 import java.io.IOException;
+import java.util.List;
+
 import carrello.Carrello;
 import carrello.CarrelloCache;
 
 public class AggiungiUserController {
 
     CarrelloCache cache;
+    Carrello appoggio;
     
-    public AggiungiUserController(String username, ControllerInfoSulThread info){
-        //aggiungere la DAO per recuperare la lista da inserire nel carrello, si recupera tramite lo username
-        cache = new CarrelloCache();
+    public AggiungiUserController(String negozio, ControllerInfoSulThread info){
+        appoggio = new Carrello();
+
+        DAORecuperaIdArticolo daoRecuperaIdArticoli = new DAORecuperaIdArticolo();
+        DAORecoverArticoliDB daoRecoverArticoliDB = new DAORecoverArticoliDB();
+        try {
+            List<Integer> numero = daoRecuperaIdArticoli.execute(Integer.valueOf(negozio));
+
+            for (Integer integer : numero) {
+                String yatta = daoRecoverArticoliDB.execute(integer);
+                List<Object> yatta3 = ConvertiStringToArticolo.convertToArticoloList(yatta);
+                appoggio.aggiungiProdotto(yatta3);
+            }
+        } catch (DAOException e){
+            e.printStackTrace();
+        }
+        cache = appoggio;
     }
     
     boolean cambiaAttivita = false;
 
     public void aggiungiUserController(Credential credentials, ControllerInfoSulThread info, Carrello carrello){
-        info.sendMessage("OK");
+        MessageToCommand messageToCommand = new MessageToCommand();
+        messageToCommand.setCommand("OK");
+        messageToCommand.setPayload(null);
+        info.sendMessage(messageToCommand.toMessage());
         String inputLine;
         try {
         if (info.isRunning()) {
             while (((inputLine = info.getMessage()) != null) && (!cambiaAttivita)) {
                     controll(inputLine, credentials, info, carrello);
+                        System.out.println(inputLine);
                 }
             }
         } catch (IOException e) {
@@ -45,17 +69,28 @@ public class AggiungiUserController {
 
         switch (command) {
             case "VISUALIZZAART":
-                cache.ritornaArticolo(info, Integer.parseInt(number));
+                String articolo = cache.ritornaArticoloString(Integer.parseInt(number));
+                MessageToCommand message = new MessageToCommand();
+                if (articolo == null) {
+                    message.setCommand("NO");
+                    message.setPayload("Elemento non esistente");
+                    info.sendMessage(message.toMessage());
+                    return;
+                }
+                message.setCommand("SI");
+                message.setPayload(articolo);
+                info.sendMessage(message.toMessage());
                 break;
+
 
             case "AGGIUNGILISTA":
 
                 int numberPezzi;
 
                 String[] parti = number.split("\\|");
-                int numberId = Integer.parseInt(parti[0].trim());
+                int numberId = Integer.parseInt(parti[1].trim());
                 if (parti.length > 1) {
-                    numberPezzi = Integer.parseInt(parti[0].trim());
+                    numberPezzi = Integer.parseInt(parti[1].trim());
                 }else{
                     numberPezzi = 1;
                 }
@@ -66,14 +101,21 @@ public class AggiungiUserController {
                     info.sendlog(LivelloInformazione.INFO, "non è stato possibile inserire l'articolo :" + number + " " +credentials.getUsername());
                     messageToCommand.setCommand("NO");
                     messageToCommand.setPayload(null);
-                    info.sendMessage(messageToCommand.toString());
+                    info.sendMessage(messageToCommand.toMessage());
                     break;
                 }
+                System.out.println("Inserito invio inbdsdfbsihjdfvbiah bhjdsavfdsajhb vdsfhjb dvfsb");
                 messageToCommand.setCommand("SI");
                 messageToCommand.setPayload(null);
-                info.sendMessage(messageToCommand.toString());
+                info.sendMessage(messageToCommand.toMessage());
                 break;
-        
+
+
+            case "EXIT":
+                cambiaAttivita = true;
+                break;
+    
+
             default:
                 cambiaAttivita = true;
                 break;

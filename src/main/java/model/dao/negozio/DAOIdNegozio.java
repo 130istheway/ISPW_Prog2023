@@ -16,7 +16,8 @@ public class DAOIdNegozio implements GenericProcedureDAO<Integer>{
         String username = (String) params[0];
         int id = 0;
 
-        try (Connection conn = ConnectionFactory.getConnection()) {
+        try{
+            Connection conn = ConnectionFactory.getConnection();
             
             String sql = "SELECT ID FROM login WHERE username = ? LIMIT 1";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -24,15 +25,13 @@ public class DAOIdNegozio implements GenericProcedureDAO<Integer>{
 
             ResultSet rs = stmt.executeQuery();
 
-            stmt.close();
-
             if (rs.next()) {
                 id = rs.getInt("ID");
             }
 
             return id;
         } catch (SQLException e) {
-            throw new DAOException("Logni error: " + e.getMessage());
+            throw new DAOException("DAOIdNegozio : " + e.getMessage());
         }
     }
 

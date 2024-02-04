@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import server.com.server.Server;
 
 class ServeTest {
+    
     @BeforeEach
     void setUp(){
         ArrayList<Thread> thread = new ArrayList<>();
@@ -50,7 +51,7 @@ class ServeTest {
         response = in.readLine();
         System.out.println(response);
 
-        assertEquals("LOGIN", response);
+        assertEquals("DECIDI", response);
 
         out.println("LOGIN");
         response = in.readLine();
@@ -88,6 +89,8 @@ class ServeTest {
 
         assert(response.equals("STOPIT"));
 
+        scanner.close();
+        socket.close();
     }
 
 
@@ -99,8 +102,6 @@ class ServeTest {
         Socket socket;
 
         String response;
-
-        Scanner scanner = new Scanner(System.in);
 
         socket = new Socket(host, port);
 
@@ -162,6 +163,8 @@ class ServeTest {
         System.out.println(response);
 
         assert(response.equals("STOPIT"));
+
+        socket.close();
     }
 
 

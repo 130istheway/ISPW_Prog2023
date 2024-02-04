@@ -124,7 +124,7 @@ public class Pizza extends ArticoliAlimentari {
     @SuppressWarnings (value="unchecked")
 
     public void inserisciDati(List<Object> ins){
-
+        
         setId((int)ins.get(0));
 
         setNomeArticolo((String)ins.get(1));
@@ -151,7 +151,7 @@ public class Pizza extends ArticoliAlimentari {
     public String toString() {
         String linea = "|";
         String str;
-        str = "{pizza} | " + super.toString() + "{" + tempoCottura + linea + dimensione + linea + lievitatura + linea + descrizione + "}";
+        str = "{pizza}" + super.toString() + "{" + tempoCottura + linea + dimensione + linea + lievitatura + linea + descrizione + "}";
         return str;
     }
 

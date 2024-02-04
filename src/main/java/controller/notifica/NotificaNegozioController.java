@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import model.dao.exception.DAOException;
+import model.dao.negozio.DAOIdNegozio;
 import model.dao.notifica.DAOConfermaOrdineDalID;
 import model.dao.notifica.DAORecuperaIdOrdini;
 import model.dao.notifica.DAORecuperaOrdiniDaID;
@@ -15,10 +16,26 @@ import util.MessageToCommand;
 public class NotificaNegozioController {
 
     boolean cambiaAttivita = false;
+    List<Integer> listaID;
+    List<String> listaDati;
+    String appoggio;
 
     public void notificaController(Credential credentials, ControllerInfoSulThread info){
-        info.sendMessage("OK");
+        MessageToCommand messageToCommand = new MessageToCommand();
         String inputLine;
+
+        setcache(credentials, info);
+
+        if (listaID == null) {
+            messageToCommand.setCommand("NULL");
+            messageToCommand.setPayload(null);
+            info.sendMessage(messageToCommand.toMessage());
+            return;
+        }
+        
+        messageToCommand.setCommand("OK");
+        messageToCommand.setPayload(null);
+        info.sendMessage(messageToCommand.toMessage());
         try {
         if (info.isRunning()) {
             while (((inputLine = info.getMessage()) != null) && (!cambiaAttivita)) {
@@ -33,6 +50,7 @@ public class NotificaNegozioController {
 
 
     private void controll(String inputLine, Credential credentials, ControllerInfoSulThread info){
+        DAORecuperaOrdiniDaID ordini = new DAORecuperaOrdiniDaID();
         MessageToCommand messageToCommand = new MessageToCommand();
         messageToCommand.fromMessage(inputLine);
         String command = messageToCommand.getCommand();
@@ -40,54 +58,77 @@ public class NotificaNegozioController {
 
         switch (command) {
             case "VISUALIZZANOTI":
-                messageToCommand.setCommand("VISUALIZZA");
-                DAORecuperaIdOrdini idOrdini = new DAORecuperaIdOrdini();
-                DAORecuperaOrdiniDaID ordini = new DAORecuperaOrdiniDaID();
-                List<Integer> listaID;
-                List<String> listaOrdini;
-                String space = "  ";
-                String element = "";
-
                 try {
-                    listaID = idOrdini.execute(credentials.getUsername());
-                    for (Integer iterable_element : listaID) {
-                        listaOrdini = ordini.execute(iterable_element);
-                        for (String string : listaOrdini) {
-                            element = element + space + string;
-                        }
-                        messageToCommand.setPayload(element);
-                        info.sendMessage(messageToCommand.toMessage());
+                    appoggio = "";
+                    int number = Integer.parseInt(messageToCommand.getPayload());
+                    listaDati = ordini.execute(listaID.get(number));
+                    for (String string : listaDati) {
+                        appoggio = appoggio + string + "_";
                     }
-
-                    info.sendMessage("FINITIORDINI");
-                } catch (DAOException e) {
-                    info.sendlog(LivelloInformazione.ERROR, "Problema rilevato nelle DAO per visualizare le notifiche");
-                    info.sendMessage("ERROR");
+                    messageToCommand.setCommand("SI");
+                    messageToCommand.setPayload(appoggio);
+                } catch (IndexOutOfBoundsException | DAOException e) {
+                    messageToCommand.setCommand("NO");
+                    messageToCommand.setPayload("Elemento non esistente");
                 }
-                cambiaAttivita = true;
+                info.sendMessage(messageToCommand.toMessage());
+
                 break;
                 
 
-            case "CONFERMANOTI":
+            case "CONFERMANOTIFICA":
                 DAOConfermaOrdineDalID confermaOrdine = new DAOConfermaOrdineDalID();
+                String[] cose = messageToCommand.getPayload().split("\\|");
                 try {
-                    confermaOrdine.execute(Integer.parseInt(messageToCommand.getPayload()));
-                    info.sendMessage("ACCETTATO");
+                    boolean noti = confermaOrdine.execute(listaID.get(Integer.parseInt(cose[0])), cose[1]);
+                    if (noti) {
+                        messageToCommand.setCommand("SI");
+                        messageToCommand.setPayload(null);
+                    }else{
+                        messageToCommand.setCommand("NO");
+                        messageToCommand.setPayload(null);
+                    }
+                    info.sendMessage(messageToCommand.toMessage());
                 } catch (DAOException e) {
                     info.sendlog(LivelloInformazione.ERROR, "Problema rilevato nelle DAO per confermare le notifiche");
-                    info.sendMessage("ERROR");
+                    messageToCommand.setCommand("ERROR");
+                    messageToCommand.setPayload(null);
+                    info.sendMessage(messageToCommand.toMessage());
                 } catch (NumberFormatException e1) {
                     info.sendlog(LivelloInformazione.ERROR, "Problema rilevato nella conversione della stringa ad intero");
-                    info.sendMessage("ERRORConversione");
+                    messageToCommand.setCommand("ERRORConversione");
+                    messageToCommand.setPayload(null);
+                    info.sendMessage(messageToCommand.toMessage());
                 }
-                cambiaAttivita = true;
+                setcache(credentials, info);
                 break;
+
+            case "EXIT":
+                cambiaAttivita = true;
+            break;
         
             default:
-                info.sendMessage("NONRICONOSCIUTO");
+                messageToCommand.setCommand("NONRICONOSCIUTO");
+                messageToCommand.setPayload(null);
+                info.sendMessage(messageToCommand.toMessage());
                 cambiaAttivita = true;
                 break;
         }
+    }
+
+    private void setcache(Credential credentials, ControllerInfoSulThread info){
+
+        DAOIdNegozio daoIdNegozio = new DAOIdNegozio();
+        DAORecuperaIdOrdini idOrdini = new DAORecuperaIdOrdini();
+        try {
+            int id = daoIdNegozio.execute(credentials.getUsername());
+            listaID = idOrdini.execute(id);
+            if (listaID == null) return;
+            
+        } catch (DAOException e) {
+            info.sendlog(LivelloInformazione.ERROR, "Problema rilevato nelle DAO per visualizare le notifiche " + e.getMessage());
+        }
+
     }
 }
 

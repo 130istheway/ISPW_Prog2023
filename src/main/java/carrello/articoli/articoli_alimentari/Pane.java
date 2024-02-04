@@ -182,7 +182,7 @@ public class Pane extends ArticoliAlimentari{
     public String toString() {
         String linea = "|";
         String str;
-        str = "{pane} | " +  super.toString() + "{" + tempoCottura + linea + tempoLievitatura + linea + lievitatura + linea + descrizione + "}";
+        str = "{pane}" +  super.toString() + "{" + tempoCottura + linea + tempoLievitatura + linea + lievitatura + linea + descrizione + "}";
         return str;
     }
 

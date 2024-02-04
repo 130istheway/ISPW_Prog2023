@@ -3,7 +3,6 @@ package model.domain;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.Socket;
 
 import util.SingletonLogger;
 
@@ -13,8 +12,6 @@ public class ControllerInfoSulThread {
 
     private long threadId;
     private boolean running;
-
-    Socket socket;
 
     private BufferedReader in;
     private PrintWriter out;

@@ -2,6 +2,7 @@ package util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.StringTokenizer;
 
 public class ConvertiStringToArticolo {
@@ -56,10 +57,17 @@ public class ConvertiStringToArticolo {
         output.add(peso);
         int cottura = Integer.parseInt(input.get(7));
         output.add(cottura);
-        int lievitaturetemp = Integer.parseInt(input.get(8));
-        output.add(lievitaturetemp);
-        boolean lievitatura = Boolean.parseBoolean(input.get(9));
-        output.add(lievitatura);
+        if (Objects.equals(input.get(0), "pane")) {
+            int lievitaturetemp = Integer.parseInt(input.get(8));
+            output.add(lievitaturetemp);    
+            boolean lievitatura = Boolean.parseBoolean(input.get(9));
+            output.add(lievitatura);    
+        }else if (Objects.equals(input.get(0), "pizza")) {
+            boolean lievitatura = Boolean.parseBoolean(input.get(8));
+            output.add(lievitatura);   
+            boolean forma = Boolean.parseBoolean(input.get(9));
+            output.add(forma);
+        }
         String descrizione = input.get(10);
         output.add(descrizione);
         

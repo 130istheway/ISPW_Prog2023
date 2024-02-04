@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import model.dao.ConnectionFactory;
 import model.dao.GenericProcedureDAO;
 import model.dao.exception.DAOException;
@@ -16,22 +15,23 @@ public class DAOCountArticoli implements GenericProcedureDAO<Integer>{
         Integer username = (Integer) params[0];
         int id = 0;
 
-        try (Connection conn = ConnectionFactory.getConnection()) {
-            String sql = "SELECT COUNT(idARTICOLI) ad number FROM articoli WHERE `idNegozio` = ?";
+        try{
+            Connection conn = ConnectionFactory.getConnection();
+
+            String sql = "SELECT COUNT(idARTICOLI) as number FROM articoli WHERE `idNegozio` = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setLong(1, username);
+            stmt.setInt(1, username);
 
             ResultSet rs = stmt.executeQuery();
-
-            stmt.close();
 
             if (rs.next()) {
                 id = rs.getInt("number");
             }
 
+            stmt.close();
             return id;
         } catch (SQLException e) {
-            throw new DAOException("Logni error: " + e.getMessage());
+            throw new DAOException("DAOCountArticoli error: " + e.getMessage());
         }
     }
 
