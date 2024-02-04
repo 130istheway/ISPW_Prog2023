@@ -14,8 +14,8 @@ public class DAOInserisciOrdine implements GenericProcedureDAO<Boolean>{
     public Boolean execute(Object... params) throws DAOException {
         Integer idNegozio = (Integer) params[0];
         Integer idCliente = (Integer) params[1];
-        String LISTA = (String) params[2];
-        java.sql.Date DATA = (java.sql.Date) params[3];
+        String lista = (String) params[2];
+        java.sql.Date data = (java.sql.Date) params[3];
 
         try{
             Connection conn = ConnectionFactory.getConnection();
@@ -24,8 +24,8 @@ public class DAOInserisciOrdine implements GenericProcedureDAO<Boolean>{
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setLong(1, idNegozio);
             stmt.setLong(2, idCliente);
-            stmt.setString(3, LISTA);
-            stmt.setDate(4, DATA);
+            stmt.setString(3, lista);
+            stmt.setDate(4, data);
             stmt.setString(5, "NI");
 
             int rowsInserted = stmt.executeUpdate();

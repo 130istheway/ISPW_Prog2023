@@ -31,7 +31,7 @@ public class LoginController implements Initializable {
     private Button buttonLogin;
 
     @FXML
-    public void Login(ActionEvent event) {
+    public void login(ActionEvent event) {
         String ricevi;
         String invio = "user:" + username.getText() + ",pass:" + password.getText();
         gestionePerUI.sendMessage(invio);

@@ -96,7 +96,7 @@
                   <Font size="30.0" />
                </font>
             </Button>
-            <Button fx:id="ordini" alignment="CENTER" contentDisplay="CENTER" minHeight="75.0" minWidth="200.0" mnemonicParsing="false" onAction="#OrdiniPerOggi" text="ORDINI" textAlignment="CENTER">
+            <Button fx:id="ordini" alignment="CENTER" contentDisplay="CENTER" minHeight="75.0" minWidth="200.0" mnemonicParsing="false" onAction="#ordiniPerOggi" text="ORDINI" textAlignment="CENTER">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>

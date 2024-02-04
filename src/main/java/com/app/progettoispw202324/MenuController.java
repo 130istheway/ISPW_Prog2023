@@ -43,7 +43,7 @@ public class MenuController {
     }
 
     public void visualizza(ActionEvent event){
-        if (!(livello<3)){return;}
+        if (livello>=3){return;}
         String input;
         messageToCommand.setCommand("VISUALIZZA");
         messageToCommand.setPayload(null);
@@ -76,7 +76,7 @@ public class MenuController {
     }
 
     public void inserisci(ActionEvent event) {
-        if (!(livello<3)){return;}
+        if (livello>=3){return;}
         String input;
         if (gestionePerUI.getNegozio() == null) {
             scegliNegozio(event);
@@ -112,7 +112,7 @@ public class MenuController {
     }
 
     public void conferma(ActionEvent event) {
-        if (!(livello<3)){return;}
+        if (livello>=3){return;}
         String input;
         if (gestionePerUI.getNegozio() == null){
             scegliNegozio(event);
@@ -139,7 +139,7 @@ public class MenuController {
     }
 
     public void confermeRicevute(ActionEvent event) {
-        if (!(livello<3)){return;}
+        if (livello>=3){return;}
         try {
             FXMLLoader loader = new FXMLLoader(ClientApplication.class.getResource("OrdiniCarrello.fxml"));
             Parent root = loader.load();
@@ -159,7 +159,7 @@ public class MenuController {
 
 
     public void aggiungiDaDb(ActionEvent event) {
-        if (!(livello<2)){return;}
+        if (livello>=3){return;}
         try {
             FXMLLoader loader = new FXMLLoader(ClientApplication.class.getResource("CosaInserire.fxml"));
             Parent root = loader.load();
@@ -177,7 +177,7 @@ public class MenuController {
     }
 
     public void visualizzaDaDb (ActionEvent event) {
-        if (!(livello<2)){return;}
+        if (livello>=2){return;}
 
         String input;
         messageToCommand.setCommand("VISUALIZZAARTICOLODB");
@@ -209,7 +209,7 @@ public class MenuController {
 
 
     public void notificheDaAccettare(ActionEvent event) {
-        if (!(livello<2)){return;}
+        if (livello>=2){return;}
 
         String input;
         messageToCommand.setCommand("NOTIFICA");
@@ -240,8 +240,8 @@ public class MenuController {
             ordine.setText("Nessun Ordine");
         }
     }
-    public void OrdiniPerOggi(ActionEvent event) {
-        if (!(livello<2)){return;}
+    public void ordiniPerOggi(ActionEvent event) {
+        if (livello>=2){return;}
         try {
             FXMLLoader loader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaController.fxml"));
             Parent root = loader.load();

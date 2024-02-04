@@ -4,7 +4,7 @@ import server.com.server.Server;
 
 import java.util.ArrayList;
 
-public class inizio{
+public class Inizio {
 
     public static void main(String[] args){
         setUp();

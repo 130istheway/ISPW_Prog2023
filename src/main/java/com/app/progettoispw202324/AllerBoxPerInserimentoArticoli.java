@@ -159,8 +159,8 @@ public class AllerBoxPerInserimentoArticoli {
                     tempoLievitatura.setStyle("-fx-background-color: red;");
                     ok.set(false);
                 }
-                String Descrizione = descrizione.getText();
-                if (Objects.equals(Descrizione, "")){
+                String descrizione2 = descrizione.getText();
+                if (Objects.equals(descrizione2, "")){
                     prezzo.setText("");
                     prezzo.setStyle("-fx-background-color: red;");
                     ok.set(false);
@@ -182,7 +182,7 @@ public class AllerBoxPerInserimentoArticoli {
                         lievitatura2 = "false";
                     }
 
-                    String tot = "{pane}" + "{" + "0" + linea + nome2 + linea + prezzo2 + linea + quantita2 + "}" + "{" + ingredientiString.toString() + linea + peso2 + "}" + "{" + cottura2 + linea + tempoLievitatura2 + linea + lievitatura2 + linea + Descrizione + "}";
+                    String tot = "{pane}" + "{" + "0" + linea + nome2 + linea + prezzo2 + linea + quantita2 + "}" + "{" + ingredientiString.toString() + linea + peso2 + "}" + "{" + cottura2 + linea + tempoLievitatura2 + linea + lievitatura2 + linea + descrizione2 + "}";
 
                     setLista(tot);
                     setGiusto(true);
@@ -291,8 +291,8 @@ public class AllerBoxPerInserimentoArticoli {
                     cottura.setStyle("-fx-background-color: red;");
                     ok.set(false);
                 }
-                String Descrizione = descrizione.getText();
-                if (Objects.equals(Descrizione, "")){
+                String descrizione2 = descrizione.getText();
+                if (Objects.equals(descrizione2, "")){
                     prezzo.setText("");
                     prezzo.setStyle("-fx-background-color: red;");
                     ok.set(false);
@@ -321,7 +321,7 @@ public class AllerBoxPerInserimentoArticoli {
                         lievitatura2 = "false";
                     }
 
-                    String tot = "{pizza}" + "{" + "0" + linea + nome2 + linea + prezzo2 + linea + quantita2 + "}" + "{" + ingredientiString.toString() + linea + peso2 + "}" + "{" + cottura2 + linea + lievitatura2 + linea + forma2 + linea + Descrizione + "}";
+                    String tot = "{pizza}" + "{" + "0" + linea + nome2 + linea + prezzo2 + linea + quantita2 + "}" + "{" + ingredientiString.toString() + linea + peso2 + "}" + "{" + cottura2 + linea + lievitatura2 + linea + forma2 + linea + descrizione2 + "}";
 
                     setLista(tot);
                     setGiusto(true);
