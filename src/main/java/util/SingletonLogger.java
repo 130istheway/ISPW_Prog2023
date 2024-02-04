@@ -8,7 +8,7 @@ import model.domain.LivelloInformazione;
 
 public class SingletonLogger{
 
-    private static SingletonLogger istance = new SingletonLogger();
+    private static SingletonLogger istance;
 
     private final Logger logger;
 

@@ -4,9 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 import java.util.Properties;
 
@@ -23,16 +21,17 @@ public class ConnectionFactory {
     private ConnectionFactory() {}
 
     static {
-        try (InputStream input = new FileInputStream("util/Sensitive/db.properties")){
+        try (InputStream input = new FileInputStream("C:\\Users\\stefa\\Desktop\\ISPW_Prog2023\\src\\main\\java\\util\\Sensitive\\db.properties")){
 
             Properties properties = new Properties();
             properties.load(input);
 
             String connectionUrl = properties.getProperty("CONNECTION_URL");
-            String username = properties.getProperty("USER");
-            String password = properties.getProperty("PASS");
+            String username = properties.getProperty("LOGIN_USER");
+            String password = properties.getProperty("LOGIN_PASS");
 
             connection = DriverManager.getConnection(connectionUrl, username, password);
+
         } catch (IOException e) {
             log.sendInformazione(LivelloInformazione.ERROR, e.getMessage());
         } catch (SQLException e1) {
@@ -45,7 +44,7 @@ public class ConnectionFactory {
     }
 
     public static void changeRole(Credential credentials){
-        try (InputStream input = new FileInputStream("util/Sensitive/db.properties")){
+        try (InputStream input = new FileInputStream("C:\\Users\\stefa\\Desktop\\ISPW_Prog2023\\src\\main\\java\\util\\Sensitive\\db.properties")){
 
             Properties properties = new Properties();
             properties.load(input);
@@ -55,6 +54,7 @@ public class ConnectionFactory {
             String password = properties.getProperty(credentials.getRole() +("_PASS"));
 
             connection = DriverManager.getConnection(connectionUrl, username, password);
+            
         } catch (IOException e) {
             log.sendInformazione(LivelloInformazione.ERROR, e.getMessage());
         } catch (SQLException e1) {

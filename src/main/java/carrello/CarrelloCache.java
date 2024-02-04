@@ -1,9 +1,6 @@
 package carrello;
 
 
-import model.domain.ControllerInfoSulThread;
-import util.MessageToCommand;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,27 +43,23 @@ public class CarrelloCache{
     }
 
 
-    public void ritornaArticolo(ControllerInfoSulThread info, int number) {
-
-        MessageToCommand message = new MessageToCommand();
-
-        if (number > carrellino.size()) {
-            message.setCommand("NO");
-            message.setPayload(" Elemento non esistente ");
-        }else{
+    public String ritornaArticoloString(int number) {
         
+        if (number >= carrellino.size()) {
+            return null;
+        }else if (carrellino.size() == 0){
+            return null;
+        }else{
             String yatta = carrellino.get(number).toString();
-
-            message.setCommand("VISUALIZZAARTSERVER");
-            message.setPayload(" ART " + yatta);
-
-            info.sendMessage(message.toMessage());
-
+            if (yatta == null) {
+                return null;
+            }
+            return yatta;
         }
     }
 
     public Articoli ritornaArticolo(int number) {
-        if (number > carrellino.size()) {
+        if (number > carrellino.size() || carrellino.size() == 0) {
             return null;
         }else{
             return carrellino.get(number);

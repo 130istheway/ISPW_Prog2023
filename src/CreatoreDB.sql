@@ -1,4 +1,4 @@
--- Active: 1706304468707@@127.0.0.1@3306
+-- Active: 1706304468707@@127.0.0.1@3306@stefyispw
 DROP DATABASE IF EXISTS stefyispw;
 
 
@@ -69,6 +69,32 @@ CREATE TABLE IF NOT EXISTS `ArticoliNegozi` (
     REFERENCES `ARTICOLI` (`idARTICOLI`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+
+
+DROP TABLE IF EXISTS `ORDINI` ;
+
+CREATE TABLE IF NOT EXISTS `ORDINI` (
+  `idORDINI` INT NOT NULL AUTO_INCREMENT,
+  `idNegozio` INT NOT NULL,
+  `idUtente` INT NOT NULL,
+  `listaOrdine` BLOB NOT NULL,
+  `DATA` DATETIME NOT NULL,
+  `CONFERMATO` TINYINT NOT NULL,
+  PRIMARY KEY (`idORDINI`),
+  INDEX `DATA` (`DATA` ASC, `idUtente` ASC) ,
+  INDEX `utente_idx` (`idUtente` ASC) ,
+  INDEX `negozio_idx` (`idNegozio` ASC) ,
+  CONSTRAINT `utente`
+    FOREIGN KEY (`idUtente`)
+    REFERENCES `stefyispw`.`LOGIN` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `negozio`
+    FOREIGN KEY (`idNegozio`)
+    REFERENCES `stefyispw`.`LOGIN` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
 
 
 

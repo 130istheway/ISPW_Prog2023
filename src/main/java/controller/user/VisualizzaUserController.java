@@ -14,12 +14,17 @@ public class VisualizzaUserController {
     boolean cambiaAttivita = false;
 
     public void viusalizzaController(Credential credentials, ControllerInfoSulThread info, Carrello carrello){
-        info.sendMessage("OK");
+        MessageToCommand messageToCommand = new MessageToCommand();
+        messageToCommand.setCommand("OK");
+        messageToCommand.setPayload(null);
+        info.sendMessage(messageToCommand.toMessage());
         String inputLine;
         try {
         if (info.isRunning()) {
+            cambiaAttivita = false;
             while (((inputLine = info.getMessage()) != null) && (!cambiaAttivita)) {
-                    controll(inputLine, credentials, info, carrello);
+                controll(inputLine, credentials, info, carrello);
+                    System.out.println(inputLine);
                 }
             }
         } catch (IOException e) {
@@ -36,18 +41,37 @@ public class VisualizzaUserController {
 
         switch (command) {
             case "VISUALIZZAART":
-                carrello.ritornaArticolo(info, number);
+                String articolo = carrello.ritornaArticoloString(number);
+                MessageToCommand message = new MessageToCommand();
+                if (articolo == null) {
+                    message.setCommand("NO");
+                    message.setPayload("Elemento non esistente");
+                    info.sendMessage(message.toMessage());
+                    return;
+                }
+
+                message.setCommand("SI");
+                message.setPayload(articolo);
+                info.sendMessage(message.toMessage());
+
                 break;
 
             case "RIMUOVIART":
-                boolean delete = carrello.elimina(info, number);
+                boolean delete = carrello.elimina(number);
                 if (!delete) {
                     info.sendlog(LivelloInformazione.INFO, "non è stato possibile cancellare l'articolo" + number + credentials.getUsername());
                     messageToCommand.setCommand("NO");
                     messageToCommand.setPayload(null);
-                    info.sendMessage(messageToCommand.toString());
+                    info.sendMessage(messageToCommand.toMessage());
                 }
+                messageToCommand.setCommand("SI");
+                messageToCommand.setPayload(null);
+                info.sendMessage(messageToCommand.toMessage());
                 break;
+
+            case "EXIT":
+                cambiaAttivita = true;
+            break;
         
             default:
                 cambiaAttivita = true;

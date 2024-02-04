@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 
 class StopServerTest {
 
@@ -44,5 +43,7 @@ class StopServerTest {
         out.println("STOPIT");
         response = in.readLine();
         assertEquals("Ok sto avviando la chiusura dell'applicativo che funge da server", response);
+
+        socket.close();
     }
 }

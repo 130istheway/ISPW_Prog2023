@@ -1,10 +1,10 @@
 package model.domain;
 
 public enum Role {
-    AMMINISTRATOR(1),
-    NEGOZIO(2),
-    UTENTE(3),
-    NONE(4);
+    AMMINISTRATOR(0),
+    NEGOZIO(1),
+    UTENTE(2),
+    NONE(3);
 
     private final int id;
 

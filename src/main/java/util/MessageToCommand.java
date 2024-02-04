@@ -12,7 +12,7 @@ public class MessageToCommand {
             StringTokenizer parti = new StringTokenizer(message, "|");
             while (parti.hasMoreTokens()) {
                 command = parti.nextToken().trim();
-                if ((parti.nextToken()) != null) {
+                if (parti.nextToken() != null) {
                     payload = message.substring(command.length()+3, message.length());
                     return;
                 }

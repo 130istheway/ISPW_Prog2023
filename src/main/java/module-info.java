@@ -7,4 +7,6 @@ module com.app.progettoispw202324 {
 
     opens com.app.progettoispw202324 to javafx.fxml;
     exports com.app.progettoispw202324;
+    exports com.app.progettoispw202324.util;
+    opens com.app.progettoispw202324.util to javafx.fxml;
 }

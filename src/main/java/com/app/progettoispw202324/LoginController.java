@@ -1,17 +1,28 @@
 package com.app.progettoispw202324;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import model.domain.Role;
+import model.domain.ui.GestionePerUI;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
+
+    static GestionePerUI gestionePerUI;
+
     @FXML
     private TextField username;
     @FXML
@@ -19,21 +30,60 @@ public class LoginController implements Initializable {
     @FXML
     private Button buttonLogin;
 
-    private static String lololo;
-
     @FXML
-    public void Login(ActionEvent event){
-        String invio = "user:" + username.getText() + ",pass:" + password.getText()+ "\t" +lololo;
-        System.out.println(invio);
+    public void Login(ActionEvent event) {
+        String ricevi;
+        String invio = "user:" + username.getText() + ",pass:" + password.getText();
+        gestionePerUI.sendMessage(invio);
+        try {
+            ricevi = gestionePerUI.getMessage();
+        } catch (IOException e){
+            ricevi = "non riuscito a recuperare il messaggio";
+        }
+        if (ricevi.contains("Accettata")){
+            int n = Integer.parseInt(ricevi.substring(ricevi.length()-1));
+            buttonLogin.setStyle("-fx-background-color: green;");
+            Role ruolo;
+            ruolo = Role.values()[Integer.parseInt(ricevi.substring(ricevi.length()-1))];
+            gestionePerUI.setCredential(username.getText(), ruolo);
+            setControllerMenu(event, n);
+            //fargli cambiare scena
+        } else if (ricevi.contains("Riprova")){
+            buttonLogin.setText("Riprova");
+            buttonLogin.setStyle("-fx-background-color: red;");
+        } else if (ricevi.contains("STOPIT")){
+            buttonLogin.setText("Sbagliato");
+            buttonLogin.setStyle("-fx-background-color: black;");
+            Platform.exit();
+        }
     }
 
-    public void setValue (String gogo){
-        System.out.println("poiuytrewqasdfghjklkmnbvcxz" + gogo);
-        lololo = gogo;
+    public void passGestione(GestionePerUI temporaneo){
+        gestionePerUI = temporaneo;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+    }
+
+    private void setControllerMenu(ActionEvent event, int n){
+        try {
+
+            FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("menu.fxml"));
+            Parent root = fxmlLoader.load();
+            MenuController controller = fxmlLoader.getController();
+            controller.passGestione(gestionePerUI);
+            controller.passLivello(n);
+
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Menu");
+            stage.show();
+
+        }catch (IOException e){
+            System.err.println("0x000100" + e.getMessage());
+        }
     }
 }

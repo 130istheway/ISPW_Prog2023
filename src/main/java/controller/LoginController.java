@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import model.dao.ConnectionFactory;
 import model.dao.login.DAOLogin;
@@ -11,7 +12,7 @@ import model.domain.LivelloInformazione;
 import model.domain.Role;
 
 import server.com.server.exception.PersonalException;
-
+import util.MessageToCommand;
 import util.PayloadToCredential;
 
 public class LoginController {
@@ -23,6 +24,7 @@ public class LoginController {
     }
 
     public Credential execute() throws IOException, PersonalException {
+        MessageToCommand messageToCommand = new MessageToCommand();
         Credential cred = null;
         String inputLine;
         final String accettata = "Accettata";
@@ -30,13 +32,20 @@ public class LoginController {
         int retryCount = 0;
 
         if (!info.isRunning()) {
-            info.sendMessage("STOPIT Non rispondo che il server sta chiudendo");
+            messageToCommand.setCommand("STOPIT Non rispondo che il server sta chiudendo");
+            messageToCommand.setPayload(null);
+            info.sendMessage(messageToCommand.toMessage());
             throw new PersonalException("Non rispondo che il server sta chiudendo");
         }
-        info.sendMessage("Autenticarsi: ");
+        messageToCommand.setCommand("Autenticarsi: ");
+        messageToCommand.setPayload(null);
+        info.sendMessage(messageToCommand.toMessage());
+
         while ((inputLine = info.getMessage()) != null) {
             if (!this.info.isRunning()) {
-                info.sendMessage("STOPTHAT");
+                messageToCommand.setCommand("STOPIT");
+                messageToCommand.setPayload(null);
+                info.sendMessage(messageToCommand.toMessage());
                 this.info.sendlog( LivelloInformazione.DEBUG ,"Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
                 cred = new Credential(null,null, Role.NONE);
                 this.info.sendlog( LivelloInformazione.DEBUG ,"STOPTHAT " + (cred.getRole()).ordinal());
@@ -45,27 +54,35 @@ public class LoginController {
             DAOLogin dao = new DAOLogin();
             PayloadToCredential p = new PayloadToCredential();
             boolean autenticato;
+
             try {
-                cred = dao.execute(p.getCredentials(inputLine));
-                if (cred.getRole().ordinal() < 4) {
+                List<String> crede= p.getCredentials(inputLine);
+                cred = dao.execute(crede.get(0), crede.get(1));
+                if (cred.getRole().ordinal() < 3) {
                     ConnectionFactory.changeRole(cred);
                     autenticato = true;
+                }else {
+                    autenticato = false;
                 }
-                autenticato = false;
             } catch (Exception e) {
                 autenticato = false;
+                System.out.println(e.getMessage());
             }
-            if (autenticato) {
-            info.sendMessage(accettata);
-            this.info.sendlog( LivelloInformazione.TRACE ,accettata + " " + " " + cred.getUsername() + " " +(cred.getRole()).ordinal());
-            return cred;       
+            if (autenticato) {        
+                messageToCommand.setCommand(accettata+cred.getRole().ordinal());
+                messageToCommand.setPayload(null);
+                info.sendMessage(messageToCommand.toMessage());
+                this.info.sendlog( LivelloInformazione.TRACE ,accettata + " " + " " + cred.getUsername() + " Role:" +(cred.getRole()).ordinal());
+                return cred;       
             }
-            info.sendMessage("Riprova");
-            retryCount++;
-            if (retryCount > 3) {
-                info.sendMessage(rifiutata);
+            if (retryCount > 4) {
                 throw new PersonalException("Ha sbagliato ad autenticarsi");
             }
+            messageToCommand.setCommand("Riprova");
+            messageToCommand.setPayload(null);
+            info.sendMessage(messageToCommand.toMessage());
+            retryCount++;
+            
         }
         cred = new Credential(null,null, Role.NONE);
         this.info.sendlog( LivelloInformazione.TRACE ,rifiutata + (cred.getRole()).ordinal());

@@ -1,7 +1,6 @@
 package carrello;
 
 
-import model.domain.ControllerInfoSulThread;
 import model.domain.LivelloInformazione;
 import util.SingletonLogger;
 
@@ -99,13 +98,11 @@ public class Carrello extends CarrelloCache{
     }
 
 
-    public boolean elimina(ControllerInfoSulThread info ,int number){
+    public boolean elimina(int number){
         if (number < carrellino.size()) {
             carrellino.remove(number);
-            info.sendMessage("SI");
             return true;
         }
-
         return false;
     }
 
@@ -134,7 +131,7 @@ public class Carrello extends CarrelloCache{
     public String getLista(){
         String ritornaLista = "";
         for (Articoli articoli : carrellino) {
-            ritornaLista = ritornaLista + "  "+articoli.getNomeArticolo()+" : "+articoli.getQuantitaArticolo()+",  ";
+            ritornaLista = ritornaLista +articoli.getNomeArticolo()+" : "+articoli.getQuantitaArticolo()+",  ";
         }
         return ritornaLista;
     }

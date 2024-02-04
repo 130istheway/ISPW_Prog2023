@@ -14,22 +14,22 @@ public class DAORecoverArticoliDB implements GenericProcedureDAO<String>{
         Integer id = (Integer) params[0];
         String string = null;
 
-        try(Connection conn = ConnectionFactory.getConnection()){
+        try{
+            Connection conn = ConnectionFactory.getConnection();
             String sql = "SELECT `ARTICOblob` as DATI FROM articoli WHERE `idARTICOLI` = ? LIMIT 1";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setLong(1, id);
 
             ResultSet rs = stmt.executeQuery();
 
-            stmt.close();
-
             if (rs.next()) {
                 string = rs.getString("DATI");
             }
+            stmt.close();
             
             return string;
         } catch (SQLException e) {
-            throw new DAOException("Logni error: " + e.getMessage());
+            throw new DAOException("DAORecoverArticoliDB : " + e.getMessage());
         }
     }
 
