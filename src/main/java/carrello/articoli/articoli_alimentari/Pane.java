@@ -25,27 +25,7 @@ public class Pane extends ArticoliAlimentari{
         this.descrizione = "NULLPANE";
         this.lievitatura = false;
     }
-
-    /**
-     * Costruttore che consente di specificare tutti gli attributi del pane.
-     *
-     * @param nome_articolo    Nome dell'articolo
-     * @param prezzo_articolo  Prezzo dell'articolo
-     * @param quantita_articolo Quantità dell'articolo
-     * @param ingredienti      Lista degli ingredienti
-     * @param peso             Peso dell'articolo
-     * @param tempoCottura     Tempo di cottura del pane
-     * @param tempoLievitatura Tempo di lievitatura del pane
-     * @param lievitatura       Flag per indicare se la lievitatura è naturale o meno
-     * @param descrizione      Descrizione dell'articolo
-     */
-    public Pane(String nomeArticolo, double prezzoArticolo, float quantitaArticolo, List<String> ingredienti, double peso, int tempoCottura, int tempoLievitatura, boolean lievitatura, String descrizione) {
-        super(nomeArticolo, prezzoArticolo, quantitaArticolo, ingredienti, peso);
-        this.tempoCottura = tempoCottura;
-        this.tempoLievitatura = tempoLievitatura;
-        this.lievitatura = lievitatura;
-        this.descrizione = descrizione;
-    }
+    
 
     /**
      * Imposta il tempo di cottura del pane.

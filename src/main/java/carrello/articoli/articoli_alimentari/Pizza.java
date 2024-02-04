@@ -25,27 +25,7 @@ public class Pizza extends ArticoliAlimentari {
         this.dimensione = false;
         this.descrizione = "NULLPIZZA";
     }
-
-    /**
-     * Costruttore che consente di specificare tutti gli attributi della pizza.
-     *
-     * @param nome_articolo    Nome dell'articolo
-     * @param prezzo_articolo  Prezzo dell'articolo
-     * @param quantita_articolo Quantità dell'articolo
-     * @param ingredienti      Lista degli ingredienti
-     * @param peso             Peso dell'articolo
-     * @param tempoCottura     Tempo di cottura della pizza
-     * @param lievitatura       Flag per indicare se la pizza è lievitata o meno
-     * @param dimensione       Flag per indicare la dimensione della pizza
-     * @param descrizione      Descrizione dell'articolo
-     */
-    public Pizza(String nomeArticolo, double prezzoArticolo, float quantitaArticolo, List<String> ingredienti, double peso, int tempoCottura, boolean lievitatura, boolean dimensione, String descrizione) {
-        super(nomeArticolo, prezzoArticolo, quantitaArticolo, ingredienti, peso);
-        this.tempoCottura = tempoCottura;
-        this.lievitatura = lievitatura;
-        this.dimensione = dimensione;
-        this.descrizione = descrizione;
-    }
+    
 
     /**
      * Imposta il tempo di cottura della pizza.
