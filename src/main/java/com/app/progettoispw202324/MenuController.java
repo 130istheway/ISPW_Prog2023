@@ -52,18 +52,20 @@ public class MenuController {
         }
     }
 
-    public void visualizza(ActionEvent event){
-        if (livello>=3){return;}
-        String input;
+    private String cech(){
         messageToCommand.setCommand("VISUALIZZA");
         messageToCommand.setPayload(null);
         gestionePerUI.sendMessage(messageToCommand.toMessage());
         try {
-            input = gestionePerUI.getMessage();
+            return gestionePerUI.getMessage();
         } catch (IOException e){
-            input = "NO";
+            return "NO";
         }
+    }
 
+    public void visualizza(ActionEvent event){
+        if (livello>=3){return;}
+        String input = cech();
         if (Objects.equals(input, "OK")) {
             try {
                 fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaCarrello.fxml"));
@@ -87,18 +89,10 @@ public class MenuController {
 
     public void inserisci(ActionEvent event) {
         if (livello>=3){return;}
-        String input;
         if (gestionePerUI.getNegozio() == null) {
             scegliNegozio();
         } else {
-            messageToCommand.setCommand("AGGIUNGILISTA");
-            messageToCommand.setPayload(gestionePerUI.getNegozio());
-            gestionePerUI.sendMessage(messageToCommand.toMessage());
-            try {
-                input = gestionePerUI.getMessage();
-            } catch (IOException e){
-                input = "NO";
-            }
+            String input = cech();
             if (Objects.equals(input, "OK")) {
                 try {
                     fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("InserisciCarrello.fxml"));
@@ -123,18 +117,10 @@ public class MenuController {
 
     public void conferma() {
         if (livello>=3){return;}
-        String input;
         if (gestionePerUI.getNegozio() == null){
             scegliNegozio();
         }else {
-            messageToCommand.setCommand("CONFERMALISTA");
-            messageToCommand.setPayload(gestionePerUI.getNegozio());
-            gestionePerUI.sendMessage(messageToCommand.toMessage());
-            try {
-                input = gestionePerUI.getMessage();
-            } catch (IOException e) {
-                input = "NO";
-            }
+            String input = cech();
             if (Objects.equals(input, "OK")) {
                 confermaCarrello.setStyle(IMPOSTAVERDE);
                 messageToCommand.setCommand("RESETNEGOZIO");
@@ -188,16 +174,7 @@ public class MenuController {
 
     public void visualizzaDaDb (ActionEvent event) {
         if (livello>=2){return;}
-
-        String input;
-        messageToCommand.setCommand("VISUALIZZAARTICOLODB");
-        messageToCommand.setPayload(null);
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
-        try {
-            input = gestionePerUI.getMessage();
-        } catch (IOException e){
-            input = "NO";
-        }
+        String input = cech();
         if (Objects.equals(input, "OK")) {
             try {
                 fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaDB.fxml"));
@@ -220,16 +197,7 @@ public class MenuController {
 
     public void notificheDaAccettare(ActionEvent event) {
         if (livello>=2){return;}
-
-        String input;
-        messageToCommand.setCommand("NOTIFICA");
-        messageToCommand.setPayload(null);
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
-        try {
-            input = gestionePerUI.getMessage();
-        } catch (IOException e){
-            input = "NO";
-        }
+        String input = cech();
         if (Objects.equals(input, "OK")) {
             ordine.setText("ORDINE");
             try {

@@ -58,7 +58,7 @@ public class VisualizzaController {
 
 
     public void vaiPrecedente(){
-        Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,VISUALIZZACONTROLLER);
+        finiti = Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,VISUALIZZACONTROLLER);
     }
 
     public void elimina(){

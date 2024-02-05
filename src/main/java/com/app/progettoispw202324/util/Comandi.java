@@ -67,7 +67,7 @@ public class Comandi {
         }
     }
 
-    public static void vaiPrecedente(Boolean finiti2, Integer posizione, Button successivo, Button precedente, String lollo){
+    public static boolean vaiPrecedente(Boolean finiti, Integer posizione, Button successivo, Button precedente, String lollo){
         if (posizione == 0){
             switch(lollo){
                 case "InsCotroller":
@@ -101,9 +101,10 @@ public class Comandi {
             }
             if (posizione < 1) {
                 precedente.setText("|");
-                finiti2 = false;
+                return false;
             }
-        }
+            return finiti;
+    }
 
     public static void elimina(Integer posizione, GestionePerUI gestionePerUI, TextArea testoLibero){
         messageToCommand = new MessageToCommand();

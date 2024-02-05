@@ -5,23 +5,17 @@ import com.app.progettoispw202324.util.PrintArticoli;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import util.ConvertiStringToArticolo;
 import util.MessageToCommand;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class VisualizzaDB {
     
@@ -53,7 +47,7 @@ public class VisualizzaDB {
 
 
     public void vaiPrecedente(){
-        Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,VISUALIZZADB);
+        finiti = Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,VISUALIZZADB);
     }
 
     public void elimina(){
