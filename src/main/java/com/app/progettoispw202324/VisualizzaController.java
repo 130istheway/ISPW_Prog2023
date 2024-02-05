@@ -2,7 +2,6 @@ package com.app.progettoispw202324;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,18 +15,23 @@ import util.ConvertiStringToArticolo;
 import util.MessageToCommand;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.app.progettoispw202324.util.PrintArticoli;
 
 public class VisualizzaController {
+    
+    Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
 
     MessageToCommand messageToCommand = new MessageToCommand();
 
     static GestionePerUI gestionePerUI;
 
-    private static int posizione = 0;
+    private int posizione = 0;
     private boolean finiti = false;
 
     @FXML
@@ -55,11 +59,12 @@ public class VisualizzaController {
         stage.setScene(scene);
         stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("0x005001" + e.getMessage());
+            Platform.exit();
         }
     }
 
-    public void vaiSuccessivo(ActionEvent event){
+    public void vaiSuccessivo(){
         if (!finiti) {
             posizione++;
             visualizzaCarrello();
@@ -73,7 +78,7 @@ public class VisualizzaController {
     }
 
 
-    public void vaiPrecedente(ActionEvent event){
+    public void vaiPrecedente(){
         if (posizione == 0){
             visualizzaCarrello();
             successivo.setText(">>");
@@ -88,7 +93,7 @@ public class VisualizzaController {
     }
 
     public void elimina(){
-        MessageToCommand messageToCommand = new MessageToCommand();
+        messageToCommand = new MessageToCommand();
         String receive = null;
 
         messageToCommand.setCommand("RIMUOVIART");
@@ -97,7 +102,7 @@ public class VisualizzaController {
         try{
             receive = gestionePerUI.getMessage();
         }catch (IOException e){
-            System.err.println("Errore nel recupero del messaggio");
+            logger.error("Errore nel recupero del messaggio");
             Platform.exit();
         }
         messageToCommand.fromMessage(receive);
@@ -109,7 +114,7 @@ public class VisualizzaController {
     }
 
     public void visualizzaCarrello(){
-        MessageToCommand messageToCommand = new MessageToCommand();
+        messageToCommand = new MessageToCommand();
         String receive = null;
         messageToCommand.setCommand("VISUALIZZAART");
         messageToCommand.setPayload(String.valueOf(posizione));
@@ -117,7 +122,7 @@ public class VisualizzaController {
         try{
             receive = gestionePerUI.getMessage();
         }catch (IOException e){
-            System.err.println("Errore nel recupero del messaggio");
+            logger.error("Errore nel recupero del messaggio");
             Platform.exit();
         }
         messageToCommand.fromMessage(receive);
@@ -131,7 +136,7 @@ public class VisualizzaController {
         }
     }
 
-    public void passGestione(GestionePerUI temporaneo){
+    public static void passGestione(GestionePerUI temporaneo){
         gestionePerUI = temporaneo;
     }
 }

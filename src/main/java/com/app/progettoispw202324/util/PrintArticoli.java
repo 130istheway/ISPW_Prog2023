@@ -1,6 +1,6 @@
 package com.app.progettoispw202324.util;
 
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,13 @@ import java.util.Objects;
 
 public class PrintArticoli {
 
+    private static final String minuti = " minuti";
+
     static TextArea testoBox;
+
+    private PrintArticoli(){
+        throw new IllegalStateException("Utility class");
+    }
 
     public static void stampaArticolisuTextBox(List<String> lista, TextArea testoLibero) {
         testoBox = testoLibero;
@@ -26,19 +32,22 @@ public class PrintArticoli {
                 break;
         }
     }
+
+
     private static void printPane(List<String> lista){
         String capo = "\n";
         List<String> listaTronca = new ArrayList<>();
         for (int i=0 ; i<4; i++) {
-            listaTronca.add(lista.get(0));
-            lista.remove(0);
+            listaTronca.add(lista.get(i));
         }
+        lista.removeAll(listaTronca);
         String testo = "PANE" + capo + printArticolo(listaTronca);
-
+        
+        listaTronca = new ArrayList<>();
         for (int i=0 ; i<2; i++) {
-            listaTronca.add(lista.get(0));
-            lista.remove(0);
+            listaTronca.add(lista.get(i));
         }
+        lista.removeAll(listaTronca);
         testo = testo + printArticoloAlimentare(listaTronca);
 
         String lievitatura;
@@ -48,7 +57,7 @@ public class PrintArticoli {
             lievitatura = "Non naturale";
         }
 
-        testo = testo + "Tempo Cottura : " + lista.get(0) + " minuti" + capo + "Tempo Lievitatura : " + lista.get(1) + " minuti" + capo + "Lievitatura : " + lievitatura+ capo + "Descrizione : " + lista.get(3);
+        testo = testo + "Tempo Cottura : " + lista.get(0) + minuti + capo + "Tempo Lievitatura : " + lista.get(1) + minuti + capo + "Lievitatura : " + lievitatura+ capo + "Descrizione : " + lista.get(3);
         testoBox.setText(testo);
     }
 
@@ -57,15 +66,20 @@ public class PrintArticoli {
         String capo = "\n";
         List<String> listaTronca = new ArrayList<>();
         for (int i=0 ; i<4; i++) {
-            listaTronca.add(lista.get(0));
-            lista.remove(0);
+            listaTronca.add(lista.get(i));
         }
+        lista.remove(0);
+        lista.remove(0);
+        lista.remove(0);
+        lista.remove(0);
         String testo = "PIZZA" + capo + printArticolo(listaTronca);
 
+        listaTronca = new ArrayList<>();
         for (int i=0 ; i<2; i++) {
-            listaTronca.add(lista.get(0));
-            lista.remove(0);
+            listaTronca.add(lista.get(i));
         }
+        lista.remove(0);
+        lista.remove(0);
         testo = testo + printArticoloAlimentare(listaTronca);
 
         String forma;
@@ -82,7 +96,7 @@ public class PrintArticoli {
             lievitatura = "Non naturale";
         }
 
-        testo = testo + "Tempo Cottura : " + lista.get(0) + " minuti" + capo + "Forma : " + forma + capo + "Lievitatura : " + lievitatura+ capo + "Descrizione : " + lista.get(3);
+        testo = testo + "Tempo Cottura : " + lista.get(0) + minuti + capo + "Forma : " + forma + capo + "Lievitatura : " + lievitatura+ capo + "Descrizione : " + lista.get(3);
         testoBox.setText(testo);
     }
 

@@ -14,9 +14,17 @@ import model.domain.ui.GestionePerUI;
 import util.MessageToCommand;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AllertBox {
+
+    static Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+
+    private AllertBox() {
+        throw new IllegalStateException("Utility class");
+    }
 
     public static void allertSceltaNegozio(String title, String message, GestionePerUI gestionePerUI, boolean cambioCarrello){
 
@@ -69,7 +77,7 @@ public class AllertBox {
             controller.setNegozio(negozio);
 
         }catch (IOException e){
-            System.err.println("0x000105" + e.getMessage());
+            logger.error("0x000106" + e.getMessage());
         }
     }
 }

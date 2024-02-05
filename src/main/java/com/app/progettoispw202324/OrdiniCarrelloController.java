@@ -15,10 +15,14 @@ import util.MessageToCommand;
 import java.io.IOException;
 import java.util.Objects;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class OrdiniCarrelloController {
+    
+    Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+
     MessageToCommand messageToCommand = new MessageToCommand();
-
-
 
     static GestionePerUI gestionePerUI;
 
@@ -35,22 +39,28 @@ public class OrdiniCarrelloController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("0x004001" + e.getMessage());
+            Platform.exit();
         }
     }
 
+    private String messaggio(){
+        try {
+            return gestionePerUI.getMessage();
+        } catch (IOException e) {
+            logger.error("Errore nel recupero del messaggio");
+            Platform.exit();
+        }
+        return null;
+    }
+
     public void visualizza(){
-        MessageToCommand messageToCommand = new MessageToCommand();
+        messageToCommand = new MessageToCommand();
         String receive = null;
         messageToCommand.setCommand("ORDINI");
         messageToCommand.setPayload(null);
         gestionePerUI.sendMessage(messageToCommand.toMessage());
-        try{
-            receive = gestionePerUI.getMessage();
-        }catch (IOException e){
-            System.err.println("Errore nel recupero del messaggio");
-            Platform.exit();
-        }
+        receive = messaggio();
         assert receive != null;
         messageToCommand.fromMessage(receive);
         if (Objects.equals(messageToCommand.getCommand(), "PREGO")) {
@@ -63,11 +73,11 @@ public class OrdiniCarrelloController {
         } else if (Objects.equals(messageToCommand.getCommand(),"STOPIT")){
         Platform.exit();
         }else{
-            testoLibero.setText("Nessun ordine che deve essere confermato");
+            testoLibero.setText(messageToCommand.getPayload());
         }
     }
 
-    public void passGestione(GestionePerUI temporaneo){
+    public static void passGestione(GestionePerUI temporaneo){
         gestionePerUI = temporaneo;
     }
 

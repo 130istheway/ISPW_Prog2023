@@ -18,7 +18,22 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.logging.log4j.*;
+
 public class AllerBoxPerInserimentoArticoli {
+
+    static Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+
+    private static final String naturale = "Naturale";
+    private static final String nnaturale = "Non naturale";
+    private static final String impostarosso = "-fx-background-color: red;";
+    private static final String falso = "false";
+    private static final String vero = "true";
+
+    private AllerBoxPerInserimentoArticoli(){
+        throw new IllegalStateException("Utility class");
+    }
+
     public static void allertSceltaNegozio(String message) {
 
         MessageToCommand messageToCommand = new MessageToCommand();
@@ -51,7 +66,7 @@ public class AllerBoxPerInserimentoArticoli {
             controller.passLista(lista);
             controller.passGiusto(true);
         }catch (IOException e){
-            System.err.println("0x000105" + e.getMessage());
+            logger.error("0x000105" + e.getMessage());
         }
     }
 
@@ -95,7 +110,7 @@ public class AllerBoxPerInserimentoArticoli {
         tempoLievitatura.setPromptText("Tempo Lievitatura");
 
         ChoiceBox<String> lievitatura = new ChoiceBox<>();
-        lievitatura.getItems().addAll("Naturale", "Non Naturale");
+        lievitatura.getItems().addAll(naturale, nnaturale);
         // Set an initial selection
         lievitatura.setValue("Tipo lievitatura");
 
@@ -109,7 +124,7 @@ public class AllerBoxPerInserimentoArticoli {
                 String nome2 = nome.getText();
                 if (Objects.equals(nome2, "")){
                     prezzo.setText("");
-                    prezzo.setStyle("-fx-background-color: red;");
+                    prezzo.setStyle(impostarosso);
                     ok.set(false);
                 }
                 double prezzo2 = 1;
@@ -117,7 +132,7 @@ public class AllerBoxPerInserimentoArticoli {
                     prezzo2 = Double.parseDouble(prezzo.getText());
                 } catch (NumberFormatException e1) {
                     prezzo.setText("");
-                    prezzo.setStyle("-fx-background-color: red;");
+                    prezzo.setStyle(impostarosso);
                     ok.set(false);
                 }
                 float quantita2 = 1;
@@ -125,13 +140,13 @@ public class AllerBoxPerInserimentoArticoli {
                     quantita2 = Float.parseFloat(quantita.getText());
                 } catch (NumberFormatException e1) {
                     quantita.setText("");
-                    quantita.setStyle("-fx-background-color: red;");
+                    quantita.setStyle(impostarosso);
                     ok.set(false);
                 }
                 String ingredienti2 = ingredienti.getText();
                 if (Objects.equals(ingredienti2, "")){
                     prezzo.setText("");
-                    prezzo.setStyle("-fx-background-color: red;");
+                    prezzo.setStyle(impostarosso);
                     ok.set(false);
                 }
                 String[] splitted = ingredienti2.split(",");
@@ -140,7 +155,7 @@ public class AllerBoxPerInserimentoArticoli {
                     peso2 = Double.parseDouble(peso.getText());
                 } catch (NumberFormatException e1) {
                     peso.setText("");
-                    peso.setStyle("-fx-background-color: red;");
+                    peso.setStyle(impostarosso);
                     ok.set(false);
                 }
                 int cottura2 = 1;
@@ -148,7 +163,7 @@ public class AllerBoxPerInserimentoArticoli {
                     cottura2 = Integer.parseInt(cottura.getText());
                 } catch (NumberFormatException e1) {
                     cottura.setText("");
-                    cottura.setStyle("-fx-background-color: red;");
+                    cottura.setStyle(impostarosso);
                     ok.set(false);
                 }
                 int tempoLievitatura2 = 1;
@@ -156,13 +171,13 @@ public class AllerBoxPerInserimentoArticoli {
                     tempoLievitatura2 = Integer.parseInt(tempoLievitatura.getText());
                 } catch (NumberFormatException e1) {
                     tempoLievitatura.setText("");
-                    tempoLievitatura.setStyle("-fx-background-color: red;");
+                    tempoLievitatura.setStyle(impostarosso);
                     ok.set(false);
                 }
                 String descrizione2 = descrizione.getText();
                 if (Objects.equals(descrizione2, "")){
                     prezzo.setText("");
-                    prezzo.setStyle("-fx-background-color: red;");
+                    prezzo.setStyle(impostarosso);
                     ok.set(false);
                 }
 
@@ -176,10 +191,10 @@ public class AllerBoxPerInserimentoArticoli {
                     String linea = "|";
 
                     String lievitatura2;
-                    if (Objects.equals(lievitatura.getValue(), "Naturale")) {
-                        lievitatura2 = "true";
+                    if (Objects.equals(lievitatura.getValue(), naturale)) {
+                        lievitatura2 = vero;
                     } else {
-                        lievitatura2 = "false";
+                        lievitatura2 = falso;
                     }
 
                     String tot = "{pane}" + "{" + "0" + linea + nome2 + linea + prezzo2 + linea + quantita2 + "}" + "{" + ingredientiString.toString() + linea + peso2 + "}" + "{" + cottura2 + linea + tempoLievitatura2 + linea + lievitatura2 + linea + descrizione2 + "}";
@@ -192,7 +207,7 @@ public class AllerBoxPerInserimentoArticoli {
 
             });
         } catch (Exception e) {
-            closeButton.setStyle("-fx-background-color: red;");
+            closeButton.setStyle(impostarosso);
         }
 
         VBox layout = new VBox(10);
@@ -230,7 +245,7 @@ public class AllerBoxPerInserimentoArticoli {
         cottura.setPromptText("Cottura");
 
         ChoiceBox<String> lievitatura = new ChoiceBox<>();
-        lievitatura.getItems().addAll("Naturale", "Non Naturale");
+        lievitatura.getItems().addAll(naturale, nnaturale);
         // Set an initial selection
         lievitatura.setValue("Tipo lievitatura");
 
@@ -249,7 +264,7 @@ public class AllerBoxPerInserimentoArticoli {
                 String nome2 = nome.getText();
                 if (Objects.equals(nome2, "")){
                     prezzo.setText("");
-                    prezzo.setStyle("-fx-background-color: red;");
+                    prezzo.setStyle(impostarosso);
                     ok.set(false);
                 }
                 double prezzo2 = 1;
@@ -257,7 +272,7 @@ public class AllerBoxPerInserimentoArticoli {
                     prezzo2 = Double.parseDouble(prezzo.getText());
                 } catch (NumberFormatException e1) {
                     prezzo.setText("");
-                    prezzo.setStyle("-fx-background-color: red;");
+                    prezzo.setStyle(impostarosso);
                     ok.set(false);
                 }
                 float quantita2 = 1;
@@ -265,13 +280,13 @@ public class AllerBoxPerInserimentoArticoli {
                     quantita2 = Float.parseFloat(quantita.getText());
                 } catch (NumberFormatException e1) {
                     quantita.setText("");
-                    quantita.setStyle("-fx-background-color: red;");
+                    quantita.setStyle(impostarosso);
                     ok.set(false);
                 }
                 String ingredienti2 = ingredienti.getText();
                 if (Objects.equals(ingredienti2, "")){
                     prezzo.setText("");
-                    prezzo.setStyle("-fx-background-color: red;");
+                    prezzo.setStyle(impostarosso);
                     ok.set(false);
                 }
                 String[] splitted = ingredienti2.split(",");
@@ -280,7 +295,7 @@ public class AllerBoxPerInserimentoArticoli {
                     peso2 = Double.parseDouble(peso.getText());
                 } catch (NumberFormatException e1) {
                     peso.setText("");
-                    peso.setStyle("-fx-background-color: red;");
+                    peso.setStyle(impostarosso);
                     ok.set(false);
                 }
                 int cottura2 = 1;
@@ -288,13 +303,13 @@ public class AllerBoxPerInserimentoArticoli {
                     cottura2 = Integer.parseInt(cottura.getText());
                 } catch (NumberFormatException e1) {
                     cottura.setText("");
-                    cottura.setStyle("-fx-background-color: red;");
+                    cottura.setStyle(impostarosso);
                     ok.set(false);
                 }
                 String descrizione2 = descrizione.getText();
                 if (Objects.equals(descrizione2, "")){
                     prezzo.setText("");
-                    prezzo.setStyle("-fx-background-color: red;");
+                    prezzo.setStyle(impostarosso);
                     ok.set(false);
                 }
 
@@ -309,16 +324,16 @@ public class AllerBoxPerInserimentoArticoli {
 
                     String forma2;
                     if (Objects.equals(forma.getValue(), "Tonda")) {
-                        forma2 = "true";
+                        forma2 = vero;
                     } else {
-                        forma2 = "false";
+                        forma2 = falso;
                     }
 
                     String lievitatura2;
-                    if (Objects.equals(lievitatura.getValue(), "Naturale")) {
-                        lievitatura2 = "true";
+                    if (Objects.equals(lievitatura.getValue(), naturale)) {
+                        lievitatura2 = vero;
                     } else {
-                        lievitatura2 = "false";
+                        lievitatura2 = falso;
                     }
 
                     String tot = "{pizza}" + "{" + "0" + linea + nome2 + linea + prezzo2 + linea + quantita2 + "}" + "{" + ingredientiString.toString() + linea + peso2 + "}" + "{" + cottura2 + linea + lievitatura2 + linea + forma2 + linea + descrizione2 + "}";
@@ -331,7 +346,7 @@ public class AllerBoxPerInserimentoArticoli {
 
             });
         } catch (Exception e) {
-            closeButton.setStyle("-fx-background-color: red;");
+            closeButton.setStyle(impostarosso);
         }
 
         VBox layout = new VBox(10);

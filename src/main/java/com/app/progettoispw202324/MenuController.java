@@ -15,7 +15,17 @@ import util.MessageToCommand;
 import java.io.IOException;
 import java.util.Objects;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class MenuController {
+    
+    Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+    
+    private static final String impostarosso = "-fx-background-color: red;";
+    private static final String impostaverde = "-fx-background-color: green;";
+    private static final String STOPIT = "STOPIT";
+
     MessageToCommand messageToCommand = new MessageToCommand();
 
     FXMLLoader fxmlLoader;
@@ -32,13 +42,13 @@ public class MenuController {
     @FXML
     Button ordine;
 
-    public void scegliNegozio(ActionEvent event) {
+    public void scegliNegozio() {
         if (gestionePerUI.getNegozio() == null) {
             AllertBox.allertSceltaNegozio("Scelta", "L'id del negozio?", gestionePerUI, false);
-            scegliNegozio.setStyle("-fx-background-color: green;");
+            scegliNegozio.setStyle(impostaverde);
         }else {
             AllertBox.allertSceltaNegozio("Scelta", "L'id del negozio è " + gestionePerUI.getNegozio(), gestionePerUI, true);
-            scegliNegozio.setStyle("-fx-background-color: green;");
+            scegliNegozio.setStyle(impostaverde);
         }
     }
 
@@ -68,9 +78,10 @@ public class MenuController {
                 stage.show();
 
             } catch (IOException e) {
-                System.err.println("0x000110" + e.getMessage());
+                logger.error("0x000110" + e.getMessage());
+                Platform.exit();
             }
-        }   else if (input.contains("STOPIT")){
+        }   else if (input.contains(STOPIT)){
             Platform.exit();
         }
     }
@@ -79,7 +90,7 @@ public class MenuController {
         if (livello>=3){return;}
         String input;
         if (gestionePerUI.getNegozio() == null) {
-            scegliNegozio(event);
+            scegliNegozio();
         } else {
             messageToCommand.setCommand("AGGIUNGILISTA");
             messageToCommand.setPayload(gestionePerUI.getNegozio());
@@ -103,9 +114,10 @@ public class MenuController {
                     stage.show();
 
                 } catch (IOException e) {
-                    System.err.println("0x000111" + e.getMessage());
+                    logger.error("0x000111" + e.getMessage());
+                    Platform.exit();
                 }
-            } else if (input.contains("STOPIT")){
+            } else if (input.contains(STOPIT)){
             Platform.exit();
         }
         }
@@ -115,7 +127,7 @@ public class MenuController {
         if (livello>=3){return;}
         String input;
         if (gestionePerUI.getNegozio() == null){
-            scegliNegozio(event);
+            scegliNegozio();
         }else {
             messageToCommand.setCommand("CONFERMALISTA");
             messageToCommand.setPayload(gestionePerUI.getNegozio());
@@ -126,14 +138,14 @@ public class MenuController {
                 input = "NO";
             }
             if (Objects.equals(input, "OK")) {
-                confermaCarrello.setStyle("-fx-background-color: green;");
+                confermaCarrello.setStyle(impostaverde);
                 messageToCommand.setCommand("RESETNEGOZIO");
                 messageToCommand.setPayload(null);
                 gestionePerUI.sendMessage(messageToCommand.toMessage());
-            } else if (input.contains("STOPIT")){
+            } else if (input.contains(STOPIT)){
             Platform.exit();
             } else {
-                confermaCarrello.setStyle("-fx-background-color: red;");
+                confermaCarrello.setStyle(impostarosso);
             }
         }
     }
@@ -141,9 +153,9 @@ public class MenuController {
     public void confermeRicevute(ActionEvent event) {
         if (livello>=3){return;}
         try {
-            FXMLLoader loader = new FXMLLoader(ClientApplication.class.getResource("OrdiniCarrello.fxml"));
-            Parent root = loader.load();
-            OrdiniCarrelloController controller = loader.getController();
+            fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("OrdiniCarrello.fxml"));
+            root = fxmlLoader.load();
+            OrdiniCarrelloController controller = fxmlLoader.getController();
             controller.passGestione(gestionePerUI);
 
 
@@ -153,7 +165,8 @@ public class MenuController {
             stage.setTitle("Verifica se le tue prenotazioni sono accettate");
             stage.show();
         }catch (IOException e){
-            System.err.println("0x000112" + e.getMessage());
+            logger.error("0x000112" + e.getMessage());
+            Platform.exit();
         }
     }
 
@@ -161,9 +174,9 @@ public class MenuController {
     public void aggiungiDaDb(ActionEvent event) {
         if (livello>=3){return;}
         try {
-            FXMLLoader loader = new FXMLLoader(ClientApplication.class.getResource("CosaInserire.fxml"));
-            Parent root = loader.load();
-            InserisciController controller = loader.getController();
+            fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("CosaInserire.fxml"));
+            root = fxmlLoader.load();
+            InserisciController controller = fxmlLoader.getController();
             controller.passGestione(gestionePerUI);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -172,7 +185,8 @@ public class MenuController {
             stage.setTitle("Aggiungi al DB");
             stage.show();
         } catch (IOException e) {
-            System.err.println("0x000113" + e.getMessage());
+            logger.error("0x000113" + e.getMessage());
+            Platform.exit();
         }
     }
 
@@ -190,9 +204,9 @@ public class MenuController {
         }
         if (Objects.equals(input, "OK")) {
             try {
-                FXMLLoader loader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaDB.fxml"));
-                Parent root = loader.load();
-                VisualizzaDB controller = loader.getController();
+                fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaDB.fxml"));
+                root = fxmlLoader.load();
+                VisualizzaDB controller = fxmlLoader.getController();
                 controller.passGestione(gestionePerUI);
 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -202,7 +216,8 @@ public class MenuController {
                 stage.show();
 
             } catch (IOException e) {
-                System.err.println("0x000114" + e.getMessage());
+                logger.error("0x000114" + e.getMessage());
+                Platform.exit();
             }
         }
     }
@@ -223,9 +238,9 @@ public class MenuController {
         if (Objects.equals(input, "OK")) {
             ordine.setText("ORDINE");
             try {
-                FXMLLoader loader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaNotifica.fxml"));
-                Parent root = loader.load();
-                NotificaController controller = loader.getController();
+                fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaNotifica.fxml"));
+                root = fxmlLoader.load();
+                NotificaController controller = fxmlLoader.getController();
                 controller.passGestione(gestionePerUI);
 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -234,28 +249,31 @@ public class MenuController {
                 stage.setTitle("Visualizza Ordini");
                 stage.show();
             } catch (IOException e) {
-                System.err.println("0x000115" + e.getMessage());
+                logger.error("0x000115" + e.getMessage());
+                Platform.exit();
             }
         } else if (Objects.equals(input, "NULL")) {
             ordine.setText("Nessun Ordine");
         }
     }
+    
     public void ordiniPerOggi(ActionEvent event) {
         if (livello>=2){return;}
         try {
-            FXMLLoader loader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaController.fxml"));
-            Parent root = loader.load();
-            VisualizzaController controller = loader.getController();
+            fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaController.fxml"));
+            root = fxmlLoader.load();
+            VisualizzaController controller = fxmlLoader.getController();
             controller.passGestione(gestionePerUI);
 
             
         }catch (IOException e){
-            System.err.println("0x000116" + e.getMessage());
+            logger.error("0x000116" + e.getMessage());
+            Platform.exit();
         }
         //fargli cambiare scena
     }
 
-    public void logOut(ActionEvent event) {
+    public void logOut() {
         messageToCommand.setCommand("EXIT");
         messageToCommand.setPayload(null);
         gestionePerUI.sendMessage(messageToCommand.toMessage());
@@ -263,13 +281,13 @@ public class MenuController {
     }
 
 
-    public void passGestione(GestionePerUI temporaneo){
-        this.gestionePerUI = temporaneo;
+    public static void passGestione(GestionePerUI temporaneo){
+        gestionePerUI = temporaneo;
     }
-    public void passLivello(int n){
+    public static void passLivello(int n){
         livello = n;
     }
-    public void setNegozio(String negozio){
+    public static void setNegozio(String negozio){
         gestionePerUI.setNegozio(negozio);
     }
 }

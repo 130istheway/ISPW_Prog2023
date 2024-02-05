@@ -15,7 +15,13 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Objects;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ClientApplication extends Application {
+
+    static Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+
     @Override
     public void start(Stage stage) throws IOException {
         final String host = "localhost";
@@ -25,7 +31,7 @@ public class ClientApplication extends Application {
         try {
             socket = new Socket(host, port);
         } catch (Exception e) {
-            System.err.println("Something wrong here");
+            logger.error("Something wrong here");
         }
 
         BufferedReader in = null;
@@ -35,7 +41,7 @@ public class ClientApplication extends Application {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
         } catch (IOException | NullPointerException e) {
-            System.err.println("Errore nell apertura del Lettore e Scrittore sulla socket");
+            logger.error("Errore nell apertura del Lettore e Scrittore sulla socket");
         }
 
         //far arrivare il server al LOGIN
@@ -68,7 +74,7 @@ public class ClientApplication extends Application {
 
 
 
-    public static void starter(String[] args) {
+    public static void starter() {
         launch();
     }
 }

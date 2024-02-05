@@ -19,6 +19,7 @@ import carrello.Carrello;
 
 import controller.negozio.*;
 import controller.user.*;
+import javafx.application.Platform;
 import controller.notifica.NotificaNegozioController;
 
 public class BaseController {
@@ -145,13 +146,21 @@ public class BaseController {
             try {
                 id = daoIdNegozio.execute(cred.getUsername());
             } catch (DAOException e) {
-                throw new RuntimeException(e);
+                info.sendlog(LivelloInformazione.ERROR, "OrdiniConfermati" + e.getMessage());
+                messageToCommand.setCommand("NO");
+                messageToCommand.setPayload("Problema con l'id contatta l'amministratore con messaggio 0x321123654");
+                info.sendMessage(messageToCommand.toMessage());
+                return;
             }
             String ordini = null;
             try {
                 ordini = daoUser.execute(id);
             } catch (DAOException e) {
-                info.sendlog(LivelloInformazione.ERROR, "Errore nel recupero degli ORDINI da confermare");
+                info.sendlog(LivelloInformazione.ERROR, "Errore nel recupero degli ORDINI da confermare" + e.getMessage());
+                messageToCommand.setCommand("NO");
+                messageToCommand.setPayload("Problema con l'id contatta l'amministratore con messaggio 0x321123662");
+                info.sendMessage(messageToCommand.toMessage());
+                return;
             }
             messageToCommand.setCommand("PREGO");
             messageToCommand.setPayload(ordini);
@@ -255,7 +264,7 @@ public class BaseController {
 
     private void aggiungiLista(String negozio){
         if (cred!=null && (cred.getRole().ordinal()<3)){
-            AggiungiUserController aggiungi = new AggiungiUserController(negozio, info);
+            AggiungiUserController aggiungi = new AggiungiUserController(negozio);
             info.sendlog(LivelloInformazione.TRACE, "Entering AggiungiLista per l'utente : " + cred.getUsername());
             aggiungi.aggiungiUserController(cred, info, carrellino);
             info.sendlog(LivelloInformazione.TRACE, "Exiting AggiungiLista per l'utente : " + cred.getUsername());

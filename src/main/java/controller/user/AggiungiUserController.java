@@ -20,7 +20,7 @@ public class AggiungiUserController {
     CarrelloCache cache;
     Carrello appoggio;
     
-    public AggiungiUserController(String negozio, ControllerInfoSulThread info){
+    public AggiungiUserController(String negozio){
         appoggio = new Carrello();
 
         DAORecuperaIdArticolo daoRecuperaIdArticoli = new DAORecuperaIdArticolo();
@@ -51,7 +51,6 @@ public class AggiungiUserController {
         if (info.isRunning()) {
             while (((inputLine = info.getMessage()) != null) && (!cambiaAttivita)) {
                     controll(inputLine, credentials, info, carrello);
-                        System.out.println(inputLine);
                 }
             }
         } catch (IOException e) {
@@ -104,7 +103,6 @@ public class AggiungiUserController {
                     info.sendMessage(messageToCommand.toMessage());
                     break;
                 }
-                System.out.println("Inserito invio inbdsdfbsihjdfvbiah bhjdsavfdsajhb vdsfhjb dvfsb");
                 messageToCommand.setCommand("SI");
                 messageToCommand.setPayload(null);
                 info.sendMessage(messageToCommand.toMessage());

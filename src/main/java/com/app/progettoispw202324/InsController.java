@@ -20,13 +20,19 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class InsController {
+    
+    Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+
     MessageToCommand messageToCommand = new MessageToCommand();
 
 
     static GestionePerUI gestionePerUI;
 
-    private static int posizione = 0;
+    private int posizione = 0;
     private boolean finiti = false;
 
     @FXML
@@ -51,7 +57,8 @@ public class InsController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("didn't load 0x02001");
+            Platform.exit();
         }
     }
 
@@ -84,7 +91,6 @@ public class InsController {
     }
 
     public void inserisci(){
-        MessageToCommand messageToCommand = new MessageToCommand();
         String receive = "NO";
         try {
             int quant = Integer.parseInt(quantita.getText());
@@ -93,12 +99,7 @@ public class InsController {
             String message = posizione + "|" + quant;
             messageToCommand.setPayload(message);
             gestionePerUI.sendMessage(messageToCommand.toMessage());
-            try {
-                receive = gestionePerUI.getMessage();
-            } catch (IOException e) {
-                System.err.println("Errore nel recupero del messaggio");
-                Platform.exit();
-            }
+            receive = messaggio();
             messageToCommand.fromMessage(receive);
             if (Objects.equals(messageToCommand.getCommand(), "NO")) {
                 testoLibero.setText("Articolo non Inserito");
@@ -113,19 +114,23 @@ public class InsController {
         }
     }
 
+    private String messaggio(){
+        try {
+            return gestionePerUI.getMessage();
+        } catch (IOException e) {
+            logger.error("Errore nel recupero del messaggio");
+            Platform.exit();
+        }
+        return null;
+    }
+
 
     public void visualizzaCarrello(){
-        MessageToCommand messageToCommand = new MessageToCommand();
         String receive = "NO";
         messageToCommand.setCommand("VISUALIZZAART");
         messageToCommand.setPayload(String.valueOf(posizione));
         gestionePerUI.sendMessage(messageToCommand.toMessage());
-        try{
-            receive = gestionePerUI.getMessage();
-        }catch (IOException e){
-            System.err.println("Errore nel recupero del messaggio");
-            Platform.exit();
-        }
+        receive = messaggio();
         messageToCommand.fromMessage(receive);
         if (Objects.equals(messageToCommand.getCommand(), "NO")){
             testoLibero.setText("Articoli Finiti");
@@ -137,7 +142,7 @@ public class InsController {
         }
     }
 
-    public void passGestione(GestionePerUI temporaneo){
+    public static void passGestione(GestionePerUI temporaneo){
         gestionePerUI = temporaneo;
     }
 }

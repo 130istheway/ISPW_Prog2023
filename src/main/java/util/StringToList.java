@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class StringToList{
+
+    private StringToList(){
+        throw new IllegalStateException("Utility class");
+    }
     
     public static List<String> getListString(String a){
         List<String> output = new ArrayList<>();
@@ -17,7 +21,4 @@ public class StringToList{
         }
         return output;
     }
-
-    
-    
 }

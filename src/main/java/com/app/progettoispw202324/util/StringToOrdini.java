@@ -1,10 +1,11 @@
 package com.app.progettoispw202324.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class StringToOrdini {
+
+    private StringToOrdini(){
+        throw new IllegalStateException("Utility class");
+    }
+
     static public String coverti(String string){
         String output = "";
         String[] lollo = string.split("_");

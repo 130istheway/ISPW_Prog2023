@@ -25,9 +25,6 @@ public class DAOConfermaOrdineDalID implements GenericProcedureDAO<Boolean>{
 
             int rowsInserted = stmt.executeUpdate();
 
-
-            System.out.println(id + "   " + cosa);
-
             if (rowsInserted > 0) return true;
             return false;
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import model.dao.ConnectionFactory;
+import model.dao.exception.DAOException;
 import model.dao.login.DAOLogin;
 
 import model.domain.ControllerInfoSulThread;
@@ -64,9 +65,8 @@ public class LoginController {
                 }else {
                     autenticato = false;
                 }
-            } catch (Exception e) {
+            } catch (DAOException e) {
                 autenticato = false;
-                System.out.println(e.getMessage());
             }
             if (autenticato) {        
                 messageToCommand.setCommand(accettata+cred.getRole().ordinal());

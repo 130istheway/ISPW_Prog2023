@@ -3,6 +3,7 @@ package controller.user;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import carrello.Carrello;
 import model.dao.exception.DAOException;
@@ -32,7 +33,7 @@ public class ConfermaListaController {
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         date = new java.sql.Date(calendar.getTimeInMillis());
 
-        if (carrello.getLista() == null || carrello.getLista() == ""){
+        if (carrello.getLista() == null || Objects.equals(carrello.getLista(), "")){
             messageToCommand.setCommand("NO");
             messageToCommand.setPayload(null);
             info.sendMessage(messageToCommand.toMessage());

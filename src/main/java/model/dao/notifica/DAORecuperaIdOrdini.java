@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import model.dao.ConnectionFactory;
@@ -32,7 +33,7 @@ public class DAORecuperaIdOrdini implements GenericProcedureDAO<List<Integer>>{
                 }
                 return result;
             } else {
-                return null;
+                return Collections.emptyList();
             }
 
         } catch (SQLException e) {

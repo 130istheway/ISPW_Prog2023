@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,10 +15,13 @@ import model.domain.Role;
 import model.domain.ui.GestionePerUI;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public class LoginController {
+    
+    Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
 
     static GestionePerUI gestionePerUI;
 
@@ -58,13 +60,8 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void passGestione(GestionePerUI temporaneo){
+    public static void passGestione(GestionePerUI temporaneo){
         gestionePerUI = temporaneo;
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 
     private void setControllerMenu(ActionEvent event, int n){
@@ -83,7 +80,7 @@ public class LoginController implements Initializable {
             stage.show();
 
         }catch (IOException e){
-            System.err.println("0x000100" + e.getMessage());
+            logger.error("0x000100" + e.getMessage());
         }
     }
 }

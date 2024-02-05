@@ -23,8 +23,7 @@ public class VisualizzaUserController {
         if (info.isRunning()) {
             cambiaAttivita = false;
             while (((inputLine = info.getMessage()) != null) && (!cambiaAttivita)) {
-                controll(inputLine, credentials, info, carrello);
-                    System.out.println(inputLine);
+                    controll(inputLine, credentials, info, carrello);
                 }
             }
         } catch (IOException e) {

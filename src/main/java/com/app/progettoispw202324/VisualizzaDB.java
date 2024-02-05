@@ -19,12 +19,18 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class VisualizzaDB {
+    
+    Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+
     MessageToCommand messageToCommand = new MessageToCommand();
 
     static GestionePerUI gestionePerUI;
 
-    private static int posizione = 0;
+    private int posizione = 0;
     private boolean finiti = false;
 
     @FXML
@@ -48,7 +54,8 @@ public class VisualizzaDB {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("0x006001" + e.getMessage());
+            Platform.exit();
         }
     }
 
@@ -81,7 +88,7 @@ public class VisualizzaDB {
     }
 
     public void elimina(){
-        MessageToCommand messageToCommand = new MessageToCommand();
+        messageToCommand = new MessageToCommand();
         String receive = null;
 
         messageToCommand.setCommand("RIMUOVIART");
@@ -90,7 +97,7 @@ public class VisualizzaDB {
         try{
             receive = gestionePerUI.getMessage();
         }catch (IOException e){
-            System.err.println("Errore nel recupero del messaggio");
+            logger.error("Errore nel recupero del messaggio");
             Platform.exit();
         }
         messageToCommand.fromMessage(receive);
@@ -102,7 +109,7 @@ public class VisualizzaDB {
     }
 
     public void visualizzaCarrello(){
-        MessageToCommand messageToCommand = new MessageToCommand();
+        messageToCommand = new MessageToCommand();
         String receive = "";
         messageToCommand.setCommand("VISUALIZZAART");
         messageToCommand.setPayload(String.valueOf(posizione));
@@ -110,21 +117,20 @@ public class VisualizzaDB {
         try{
             receive = gestionePerUI.getMessage();
         }catch (IOException e){
-            System.err.println("Errore nel recupero del messaggio");
+            logger.error("Errore nel recupero del messaggio");
             Platform.exit();
         }
         messageToCommand.fromMessage(receive);
         if (Objects.equals(messageToCommand.getCommand(), "NO")){
             testoLibero.setText("Articoli Finiti");
         }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
-            System.out.println(messageToCommand.getPayload());
             String articolo = messageToCommand.getPayload();
             List<String> lista = ConvertiStringToArticolo.convertToListStringFromString(articolo);
             PrintArticoli.stampaArticolisuTextBox(lista, testoLibero);
         }
     }
 
-    public void passGestione(GestionePerUI temporaneo){
+    public static void passGestione(GestionePerUI temporaneo){
         gestionePerUI = temporaneo;
     }
 

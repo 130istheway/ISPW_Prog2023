@@ -1,6 +1,5 @@
 package com.app.progettoispw202324;
 
-import com.app.progettoispw202324.util.PrintArticoli;
 import com.app.progettoispw202324.util.PrintOnTextField;
 import com.app.progettoispw202324.util.StringToOrdini;
 import javafx.application.Platform;
@@ -15,16 +14,22 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
 import util.MessageToCommand;
-import util.StringToList;
-
 import java.io.IOException;
 import java.util.Objects;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class NotificaController {
+    
+    Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+
+    private static final String ER = "Errore nel recupero del messaggio";
+
     MessageToCommand messageToCommand = new MessageToCommand();
     static GestionePerUI gestionePerUI;
 
-    private static int posizione = 0;
+    private int posizione = 0;
     private boolean finiti = false;
     @FXML
     Button precedente;
@@ -53,7 +58,8 @@ public class NotificaController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("0x003001" + e.getMessage());
+            Platform.exit();
         }
     }
 
@@ -87,7 +93,7 @@ public class NotificaController {
 
     public void conferma(){
         rifiuta.setStyle("-fx-background-color: grey;");
-        MessageToCommand messageToCommand = new MessageToCommand();
+        messageToCommand = new MessageToCommand();
         String receive = null;
 
         messageToCommand.setCommand("CONFERMANOTIFICA");
@@ -96,11 +102,10 @@ public class NotificaController {
         try{
             receive = gestionePerUI.getMessage();
         }catch (IOException e){
-            System.err.println("Errore nel recupero del messaggio");
+            logger.error(ER);
             Platform.exit();
         }
         messageToCommand.fromMessage(receive);
-        System.out.println(receive);
         if (Objects.equals(messageToCommand.getCommand(), "NO")){
             testoLibero.setText("NON E ANDATA BENE");
             accetta.setStyle("-fx-background-color: red;");
@@ -114,7 +119,7 @@ public class NotificaController {
     public void rifiuta(){
         accetta.setStyle("-fx-background-color: grey;");
 
-        MessageToCommand messageToCommand = new MessageToCommand();
+        messageToCommand = new MessageToCommand();
         String receive = null;
 
         messageToCommand.setCommand("CONFERMANOTIFICA");
@@ -123,7 +128,7 @@ public class NotificaController {
         try{
             receive = gestionePerUI.getMessage();
         }catch (IOException e){
-            System.err.println("Errore nel recupero del messaggio");
+            logger.error(ER);
             Platform.exit();
         }
         messageToCommand.fromMessage(receive);
@@ -138,7 +143,7 @@ public class NotificaController {
     }
 
     public void visualizzaCarrello(){
-        MessageToCommand messageToCommand = new MessageToCommand();
+        messageToCommand = new MessageToCommand();
         String receive = null;
         messageToCommand.setCommand("VISUALIZZANOTI");
         messageToCommand.setPayload(String.valueOf(posizione));
@@ -146,7 +151,7 @@ public class NotificaController {
         try{
             receive = gestionePerUI.getMessage();
         }catch (IOException e){
-            System.err.println("Errore nel recupero del messaggio");
+            logger.error(ER);
             Platform.exit();
         }
         messageToCommand.fromMessage(receive);
@@ -158,7 +163,7 @@ public class NotificaController {
     }
 
 
-    public void passGestione(GestionePerUI temporaneo){
+    public static void passGestione(GestionePerUI temporaneo){
         gestionePerUI = temporaneo;
     }
 }
