@@ -61,38 +61,22 @@ public class NotificaController {
     }
 
     public void conferma(){
-        rifiuta.setStyle("-fx-background-color: grey;");
-        messageToCommand = new MessageToCommand();
-        String receive = null;
-
-        messageToCommand.setCommand("CONFERMANOTIFICA");
-        messageToCommand.setPayload(String.valueOf(posizione)+"|SI");
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
-        try{
-            receive = gestionePerUI.getMessage();
-        }catch (IOException e){
-            logger.error(ER);
-            Platform.exit();
-        }
-        messageToCommand.fromMessage(receive);
-        if (Objects.equals(messageToCommand.getCommand(), "NO")){
-            testoLibero.setText("NON E ANDATA BENE");
-            accetta.setStyle("-fx-background-color: red;");
-        }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
-            testoLibero.setText(messageToCommand.getPayload());
-            accetta.setStyle("-fx-background-color: green;");
-        }
-        visualizzaCarrello();
+        confermaRifiuta("SI");
     }
 
     public void rifiuta(){
+        confermaRifiuta("NO");
+    }
+
+    private void confermaRifiuta(String stringa){
+
         accetta.setStyle("-fx-background-color: grey;");
 
         messageToCommand = new MessageToCommand();
         String receive = null;
 
         messageToCommand.setCommand("CONFERMANOTIFICA");
-        messageToCommand.setPayload(String.valueOf(posizione)+"|NO");
+        messageToCommand.setPayload(String.valueOf(posizione)+"|"+stringa);
         gestionePerUI.sendMessage(messageToCommand.toMessage());
         try{
             receive = gestionePerUI.getMessage();
