@@ -224,7 +224,7 @@ public class BaseController {
         if (cred!=null && (cred.getRole().ordinal()<3)){
             logger.trace("Entering Visualizza per l'utente : %s",cred.getUsername());
             userVisualizza.viusalizzaController(cred, info, carrellino);
-            logger.trace("Exiting visualizza per l'utente : %s" + cred.getUsername());
+            logger.trace("Exiting visualizza per l'utente : %s", cred.getUsername());
             return;
         }
         logger.trace("Ha provato a VISUALIZARE senza essere Loggato");
@@ -282,9 +282,9 @@ public class BaseController {
     private void confermaLista(String negozio){
         if (cred!=null && (cred.getRole().ordinal()<3)){
             ConfermaListaController conferma = new ConfermaListaController(Integer.parseInt(negozio));
-            logger.trace("Entering Confermalista per l'utente : %s" + cred.getUsername());
+            logger.trace("Entering Confermalista per l'utente : %s", cred.getUsername());
             conferma.confermaLista(cred, info, carrellino);
-            logger.trace("Exiting Confermalista per l'utente : %S" + cred.getUsername());
+            logger.trace("Exiting Confermalista per l'utente : %S", cred.getUsername());
             return;
         }
         logger.trace("Ha provato ad CONFERMALISTA senza essere Loggato");
@@ -297,14 +297,14 @@ public class BaseController {
     private void aggiungiArticoloDB(){
         if (cred!=null && (cred.getRole().ordinal()<2)){
             cred.getUsername();
-            logger.trace("Entering AggiungiArticoloDB per il negozio : %s" + cred.getUsername());
+            logger.trace("Entering AggiungiArticoloDB per il negozio : %s", cred.getUsername());
             boolean aggiunto = negozioInserisci.aggiungiDBArticolo(cred, info, messageToCommand.getPayload());
             if (aggiunto) {
                 messageToCommand.setCommand("SI");
                 messageToCommand.setPayload(null);
                 info.sendMessage(messageToCommand.toMessage());
             }
-            logger.trace("Exiting AggiungiArticoloDB per il negozio : %s" + cred.getUsername());
+            logger.trace("Exiting AggiungiArticoloDB per il negozio : %s", cred.getUsername());
             return;
         }
         logger.trace("Ha provato ad AGGIUNGERE un Articolo al DB senza essere Loggato");
@@ -316,9 +316,9 @@ public class BaseController {
     private void visualizzaDaDB(){
         if (cred!=null && (cred.getRole().ordinal()<2)){
             cred.getUsername();
-            logger.trace("Entering visualizza Da DB per il negozio : %s" + cred.getUsername());
+            logger.trace("Entering visualizza Da DB per il negozio : %s", cred.getUsername());
             negozioVisualizza.viusalizzaNegozioController(cred, info);
-            logger.trace("Exiting visualizza Da DB per il negozio : %s" + cred.getUsername());
+            logger.trace("Exiting visualizza Da DB per il negozio : %s", cred.getUsername());
             return;
         }
         logger.trace("ha provato a Articolo dal DB senza essere Loggato");
@@ -331,10 +331,10 @@ public class BaseController {
     private void notifica() {
         if (cred!=null && (cred.getRole().ordinal()<2)){
             cred.getUsername();
-            logger.trace("Entering NOTIFICA per il negozio : %s" + cred.getUsername());
+            logger.trace("Entering NOTIFICA per il negozio : %s", cred.getUsername());
             NotificaNegozioController notifica = new NotificaNegozioController();
             notifica.notificaController(cred, info);
-            logger.trace("Exiting NOTIFICA per il negozio : %s" + cred.getUsername());
+            logger.trace("Exiting NOTIFICA per il negozio : %s", cred.getUsername());
             return;
         }
         logger.trace("Ha provato a vedere notifica senza essere Loggato");

@@ -21,7 +21,7 @@ import carrello.articoli.Factory;
  */
 public class Carrello extends CarrelloCache{
     
-    Logger logger = LogManager.getLogger(MenuController.class);
+    Logger logger = LogManager.getLogger(CarrelloCache.class);
     
     /** Flag che indica se il pagamento è stato effettuato */
     boolean pagato;

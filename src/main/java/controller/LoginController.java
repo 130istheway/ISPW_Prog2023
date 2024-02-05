@@ -6,8 +6,6 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.app.progettoispw202324.NotificaController;
-
 import model.dao.ConnectionFactory;
 import model.dao.exception.DAOException;
 import model.dao.login.DAOLogin;
@@ -22,7 +20,7 @@ import util.PayloadToCredential;
 
 public class LoginController {
     
-    Logger logger = LogManager.getLogger(NotificaController.class);
+    Logger logger = LogManager.getLogger(LoginController.class);
 
     ControllerInfoSulThread info;
     

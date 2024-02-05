@@ -22,8 +22,8 @@ public class MenuController {
     
     Logger logger = LogManager.getLogger(MenuController.class);
     
-    private static final String IMPOSTAVERDE = "-fx-background-color: red;";
-    private static final String impostaverde = "-fx-background-color: green;";
+    private static final String IMPOSTAROSSO = "-fx-background-color: red;";
+    private static final String IMPOSTAVERDE = "-fx-background-color: green;";
     private static final String STOPIT = "STOPIT";
 
     MessageToCommand messageToCommand = new MessageToCommand();
@@ -45,10 +45,10 @@ public class MenuController {
     public void scegliNegozio() {
         if (gestionePerUI.getNegozio() == null) {
             AllertBox.allertSceltaNegozio("Scelta", "L'id del negozio?", gestionePerUI, false);
-            scegliNegozio.setStyle(impostaverde);
+            scegliNegozio.setStyle(IMPOSTAROSSO);
         }else {
             AllertBox.allertSceltaNegozio("Scelta", "L'id del negozio è " + gestionePerUI.getNegozio(), gestionePerUI, true);
-            scegliNegozio.setStyle(impostaverde);
+            scegliNegozio.setStyle(IMPOSTAVERDE);
         }
     }
 
@@ -136,14 +136,14 @@ public class MenuController {
                 input = "NO";
             }
             if (Objects.equals(input, "OK")) {
-                confermaCarrello.setStyle(impostaverde);
+                confermaCarrello.setStyle(IMPOSTAVERDE);
                 messageToCommand.setCommand("RESETNEGOZIO");
                 messageToCommand.setPayload(null);
                 gestionePerUI.sendMessage(messageToCommand.toMessage());
             } else if (input.contains(STOPIT)){
             Platform.exit();
             } else {
-                confermaCarrello.setStyle(IMPOSTAVERDE);
+                confermaCarrello.setStyle(IMPOSTAROSSO);
             }
         }
     }

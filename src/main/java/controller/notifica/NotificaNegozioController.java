@@ -27,7 +27,7 @@ public class NotificaNegozioController {
         MessageToCommand messageToCommand = new MessageToCommand();
         String inputLine;
 
-        setcache(credentials, info);
+        setcache(credentials);
 
         if (listaID == null) {
             messageToCommand.setCommand("NULL");
@@ -103,7 +103,7 @@ public class NotificaNegozioController {
                     messageToCommand.setPayload(null);
                     info.sendMessage(messageToCommand.toMessage());
                 }
-                setcache(credentials, info);
+                setcache(credentials);
                 break;
 
             case "EXIT":
@@ -119,7 +119,7 @@ public class NotificaNegozioController {
         }
     }
 
-    private void setcache(Credential credentials, ControllerInfoSulThread info){
+    private void setcache(Credential credentials){
 
         DAOIdNegozio daoIdNegozio = new DAOIdNegozio();
         DAORecuperaIdOrdini idOrdini = new DAORecuperaIdOrdini();
