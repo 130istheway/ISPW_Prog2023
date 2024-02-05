@@ -24,7 +24,7 @@ public class InsController {
 
     static MessageToCommand messageToCommand = new MessageToCommand();
 
-    private static final String INSCONTROLLER = "InsCotroller";
+    private static final String IC = "InsCotroller";
     static GestionePerUI gestionePerUI;
 
     private static Integer posizione = 0;
@@ -44,11 +44,11 @@ public class InsController {
     }
 
     public void vaiSuccessivo(){
-        Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, INSCONTROLLER);
+        Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, IC);
     }
 
     public void vaiPrecedente(){
-        finiti = Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,INSCONTROLLER);
+        finiti = Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,IC);
     }
 
     public void inserisci(){

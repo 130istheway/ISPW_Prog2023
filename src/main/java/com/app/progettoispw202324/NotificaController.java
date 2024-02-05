@@ -27,7 +27,7 @@ public class NotificaController {
 
     private static final String ER = "Errore nel recupero del messaggio";
 
-    private static final String NOTIFICACONTROLLER = "NotificaController";
+    private static final String NC = "NotificaController";
 
     static MessageToCommand messageToCommand = new MessageToCommand();
     static GestionePerUI gestionePerUI;
@@ -52,12 +52,12 @@ public class NotificaController {
     }
 
     public void vaiSuccessivo(){
-        Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, NOTIFICACONTROLLER);
+        Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, NC);
     }
 
 
     public void vaiPrecedente(){
-        finiti = Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,NOTIFICACONTROLLER);
+        finiti = Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,NC);
     }
 
     public void conferma(){
@@ -68,7 +68,7 @@ public class NotificaController {
         confermaRifiuta("NO");
     }
 
-    private void confermaRifiuta(String stringa){
+    private synchronized void confermaRifiuta(String stringa){
 
         accetta.setStyle("-fx-background-color: grey;");
 

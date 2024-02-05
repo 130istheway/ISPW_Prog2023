@@ -25,13 +25,11 @@ public class DAOLogin implements GenericProcedureDAO<Credential>{
                 stmt.setString(1, username);
                 stmt.setString(2, password);
 
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) {
-                        role = rs.getString("ROLE");
-                        return new Credential(username, password, model.domain.Role.valueOf(role));
-                    }
-                } catch (SQLTimeoutException e) {
-                    throw new DAOException("DAOLogin : Time out");
+                ResultSet rs = stmt.executeQuery()
+                
+                if (rs.next()) {
+                    role = rs.getString("ROLE");
+                    return new Credential(username, password, model.domain.Role.valueOf(role));
                 }
             }
             return new Credential(null, null, Role.NONE);

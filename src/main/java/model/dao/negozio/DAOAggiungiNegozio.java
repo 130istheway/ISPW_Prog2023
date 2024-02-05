@@ -26,7 +26,7 @@ public class DAOAggiungiNegozio implements GenericProcedureDAO<Boolean>{
         try{
             Connection conn = ConnectionFactory.getConnection();
             String sql = "INSERT INTO articoli (ARTICOblob, idNegozio) VALUES (?, ?)";
-            try(PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
+            try(PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
 
                 stmt.setString(1, dati);
                 stmt.setLong(2, id);
@@ -49,7 +49,7 @@ public class DAOAggiungiNegozio implements GenericProcedureDAO<Boolean>{
             articolo.setId(autoId);
             
             sql = "UPDATE articoli SET ARTICOblob = ? WHERE idARTICOLI = ?";
-            try(PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
+            try(PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
                 stmt.setString(1, articolo.toString());
                 stmt.setInt(2, autoId);
 

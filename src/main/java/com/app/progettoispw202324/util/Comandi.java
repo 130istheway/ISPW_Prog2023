@@ -24,6 +24,15 @@ public class Comandi {
     static Logger logger = LogManager.getLogger(Comandi.class);
     static MessageToCommand messageToCommand = new MessageToCommand();
 
+    private static final String IC = "InsCotroller"
+    private static final String NC = "NotificaController"
+    private static final String VC = "VisualizzaController"
+    private static final String VDB = "VisualizzaDB"
+
+    private Comandi{
+        throw new IllegalStateException("Utility class");
+    }
+
     public static void menu(ActionEvent event, GestionePerUI gestionePerUI){
         messageToCommand.setCommand("EXIT");
         messageToCommand.setPayload("0");
@@ -44,20 +53,23 @@ public class Comandi {
 
 
     public static void vaiSuccessivo(Boolean finiti, Integer posizione, Button successivo, Button precedente, TextArea testoLibero, String lollo){
-        if (!finiti) {
+        if (Boolean.FALSE.equals(finiti)) {
             posizione++;
             switch(lollo){
-                case "InsCotroller":
+                case IC:
                     InsController.visualizzaCarrello();
                     break;
-                case "NotificaController":
+                case NC:
                     NotificaController.visualizzaCarrello();
                     break;
-                case "VisualizzaController":
+                case VC:
                     VisualizzaController.visualizzaCarrello();
                     break;
-                case "VisualizzaDB":
+                case VBD:
                     VisualizzaDB.visualizzaCarrello();
+                default:
+                    logger.error("Non dovrei poter entrare qua dentro 0x0701");
+                break;
             }
             if (posizione > 0) {
                 precedente.setText("<<");
@@ -72,33 +84,39 @@ public class Comandi {
     public static boolean vaiPrecedente(Boolean finiti, Integer posizione, Button successivo, Button precedente, String lollo){
         if (posizione == 0){
             switch(lollo){
-                case "InsCotroller":
+                case IC:
                     InsController.visualizzaCarrello();
                     break;
-                case "NotificaController":
+                case NC:
                     NotificaController.visualizzaCarrello();
                     break;
-                case "VisualizzaController":
+                case VC:
                     VisualizzaController.visualizzaCarrello();
                     break;
-                case "VisualizzaDB":
+                case VBD:
                     VisualizzaDB.visualizzaCarrello();
+                default:
+                    logger.error("Non dovrei poter entrare qua dentro 0x0702");
+                break;
             }
             successivo.setText(">>");
         }else {
             posizione--;
             switch(lollo){
-                case "InsCotroller":
+                case IC:
                     InsController.visualizzaCarrello();
                     break;
-                case "NotificaController":
+                case NC:
                     NotificaController.visualizzaCarrello();
                     break;
-                case "VisualizzaController":
+                case VC:
                     VisualizzaController.visualizzaCarrello();
                     break;
-                case "VisualizzaDB":
-                    VisualizzaDB.visualizzaCarrello();
+                case VBD:
+                    VisualizzaDB.visualizzaCarrello();  
+                default:
+                    logger.error("Non dovrei poter entrare qua dentro 0x0703");
+                break;
             }
             }
             if (posizione < 1) {
@@ -112,7 +130,7 @@ public class Comandi {
         messageToCommand = new MessageToCommand();
         String receive = "";
 
-        messageToCommand.setCommand("RIMUOVIART");
+        messageToCommand.setCommand(string);
         messageToCommand.setPayload(String.valueOf(posizione));
         gestionePerUI.sendMessage(messageToCommand.toMessage());
         try{

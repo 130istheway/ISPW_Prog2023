@@ -30,7 +30,7 @@ public class VisualizzaController {
 
     static MessageToCommand messageToCommand = new MessageToCommand();
 
-    private static final String VISUALIZZACONTROLLER = "VisualizzaController";
+    private static final String VC = "VisualizzaController";
 
     static GestionePerUI gestionePerUI;
 
@@ -53,12 +53,12 @@ public class VisualizzaController {
     }
 
     public void vaiSuccessivo(){
-        Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, VISUALIZZACONTROLLER);
+        Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, VC);
     }
 
 
     public void vaiPrecedente(){
-        finiti = Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,VISUALIZZACONTROLLER);
+        finiti = Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,VC);
     }
 
     public void elimina(){

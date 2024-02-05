@@ -23,7 +23,7 @@ public class VisualizzaDB {
 
     static MessageToCommand messageToCommand = new MessageToCommand();
 
-    private static final String VISUALIZZADB = "VisualizzaDB";
+    private static final String VDB = "VisualizzaDB";
 
     static GestionePerUI gestionePerUI;
 
@@ -42,12 +42,12 @@ public class VisualizzaDB {
     }
 
     public void vaiSuccessivo(){
-        Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, VISUALIZZADB);
+        Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, VDB);
     }
 
 
     public void vaiPrecedente(){
-        finiti = Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,VISUALIZZADB);
+        finiti = Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,VDB);
     }
 
     public void elimina(){
