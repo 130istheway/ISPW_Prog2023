@@ -19,6 +19,8 @@ public class AllerBoxPerInserimentoArticoli {
 
     static Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
 
+    AtomicBoolean ok = new AtomicBoolean(true);
+
     private static final String NATURALE = "NATURALE";
     private static final String NNATURALE = "Non naturale";
     private static final String IMPOSTAROSSO = "-fx-background-color: red;";
@@ -59,11 +61,108 @@ public class AllerBoxPerInserimentoArticoli {
         InserisciController.passGiusto(bool);
     }
 
+    private String getNome(TextField nome){
+        String nome2 = this.nome.getText();
+        if (Objects.equals(nome2, "")){
+            this.prezzo.setText("");
+            this.prezzo.setStyle(IMPOSTAROSSO);
+            ok.set(false);
+            return;
+        }
+        return nome2;
+    }
+
+    private double getPrezzo(TextField prezzo){
+        double prezzo2 = 0;
+        try {
+            prezzo2 = Double.parseDouble(this.prezzo.getText());
+        } catch (NumberFormatException e1) {
+            this.prezzo.setText("");
+            this.prezzo.setStyle(IMPOSTAROSSO);
+            ok.set(false);
+            return;
+        }
+        return prezzo2;
+    }
+
+    private float getQuantita(TextField quantita){
+        float quantita2 = 0.0;
+        try {
+            quantita2 = Float.parseFloat(this.quantita.getText());
+        } catch (NumberFormatException e1) {
+            this.quantita.setText("");
+            this.quantita.setStyle(IMPOSTAROSSO);
+            ok.set(false);
+            return;
+        }
+        return quantita2;
+    }
+
+    private String[] getIngredienti(TextField ingredienti){
+        String ingredienti2 = this.ingredienti.getText();
+        if (Objects.equals(ingredienti2, "")){
+            this.ingredienti.setText("");
+            this.ingredienti.setStyle(IMPOSTAROSSO);
+            ok.set(false);
+            return;
+        }
+        String[] splitted = ingredienti2.split(",");
+        return splitted
+    }
+
+    private double getPeso(TextField peso){
+        double peso2 = 0;
+        try {
+            peso2 = Double.parseDouble(this.peso.getText());
+        } catch (NumberFormatException e1) {
+            this.peso.setText("");
+            this.peso.setStyle(IMPOSTAROSSO);
+            ok.set(false);
+            return;
+        }
+        return peso2;
+    }
+
+    private int getCottura(TextField cottura){
+        int cottura2 = 0;
+        try {
+            cottura2 = Integer.parseInt(this.cottura.getText());
+        } catch (NumberFormatException e1) {
+            this.cottura.setText("");
+            this.cottura.setStyle(IMPOSTAROSSO);
+            ok.set(false);
+            return;
+        }
+        return cottura2;
+    }
+
+    private int getTempoLievitatura(TextField tempoLievitatura){
+        int tempoLievitatura2 = 0;
+        try {
+            tempoLievitatura2 = Integer.parseInt(this.tempoLievitatura.getText());
+        } catch (NumberFormatException e1) {
+            this.tempoLievitatura.setText("");
+            this.tempoLievitatura.setStyle(IMPOSTAROSSO);
+            ok.set(false);
+            return;
+        }
+        return tempoLievitatura2;
+    }
+
+    private String getDescrizione(TextField descrizione){
+        String descrizione2 = this.descrizione.getText();
+        if (Objects.equals(descrizione2, "")){
+            this.descrizione.setText("");
+            this.descrizione.setStyle(IMPOSTAROSSO);
+            ok.set(false);
+            return;
+        }
+        return descrizione2;
+    }
+
     private static void pane(Stage window){
 
         setGiusto(false);
-
-        AtomicBoolean ok = new AtomicBoolean(true);
         
         TextField nome = new TextField();
         nome.setPromptText("nome");
@@ -98,65 +197,22 @@ public class AllerBoxPerInserimentoArticoli {
         Button closeButton = new Button("Inserisci");
         try {
             closeButton.setOnAction(e -> {
-                String nome2 = nome.getText();
-                if (Objects.equals(nome2, "")){
-                    prezzo.setText("");
-                    prezzo.setStyle(IMPOSTAROSSO);
-                    ok.set(false);
-                }
-                double prezzo2 = 1;
-                try {
-                    prezzo2 = Double.parseDouble(prezzo.getText());
-                } catch (NumberFormatException e1) {
-                    prezzo.setText("");
-                    prezzo.setStyle(IMPOSTAROSSO);
-                    ok.set(false);
-                }
-                float quantita2 = 1;
-                try {
-                    quantita2 = Float.parseFloat(quantita.getText());
-                } catch (NumberFormatException e1) {
-                    quantita.setText("");
-                    quantita.setStyle(IMPOSTAROSSO);
-                    ok.set(false);
-                }
-                String ingredienti2 = ingredienti.getText();
-                if (Objects.equals(ingredienti2, "")){
-                    prezzo.setText("");
-                    prezzo.setStyle(IMPOSTAROSSO);
-                    ok.set(false);
-                }
-                String[] splitted = ingredienti2.split(",");
-                double peso2 = 250;
-                try {
-                    peso2 = Double.parseDouble(peso.getText());
-                } catch (NumberFormatException e1) {
-                    peso.setText("");
-                    peso.setStyle(IMPOSTAROSSO);
-                    ok.set(false);
-                }
-                int cottura2 = 1;
-                try {
-                    cottura2 = Integer.parseInt(cottura.getText());
-                } catch (NumberFormatException e1) {
-                    cottura.setText("");
-                    cottura.setStyle(IMPOSTAROSSO);
-                    ok.set(false);
-                }
-                int tempoLievitatura2 = 1;
-                try {
-                    tempoLievitatura2 = Integer.parseInt(tempoLievitatura.getText());
-                } catch (NumberFormatException e1) {
-                    tempoLievitatura.setText("");
-                    tempoLievitatura.setStyle(IMPOSTAROSSO);
-                    ok.set(false);
-                }
-                String descrizione2 = descrizione.getText();
-                if (Objects.equals(descrizione2, "")){
-                    prezzo.setText("");
-                    prezzo.setStyle(IMPOSTAROSSO);
-                    ok.set(false);
-                }
+
+                String nome2 = getNome(nome);
+
+                double prezzo2 = getPrezzo(prezzo);
+                
+                float quantita2 = getQuantita(quantita);
+                
+                String[] splitted = getIngredienti(ingredienti);
+                
+                double peso2 = getPeso(peso);
+                
+                int cottura2 = getCottura(cottura);
+                
+                int tempoLievitatura2 = getTempoLievitatura(tempoLievitatura);
+                
+                String descrizione2 = getDescrizione(descrizione);
 
                 List<String> ingredientiString = new ArrayList<>();
 
@@ -237,57 +293,19 @@ public class AllerBoxPerInserimentoArticoli {
         Button closeButton = new Button("Inserisci");
         try {
             closeButton.setOnAction(e -> {
-                String nome2 = nome.getText();
-                if (Objects.equals(nome2, "")){
-                    prezzo.setText("");
-                    prezzo.setStyle(IMPOSTAROSSO);
-                    ok.set(false);
-                }
-                double prezzo2 = 1;
-                try {
-                    prezzo2 = Double.parseDouble(prezzo.getText());
-                } catch (NumberFormatException e1) {
-                    prezzo.setText("");
-                    prezzo.setStyle(IMPOSTAROSSO);
-                    ok.set(false);
-                }
-                float quantita2 = 1;
-                try {
-                    quantita2 = Float.parseFloat(quantita.getText());
-                } catch (NumberFormatException e1) {
-                    quantita.setText("");
-                    quantita.setStyle(IMPOSTAROSSO);
-                    ok.set(false);
-                }
-                String ingredienti2 = ingredienti.getText();
-                if (Objects.equals(ingredienti2, "")){
-                    prezzo.setText("");
-                    prezzo.setStyle(IMPOSTAROSSO);
-                    ok.set(false);
-                }
-                String[] splitted = ingredienti2.split(",");
-                double peso2 = 250;
-                try {
-                    peso2 = Double.parseDouble(peso.getText());
-                } catch (NumberFormatException e1) {
-                    peso.setText("");
-                    peso.setStyle(IMPOSTAROSSO);
-                    ok.set(false);
-                }
-                int cottura2 = 1;
-                try {
-                    cottura2 = Integer.parseInt(cottura.getText());
-                } catch (NumberFormatException e1) {
-                    cottura.setText("");
-                    cottura.setStyle(IMPOSTAROSSO);
-                    ok.set(false);
-                }
-                String descrizione2 = descrizione.getText();
-                if (Objects.equals(descrizione2, "")){
-                    prezzo.setText("");
-                    prezzo.setStyle(IMPOSTAROSSO);
-                    ok.set(false);
-                }
+                String nome2 = getNome(nome);
+                
+                double prezzo2 = getPrezzo(prezzo);
+                
+                float quantita2 = getQuantita(quantita);
+
+                String[] splitted = getIngredienti(ingredienti);
+                
+                double peso2 = getPeso(peso);
+
+                int cottura2 = getCottura(cottura);
+
+                String descrizione2 = getDescrizione(descrizione);
 
                 List<String> ingredientiString = new ArrayList<>();
 
