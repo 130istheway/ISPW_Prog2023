@@ -65,11 +65,11 @@ public class OrdiniCarrelloController {
         messageToCommand.fromMessage(receive);
         if (Objects.equals(messageToCommand.getCommand(), "PREGO")) {
             String[] ordini = messageToCommand.getPayload().split("_");
-            String str = "";
+            StringBuilder bld = new StringBuilder();
             for (String string : ordini) {
-                str = str + string + "\n";
+                bld = bld.append(string + "\n");
             }
-            testoLibero.setText(str);
+            testoLibero.setText(bld.toString());
         } else if (Objects.equals(messageToCommand.getCommand(),"STOPIT")){
         Platform.exit();
         }else{

@@ -16,7 +16,7 @@ public class SingletonLogger{
         logger = LogManager.getLogger(SingletonLogger.class);
     }
 
-    public static SingletonLogger getInstance() {
+    public static synchronized SingletonLogger getInstance() {
         if (istance == null) {
             istance = new SingletonLogger();
         }

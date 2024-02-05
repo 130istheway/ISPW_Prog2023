@@ -47,7 +47,7 @@ public class CarrelloCache{
         
         if (number >= carrellino.size()) {
             return null;
-        }else if (carrellino.size() == 0){
+        }else if (carrellino.isEmpty()){
             return null;
         }else{
             String yatta = carrellino.get(number).toString();
@@ -59,7 +59,7 @@ public class CarrelloCache{
     }
 
     public Articoli ritornaArticolo(int number) {
-        if (number > carrellino.size() || carrellino.size() == 0) {
+        if (number > carrellino.size() || carrellino.isEmpty()) {
             return null;
         }else{
             return carrellino.get(number);

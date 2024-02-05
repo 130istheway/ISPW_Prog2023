@@ -129,10 +129,10 @@ public class Carrello extends CarrelloCache{
 
 
     public String getLista(){
-        String ritornaLista = "";
+        StringBuilder ritornaLista = new StringBuilder();
         for (Articoli articoli : carrellino) {
-            ritornaLista = ritornaLista +articoli.getNomeArticolo()+" : "+articoli.getQuantitaArticolo()+",  ";
+            ritornaLista.append(articoli.getNomeArticolo()+" : "+articoli.getQuantitaArticolo()+",  ");
         }
-        return ritornaLista;
+        return ritornaLista.toString();
     }
 }

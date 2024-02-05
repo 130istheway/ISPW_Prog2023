@@ -61,7 +61,6 @@ public class ClientApplication extends Application {
 
 
         FXMLLoader loader = new FXMLLoader(ClientApplication.class.getResource("ControllerLogin.fxml"));
-        Parent root = loader.load();
         LoginController controller = loader.getController();
         controller.passGestione(gestionePerUI);
 

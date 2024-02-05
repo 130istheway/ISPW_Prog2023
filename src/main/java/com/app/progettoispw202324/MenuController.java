@@ -259,18 +259,9 @@ public class MenuController {
     
     public void ordiniPerOggi(ActionEvent event) {
         if (livello>=2){return;}
-        try {
-            fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaController.fxml"));
-            root = fxmlLoader.load();
-            VisualizzaController controller = fxmlLoader.getController();
-            controller.passGestione(gestionePerUI);
-
-            
-        }catch (IOException e){
-            logger.error("0x000116" + e.getMessage());
-            Platform.exit();
-        }
-        //fargli cambiare scena
+        fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaController.fxml"));
+        VisualizzaController controller = fxmlLoader.getController();
+        controller.passGestione(gestionePerUI);
     }
 
     public void logOut() {

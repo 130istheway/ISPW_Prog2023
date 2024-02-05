@@ -10,8 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import util.MessageToCommand;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +34,6 @@ public class AllerBoxPerInserimentoArticoli {
 
     public static void allertSceltaNegozio(String message) {
 
-        MessageToCommand messageToCommand = new MessageToCommand();
-
-        AtomicBoolean inserito = new AtomicBoolean(false);
         Stage window = new Stage();
 
         window.initModality(Modality.APPLICATION_MODAL);
@@ -59,26 +54,16 @@ public class AllerBoxPerInserimentoArticoli {
     }
 
     private static void setLista(String lista){
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("CosaInserire.fxml"));
-            Parent root = fxmlLoader.load();
-            InserisciController controller = fxmlLoader.getController();
-            controller.passLista(lista);
-            controller.passGiusto(true);
-        }catch (IOException e){
-            logger.error("0x000105" + e.getMessage());
-        }
+        FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("CosaInserire.fxml"));
+        InserisciController controller = fxmlLoader.getController();
+        controller.passLista(lista);
+        controller.passGiusto(true);
     }
 
     private static void setGiusto(boolean bool){
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("CosaInserire.fxml"));
-            Parent root = fxmlLoader.load();
-            InserisciController controller = fxmlLoader.getController();
-            controller.passGiusto(bool);
-        }catch (IOException e){
-            System.err.println("0x000105" + e.getMessage());
-        }
+        FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("CosaInserire.fxml"));
+        InserisciController controller = fxmlLoader.getController();
+        controller.passGiusto(bool);
     }
 
     private static void pane(Stage window){
@@ -86,8 +71,7 @@ public class AllerBoxPerInserimentoArticoli {
         setGiusto(false);
 
         AtomicBoolean ok = new AtomicBoolean(true);
-        String lista;
-
+        
         TextField nome = new TextField();
         nome.setPromptText("nome");
 
@@ -224,8 +208,7 @@ public class AllerBoxPerInserimentoArticoli {
         setGiusto(false);
 
         AtomicBoolean ok = new AtomicBoolean(true);
-        String lista;
-
+        
         TextField nome = new TextField();
         nome.setPromptText("nome");
 

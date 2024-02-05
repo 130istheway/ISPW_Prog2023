@@ -69,7 +69,6 @@ public class ConfermaListaController {
             messageToCommand.setCommand("NO");
             messageToCommand.setPayload(null);
             info.sendMessage(messageToCommand.toMessage());
-            return;
         } catch ( DAOException e ) {
             info.sendlog(LivelloInformazione.ERROR, e.getMessage());
         }

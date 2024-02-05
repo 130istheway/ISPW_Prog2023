@@ -165,7 +165,6 @@ public class BaseController {
             messageToCommand.setCommand("PREGO");
             messageToCommand.setPayload(ordini);
             info.sendMessage(messageToCommand.toMessage());
-        return;
         }
     }
 

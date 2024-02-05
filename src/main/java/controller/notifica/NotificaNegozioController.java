@@ -1,6 +1,7 @@
 package controller.notifica;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import model.dao.exception.DAOException;
@@ -59,14 +60,14 @@ public class NotificaNegozioController {
         switch (command) {
             case "VISUALIZZANOTI":
                 try {
-                    appoggio = "";
+                    StringBuilder appoggio = new StringBuilder();
                     int number = Integer.parseInt(messageToCommand.getPayload());
                     listaDati = ordini.execute(listaID.get(number));
                     for (String string : listaDati) {
-                        appoggio = appoggio + string + "_";
+                        appoggio = appoggio.append(string + "_");
                     }
                     messageToCommand.setCommand("SI");
-                    messageToCommand.setPayload(appoggio);
+                    messageToCommand.setPayload(appoggio.toString());
                 } catch (IndexOutOfBoundsException | DAOException e) {
                     messageToCommand.setCommand("NO");
                     messageToCommand.setPayload("Elemento non esistente");
@@ -123,7 +124,6 @@ public class NotificaNegozioController {
         try {
             int id = daoIdNegozio.execute(credentials.getUsername());
             listaID = idOrdini.execute(id);
-            if (listaID == null) return;
             
         } catch (DAOException e) {
             info.sendlog(LivelloInformazione.ERROR, "Problema rilevato nelle DAO per visualizare le notifiche " + e.getMessage());

@@ -70,14 +70,8 @@ public class AllertBox {
 
 
     private static void setControllerMenu(String negozio){
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("menu.fxml"));
-            Parent root = fxmlLoader.load();
-            MenuController controller = fxmlLoader.getController();
-            controller.setNegozio(negozio);
-
-        }catch (IOException e){
-            logger.error("0x000106" + e.getMessage());
-        }
+        FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("menu.fxml"));
+        MenuController controller = fxmlLoader.getController();
+        controller.setNegozio(negozio);
     }
 }

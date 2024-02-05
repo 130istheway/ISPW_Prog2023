@@ -24,12 +24,12 @@ public class DAOUser implements GenericProcedureDAO<String>{
             ResultSet rs = stmt.executeQuery();
 
             String capo = "_";
-            String daRestituire = "";
+            StringBuilder daRestituire = new StringBuilder();
 
             while(rs.next()){
-                daRestituire = daRestituire + "ID : " + rs.getInt("idORDINI") + " | Negozio - " + rs.getString("idNegozio") + " | Utente - " + rs.getString("idUtente") + " | Ordine - " + rs.getString("listaOrdine") + " | Data - " + rs.getString("DATA").substring(0, 10) + " | Conferma - " + rs.getString("CONFERMATO")+ capo;
+                daRestituire.append("ID : " + rs.getInt("idORDINI") + " | Negozio - " + rs.getString("idNegozio") + " | Utente - " + rs.getString("idUtente") + " | Ordine - " + rs.getString("listaOrdine") + " | Data - " + rs.getString("DATA").substring(0, 10) + " | Conferma - " + rs.getString("CONFERMATO")+ capo);
             }
-            return daRestituire;
+            return daRestituire.toString();
         } catch (SQLException e) {
             throw new DAOException("DAOUser : " + e.getMessage());
         }

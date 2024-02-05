@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,9 +55,7 @@ public class DAOAggiungiNegozio implements GenericProcedureDAO<Boolean>{
 
             rowsInserted = stmt.executeUpdate();
 
-            if (rowsInserted < 1) {
-                return false;
-            }
+            if (rowsInserted < 1) return false;
 
             return true;
         } catch (SQLException e) {

@@ -29,7 +29,7 @@ public class DAORecuperaTuttiArticoliBase implements GenericProcedureDAO<String>
             ResultSet rs = stmt.executeQuery();
 
             String capo = "_";
-            String daRestituire = "";
+            StringBuilder daRestituire = new StringBuilder();
 
             while(rs.next()){
 
@@ -37,9 +37,9 @@ public class DAORecuperaTuttiArticoliBase implements GenericProcedureDAO<String>
                 listaList = ConvertiStringToArticolo.convertToArticoloList( rs.getString("ARTICOblob"));
                 Articoli articolo = Factory.factoryProdotto(listaList);
 
-                daRestituire = daRestituire + "ID : " + rs.getInt("idARTICOLI") + " | ARTICOLO :" + articolo.getNomeArticolo() + "  prezzo :" + articolo.getPrezzoArticolo()+ "  quantita : "  + articolo.getQuantitaArticolo() + capo;
+                daRestituire.append("ID : " + rs.getInt("idARTICOLI") + " | ARTICOLO :" + articolo.getNomeArticolo() + "  prezzo :" + articolo.getPrezzoArticolo()+ "  quantita : "  + articolo.getQuantitaArticolo() + capo);
             }
-            return daRestituire;
+            return daRestituire.toString();
         } catch (SQLException e) {
             throw new DAOException("DAORecuperaIdOrdini : " + e.getMessage());
         }

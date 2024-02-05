@@ -6,7 +6,7 @@ public class StringToOrdini {
         throw new IllegalStateException("Utility class");
     }
 
-    static public String coverti(String string){
+    public static String coverti(String string){
         String output = "";
         String[] lollo = string.split("_");
 

@@ -25,9 +25,7 @@ public class DAOEliminaArticolo implements GenericProcedureDAO<Boolean>{
 
             int rowsInserted = stmt.executeUpdate();
 
-            if (rowsInserted < 1) {
-                return false;
-            }
+            if (rowsInserted < 1) return false;
             return true;
         } catch (SQLException e) {
             throw new DAOException("DAOEliminaArticolo : " + e.getMessage());
