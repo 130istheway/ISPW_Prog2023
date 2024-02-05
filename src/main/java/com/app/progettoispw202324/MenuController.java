@@ -71,13 +71,7 @@ public class MenuController {
                 fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaCarrello.fxml"));
                 root = fxmlLoader.load();
                 VisualizzaController.passGestione(gestionePerUI);
-
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.setTitle("Visualizza");
-                stage.show();
-
+                setCose(event,"Visualizza");
             } catch (IOException e) {
                 logger.error("0x000110    %s", e.getMessage());
                 Platform.exit();
@@ -98,13 +92,7 @@ public class MenuController {
                     fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("InserisciCarrello.fxml"));
                     root = fxmlLoader.load();
                     InsController.passGestione(gestionePerUI);
-
-                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.setTitle("Inserisci");
-                    stage.show();
-
+                    setCose(event,"Inserisci");
                 } catch (IOException e) {
                     logger.error("0x000111    %s", e.getMessage());
                     Platform.exit();
@@ -140,13 +128,7 @@ public class MenuController {
             fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("OrdiniCarrello.fxml"));
             root = fxmlLoader.load();
             OrdiniCarrelloController.passGestione(gestionePerUI);
-
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("Verifica se le tue prenotazioni sono accettate");
-            stage.show();
+            setCose(event,"Verifica se le tue prenotazioni sono accettate");
         }catch (IOException e){
             logger.error("0x000112    %s", e.getMessage());
             Platform.exit();
@@ -160,12 +142,7 @@ public class MenuController {
             fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("CosaInserire.fxml"));
             root = fxmlLoader.load();
             InserisciController.passGestione(gestionePerUI);
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("Aggiungi al DB");
-            stage.show();
+            setCose(event,"Aggiungi al DB");
         } catch (IOException e) {
             logger.error("0x000113    %s", e.getMessage());
             Platform.exit();
