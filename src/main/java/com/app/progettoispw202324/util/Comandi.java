@@ -108,9 +108,9 @@ public class Comandi {
             return finiti;
     }
 
-    public static void elimina(Integer posizione, GestionePerUI gestionePerUI, TextArea testoLibero){
+    private static void riceviMessaggio(String string, GestionePerUI gestionePerUI, int posizione){
         messageToCommand = new MessageToCommand();
-        String receive = null;
+        String receive = "";
 
         messageToCommand.setCommand("RIMUOVIART");
         messageToCommand.setPayload(String.valueOf(posizione));
@@ -122,6 +122,10 @@ public class Comandi {
             Platform.exit();
         }
         messageToCommand.fromMessage(receive);
+    }
+
+    public static void elimina(Integer posizione, GestionePerUI gestionePerUI, TextArea testoLibero){
+        riceviMessaggio("RIMUOVIART", gestionePerUI, posizione);
         if (Objects.equals(messageToCommand.getCommand(), "NO")){
             testoLibero.setText(messageToCommand.getPayload());
         }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
@@ -130,18 +134,7 @@ public class Comandi {
     }
 
     public static void visualizzaCarrello(boolean scelta, int posizione, GestionePerUI gestionePerUI, TextArea testoLibero, Button successivo){
-        messageToCommand = new MessageToCommand();
-        String receive = "";
-        messageToCommand.setCommand("VISUALIZZAART");
-        messageToCommand.setPayload(String.valueOf(posizione));
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
-        try{
-            receive = gestionePerUI.getMessage();
-        }catch (IOException e){
-            logger.error("Errore nel recupero del messaggio");
-            Platform.exit();
-        }
-        messageToCommand.fromMessage(receive);
+        riceviMessaggio("VISUALIZZAART", gestionePerUI,posizione);
         if (Objects.equals(messageToCommand.getCommand(), "NO")){
             testoLibero.setText("Articoli Finiti");
             if (scelta) successivo.setText("|");
