@@ -6,8 +6,6 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.app.progettoispw202324.MenuController;
-
 import carrello.articoli.Articoli;
 import carrello.articoli.Factory;
 
@@ -21,7 +19,7 @@ import carrello.articoli.Factory;
  */
 public class Carrello extends CarrelloCache{
     
-    Logger logger = LogManager.getLogger(CarrelloCache.class);
+    Logger logger = LogManager.getLogger(Carrello.class);
     
     /** Flag che indica se il pagamento è stato effettuato */
     boolean pagato;
