@@ -55,25 +55,7 @@ public class VisualizzaDB {
     }
 
     public static void visualizzaCarrello(){
-        messageToCommand = new MessageToCommand();
-        String receive = "";
-        messageToCommand.setCommand("VISUALIZZAART");
-        messageToCommand.setPayload(String.valueOf(posizione));
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
-        try{
-            receive = gestionePerUI.getMessage();
-        }catch (IOException e){
-            logger.error("Errore nel recupero del messaggio");
-            Platform.exit();
-        }
-        messageToCommand.fromMessage(receive);
-        if (Objects.equals(messageToCommand.getCommand(), "NO")){
-            testoLibero.setText("Articoli Finiti");
-        }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
-            String articolo = messageToCommand.getPayload();
-            List<String> lista = ConvertiStringToArticolo.convertToListStringFromString(articolo);
-            PrintArticoli.stampaArticolisuTextBox(lista, testoLibero);
-        }
+        Comandi.visualizzaCarrello(false,posizione,gestionePerUI,testoLibero,null);
     }
 
     public static void passGestione(GestionePerUI temporaneo){
