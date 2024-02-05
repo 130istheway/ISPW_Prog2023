@@ -18,26 +18,20 @@ public class DAORecoverArticoliDB implements GenericProcedureDAO<String>{
         try {
             conn = ConnectionFactory.getConnection();
             String sql = "SELECT `ARTICOblob` as DATI FROM articoli WHERE `idARTICOLI` = ? LIMIT 1";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setLong(1, id);
+            
+            try(PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setLong(1, id);
 
-            ResultSet rs = stmt.executeQuery();
+                ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                string = rs.getString("DATI");
+                if (rs.next()) {
+                    string = rs.getString("DATI");
+                }
             }
-            stmt.close();
-
             return string;
         } catch (SQLException e) {
             throw new DAOException("DAORecoverArticoliDB : " + e.getMessage());
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                throw new DAOException("DAORecoverArticoliDB : " + e.getMessage());
-            }
-        }
+        } 
     }
 
 }
