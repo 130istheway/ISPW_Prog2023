@@ -20,55 +20,35 @@ import java.util.Objects;
 
 public class InsController {
     
-    Logger logger = LogManager.getLogger(InsController.class);
+    static Logger logger = LogManager.getLogger(InsController.class);
 
-    MessageToCommand messageToCommand = new MessageToCommand();
+    static MessageToCommand messageToCommand = new MessageToCommand();
 
-
+    private static final String INSCONTROLLER = "InsCotroller";
     static GestionePerUI gestionePerUI;
 
-    private int posizione = 0;
-    private boolean finiti = false;
+    private static Integer posizione = 0;
+    private Boolean finiti = false;
 
     @FXML
     Button precedente;
     @FXML
-    Button successivo;
+    static Button successivo;
     @FXML
     TextField quantita;
     @FXML
-    TextArea testoLibero;
+    static TextArea testoLibero;
 
     public void menu(ActionEvent event){
         Comandi.menu(event, gestionePerUI);
     }
 
     public void vaiSuccessivo(){
-        if (!finiti) {
-            posizione++;
-            visualizzaCarrello();
-            if (posizione > 0) {
-                precedente.setText("<<");
-            }
-            if (Objects.equals(testoLibero.getText(), "Articoli Finiti")) {
-                finiti = true;
-            }
-        }
+        Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, INSCONTROLLER);
     }
 
-
     public void vaiPrecedente(){
-        if (posizione == 0){
-            testoLibero.setText("Il primo elemento è stato raggiunto");
-            successivo.setText(">>");
-        }else {
-            posizione--;
-            visualizzaCarrello();
-            if (posizione < 1) {
-                precedente.setText("|");
-                finiti = false;
-            }
-        }
+        Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,testoLibero, INSCONTROLLER);
     }
 
     public void inserisci(){
@@ -95,7 +75,7 @@ public class InsController {
         }
     }
 
-    private String messaggio(){
+    private static String messaggio(){
         try {
             return gestionePerUI.getMessage();
         } catch (IOException e) {
@@ -106,7 +86,7 @@ public class InsController {
     }
 
 
-    public void visualizzaCarrello(){
+    public static void visualizzaCarrello(){
         String receive = "NO";
         messageToCommand.setCommand("VISUALIZZAART");
         messageToCommand.setPayload(String.valueOf(posizione));

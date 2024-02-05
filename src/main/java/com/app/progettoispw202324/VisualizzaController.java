@@ -26,21 +26,23 @@ import com.app.progettoispw202324.util.PrintArticoli;
 
 public class VisualizzaController {
     
-    Logger logger = LogManager.getLogger(VisualizzaController.class);
+    static Logger logger = LogManager.getLogger(VisualizzaController.class);
 
-    MessageToCommand messageToCommand = new MessageToCommand();
+    static MessageToCommand messageToCommand = new MessageToCommand();
+
+    private static final String VISUALIZZACONTROLLER = "VisualizzaController";
 
     static GestionePerUI gestionePerUI;
 
-    private int posizione = 0;
+    private static int posizione = 0;
     private boolean finiti = false;
 
     @FXML
     Button precedente;
     @FXML
-    Button successivo;
+    static Button successivo;
     @FXML
-    TextArea testoLibero;
+    static TextArea testoLibero;
 
     public void initializa(){
         visualizzaCarrello();
@@ -51,31 +53,12 @@ public class VisualizzaController {
     }
 
     public void vaiSuccessivo(){
-        if (!finiti) {
-            posizione++;
-            visualizzaCarrello();
-            if (posizione > 0) {
-                precedente.setText("<<");
-            }
-            if (Objects.equals(testoLibero.getText(), "Articoli Finiti")) {
-                finiti = true;
-            }
-        }
+        Comandi.vaiSuccessivo(finiti,posizione,precedente, successivo,testoLibero, VISUALIZZACONTROLLER);
     }
 
 
     public void vaiPrecedente(){
-        if (posizione == 0){
-            visualizzaCarrello();
-            successivo.setText(">>");
-        }else {
-            posizione--;
-            visualizzaCarrello();
-            if (posizione < 1) {
-                precedente.setText("|");
-                finiti = false;
-            }
-        }
+        Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,testoLibero, VISUALIZZACONTROLLER);
     }
 
     public void elimina(){
@@ -99,7 +82,7 @@ public class VisualizzaController {
         }
     }
 
-    public void visualizzaCarrello(){
+    public static void visualizzaCarrello(){
         messageToCommand = new MessageToCommand();
         String receive = null;
         messageToCommand.setCommand("VISUALIZZAART");

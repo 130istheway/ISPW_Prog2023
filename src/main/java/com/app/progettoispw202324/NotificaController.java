@@ -23,21 +23,23 @@ import org.apache.logging.log4j.Logger;
 
 public class NotificaController {
     
-    Logger logger = LogManager.getLogger(NotificaController.class);
+    static Logger logger = LogManager.getLogger(NotificaController.class);
 
     private static final String ER = "Errore nel recupero del messaggio";
 
-    MessageToCommand messageToCommand = new MessageToCommand();
+    private static final String NOTIFICACONTROLLER = "NotificaController";
+
+    static MessageToCommand messageToCommand = new MessageToCommand();
     static GestionePerUI gestionePerUI;
 
-    private int posizione = 0;
+    private static int posizione = 0;
     private boolean finiti = false;
     @FXML
     Button precedente;
     @FXML
     Button successivo;
     @FXML
-    TextArea testoLibero;
+    static TextArea testoLibero;
     @FXML
     Button accetta;
     @FXML
@@ -50,31 +52,12 @@ public class NotificaController {
     }
 
     public void vaiSuccessivo(){
-        if (!finiti) {
-            posizione++;
-            visualizzaCarrello();
-            if (posizione > 0) {
-                precedente.setText("<<");
-            }
-            if (Objects.equals(testoLibero.getText(), "Articoli Finiti")) {
-                finiti = true;
-            }
-        }
+        Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, NOTIFICACONTROLLER);
     }
 
 
     public void vaiPrecedente(){
-        if (posizione == 0){
-            visualizzaCarrello();
-            successivo.setText(">>");
-        }else {
-            posizione--;
-            visualizzaCarrello();
-            finiti = false;
-            if (posizione < 1) {
-                precedente.setText("|");
-            }
-        }
+        Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,testoLibero, NOTIFICACONTROLLER);
     }
 
     public void conferma(){
@@ -128,7 +111,7 @@ public class NotificaController {
         visualizzaCarrello();
     }
 
-    public void visualizzaCarrello(){
+    public static void visualizzaCarrello(){
         messageToCommand = new MessageToCommand();
         String receive = null;
         messageToCommand.setCommand("VISUALIZZANOTI");

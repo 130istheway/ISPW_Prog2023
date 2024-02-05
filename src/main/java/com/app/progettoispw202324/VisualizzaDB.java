@@ -25,13 +25,15 @@ import org.apache.logging.log4j.Logger;
 
 public class VisualizzaDB {
     
-    Logger logger = LogManager.getLogger(VisualizzaDB.class);
+    static Logger logger = LogManager.getLogger(VisualizzaDB.class);
 
-    MessageToCommand messageToCommand = new MessageToCommand();
+    static MessageToCommand messageToCommand = new MessageToCommand();
+
+    private static final String VISUALIZZADB = "VisualizzaDB";
 
     static GestionePerUI gestionePerUI;
 
-    private int posizione = 0;
+    private static int posizione = 0;
     private boolean finiti = false;
 
     @FXML
@@ -39,38 +41,21 @@ public class VisualizzaDB {
     @FXML
     Button successivo;
     @FXML
-    TextArea testoLibero;
+    static TextArea testoLibero;
 
     public void menu(ActionEvent event){
         Comandi.menu(event, gestionePerUI);
     }
 
     public void vaiSuccessivo(){
-        if (!finiti) {
-            posizione++;
+        if (Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, VISUALIZZADB)){
             visualizzaCarrello();
-            if (posizione > 0) {
-                precedente.setText("<<");
-            }
-            if (Objects.equals(testoLibero.getText(), "Articoli Finiti")) {
-                finiti = true;
-            }
         }
     }
 
 
     public void vaiPrecedente(){
-        if (posizione == 0){
-            visualizzaCarrello();
-            successivo.setText(">>");
-        }else {
-            posizione--;
-            visualizzaCarrello();
-            finiti = false;
-            if (posizione < 1) {
-                precedente.setText("|");
-            }
-        }
+        Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,testoLibero, VISUALIZZADB);
     }
 
     public void elimina(){
@@ -94,7 +79,7 @@ public class VisualizzaDB {
         }
     }
 
-    public void visualizzaCarrello(){
+    public static void visualizzaCarrello(){
         messageToCommand = new MessageToCommand();
         String receive = "";
         messageToCommand.setCommand("VISUALIZZAART");
