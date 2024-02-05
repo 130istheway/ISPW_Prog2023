@@ -66,26 +66,7 @@ public class VisualizzaController {
     }
 
     public static void visualizzaCarrello(){
-        messageToCommand = new MessageToCommand();
-        String receive = null;
-        messageToCommand.setCommand("VISUALIZZAART");
-        messageToCommand.setPayload(String.valueOf(posizione));
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
-        try{
-            receive = gestionePerUI.getMessage();
-        }catch (IOException e){
-            logger.error("Errore nel recupero del messaggio");
-            Platform.exit();
-        }
-        messageToCommand.fromMessage(receive);
-        if (Objects.equals(messageToCommand.getCommand(), "NO")){
-            testoLibero.setText("Articoli Finiti");
-            successivo.setText("|");
-        }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
-            String articolo = messageToCommand.getPayload();
-            List<String> lista = ConvertiStringToArticolo.convertToListStringFromString(articolo);
-            PrintArticoli.stampaArticolisuTextBox(lista, testoLibero);
-        }
+        Comandi.visualizzaCarrello(true,posizione,gestionePerUI,testoLibero,successivo);
     }
 
     public static void passGestione(GestionePerUI temporaneo){

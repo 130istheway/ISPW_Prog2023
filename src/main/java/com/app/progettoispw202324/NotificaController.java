@@ -96,23 +96,7 @@ public class NotificaController {
     }
 
     public static void visualizzaCarrello(){
-        messageToCommand = new MessageToCommand();
-        String receive = null;
-        messageToCommand.setCommand("VISUALIZZANOTI");
-        messageToCommand.setPayload(String.valueOf(posizione));
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
-        try{
-            receive = gestionePerUI.getMessage();
-        }catch (IOException e){
-            logger.error(ER);
-            Platform.exit();
-        }
-        messageToCommand.fromMessage(receive);
-        if (Objects.equals(messageToCommand.getCommand(), "NO")){
-            testoLibero.setText("Articoli Finiti");
-        }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
-            PrintOnTextField.stampaArticolisuTextBox(StringToOrdini.coverti(messageToCommand.getPayload()), testoLibero);
-        }
+        Comandi.visualizzaCarrello(false,posizione,gestionePerUI,testoLibero,null);
     }
 
 

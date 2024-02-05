@@ -13,9 +13,11 @@ import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import util.ConvertiStringToArticolo;
 import util.MessageToCommand;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class Comandi {
@@ -124,6 +126,29 @@ public class Comandi {
             testoLibero.setText(messageToCommand.getPayload());
         }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
             testoLibero.setText("Articolo Eliminato");
+        }
+    }
+
+    public static void visualizzaCarrello(boolean scelta, int posizione, GestionePerUI gestionePerUI, TextArea testoLibero, Button successivo){
+        messageToCommand = new MessageToCommand();
+        String receive = "";
+        messageToCommand.setCommand("VISUALIZZAART");
+        messageToCommand.setPayload(String.valueOf(posizione));
+        gestionePerUI.sendMessage(messageToCommand.toMessage());
+        try{
+            receive = gestionePerUI.getMessage();
+        }catch (IOException e){
+            logger.error("Errore nel recupero del messaggio");
+            Platform.exit();
+        }
+        messageToCommand.fromMessage(receive);
+        if (Objects.equals(messageToCommand.getCommand(), "NO")){
+            testoLibero.setText("Articoli Finiti");
+            if (scelta) successivo.setText("|");
+        }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
+            String articolo = messageToCommand.getPayload();
+            List<String> lista = ConvertiStringToArticolo.convertToListStringFromString(articolo);
+            PrintArticoli.stampaArticolisuTextBox(lista, testoLibero);
         }
     }
 }
