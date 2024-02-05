@@ -5,17 +5,21 @@ import model.dao.DAORecuperaIdArticolo;
 import model.dao.exception.DAOException;
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
-import model.domain.LivelloInformazione;
 import util.ConvertiStringToArticolo;
 import util.MessageToCommand;
 
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import carrello.Carrello;
 import carrello.CarrelloCache;
 
 public class AggiungiUserController {
+    
+    Logger logger = LogManager.getLogger(AggiungiUserController.class);
 
     CarrelloCache cache;
     Carrello appoggio;
@@ -54,7 +58,7 @@ public class AggiungiUserController {
                 }
             }
         } catch (IOException e) {
-            info.sendlog(LivelloInformazione.ERROR, e.getMessage());
+            logger.error(e.getMessage());
         }
     }
     
@@ -97,7 +101,7 @@ public class AggiungiUserController {
                 boolean aggiunto = carrello.aggiungi(cache.ritornaArticolo(numberId), numberPezzi);
 
                 if (!aggiunto) {
-                    info.sendlog(LivelloInformazione.INFO, "non è stato possibile inserire l'articolo :" + number + " " +credentials.getUsername());
+                    logger.info("non è stato possibile inserire l'articolo : %d , %s",number,credentials.getUsername());
                     messageToCommand.setCommand("NO");
                     messageToCommand.setPayload(null);
                     info.sendMessage(messageToCommand.toMessage());

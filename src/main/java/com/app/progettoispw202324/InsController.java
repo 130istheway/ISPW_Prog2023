@@ -25,7 +25,7 @@ import org.apache.logging.log4j.Logger;
 
 public class InsController {
     
-    Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+    Logger logger = LogManager.getLogger(InsController.class);
 
     MessageToCommand messageToCommand = new MessageToCommand();
 

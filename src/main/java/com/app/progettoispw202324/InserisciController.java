@@ -21,10 +21,11 @@ import org.apache.logging.log4j.Logger;
 
 public class InserisciController {
 
-    Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+    Logger logger = LogManager.getLogger(InserisciController.class);
 
     private static final String TAG = "menu.fxml";
-    private static final String impostarosso = "-fx-background-color: red;";
+    private static final String IMPOSTAROSSO = "-fx-background-color: red;";
+    private static final String FTL = "Failed to load";
 
     MessageToCommand messageToCommand = new MessageToCommand();
 
@@ -53,7 +54,7 @@ public class InserisciController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            logger.error("Failed to load");
+            logger.error(FTL);
             Platform.exit();
         }
     }
@@ -70,7 +71,7 @@ public class InserisciController {
             messageToCommand.fromMessage(receive);
             pane.setStyle("-fx-background-color: green;");
             if (Objects.equals(messageToCommand.getCommand(), "NO")) {
-                infoDiInserire.setStyle(impostarosso);
+                infoDiInserire.setStyle(IMPOSTAROSSO);
             } else if (Objects.equals(messageToCommand.getCommand(), "SI")) {
                 infoDiInserire.setText("Articolo Aggiunto");
             } else if (Objects.equals(messageToCommand.getCommand(), "NON AUTORIZATO")) {
@@ -82,12 +83,12 @@ public class InserisciController {
                     stage.setScene(scene);
                     stage.show();
                 } catch (IOException e) {
-                    logger.error("Failed to load");
+                    logger.error(FTL);
                     Platform.exit();
                 }
             }
         }else{
-            pane.setStyle(impostarosso);
+            pane.setStyle(IMPOSTAROSSO);
         }
     }
 
@@ -113,7 +114,7 @@ public class InserisciController {
             messageToCommand.fromMessage(receive);
             pizza.setStyle("-fx-background-color: green;");
             if (Objects.equals(messageToCommand.getCommand(), "NO")) {
-                infoDiInserire.setStyle(impostarosso);
+                infoDiInserire.setStyle(IMPOSTAROSSO);
             } else if (Objects.equals(messageToCommand.getCommand(), "SI")) {
                 infoDiInserire.setText("Articolo Aggiunto");
             } else if (Objects.equals(messageToCommand.getCommand(), "NON AUTORIZATO")) {
@@ -125,12 +126,12 @@ public class InserisciController {
                     stage.setScene(scene);
                     stage.show();
                 } catch (IOException e) {
-                    logger.error("Failed to load");
+                    logger.error(FTL);
                     Platform.exit();
                 }
             }
         }else{
-            pizza.setStyle(impostarosso);
+            pizza.setStyle(IMPOSTAROSSO);
         }
     }
 

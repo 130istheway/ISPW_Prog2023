@@ -4,11 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import util.SingletonLogger;
-
 public class ControllerInfoSulThread {
-
-    SingletonLogger log;
 
     private long threadId;
     private boolean running;
@@ -16,12 +12,11 @@ public class ControllerInfoSulThread {
     private BufferedReader in;
     private PrintWriter out;
 
-    public ControllerInfoSulThread(BufferedReader input, PrintWriter output, SingletonLogger logger) {
+    public ControllerInfoSulThread(BufferedReader input, PrintWriter output) {
         this.threadId = 0;
         this.running = true;
         this.in = input;
         this.out = output;
-        this.log = logger;
     }
 
     public ControllerInfoSulThread(){}
@@ -49,9 +44,5 @@ public class ControllerInfoSulThread {
 
     public String getMessage() throws IOException{
         return in.readLine();
-    }
-
-    public void sendlog(LivelloInformazione livello , String message){
-        log.sendInformazione(livello, message);
     }
 }

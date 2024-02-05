@@ -2,7 +2,6 @@ package com.app.progettoispw202324;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
@@ -20,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 public class ClientApplication extends Application {
 
-    static Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+    static Logger logger = LogManager.getLogger(ClientApplication.class);
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -59,10 +58,7 @@ public class ClientApplication extends Application {
         ricevi = gestionePerUI.getMessage();
         if(!Objects.equals(ricevi, "Autenticarsi: ")) return;
 
-
-        FXMLLoader loader = new FXMLLoader(ClientApplication.class.getResource("ControllerLogin.fxml"));
-        LoginController controller = loader.getController();
-        controller.passGestione(gestionePerUI);
+        LoginController.passGestione(gestionePerUI);
 
         FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("ControllerLogin.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 650, 400);

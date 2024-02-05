@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 
 public class OrdiniCarrelloController {
     
-    Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+    Logger logger = LogManager.getLogger(OrdiniCarrelloController.class);
 
     MessageToCommand messageToCommand = new MessageToCommand();
 
@@ -39,7 +39,7 @@ public class OrdiniCarrelloController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            logger.error("0x004001" + e.getMessage());
+            logger.error("0x004001    %s", e.getMessage());
             Platform.exit();
         }
     }

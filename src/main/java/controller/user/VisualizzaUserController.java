@@ -2,14 +2,18 @@ package controller.user;
 
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
-import model.domain.LivelloInformazione;
 import util.MessageToCommand;
 
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import carrello.Carrello;
 
 public class VisualizzaUserController {
+    
+    Logger logger = LogManager.getLogger(VisualizzaUserController.class);
 
     boolean cambiaAttivita = false;
 
@@ -27,7 +31,7 @@ public class VisualizzaUserController {
                 }
             }
         } catch (IOException e) {
-            info.sendlog(LivelloInformazione.ERROR, e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 
@@ -58,7 +62,7 @@ public class VisualizzaUserController {
             case "RIMUOVIART":
                 boolean delete = carrello.elimina(number);
                 if (!delete) {
-                    info.sendlog(LivelloInformazione.INFO, "non è stato possibile cancellare l'articolo" + number + credentials.getUsername());
+                    logger.info("non è stato possibile cancellare l'articolo : %d %S",number,credentials.getUsername());
                     messageToCommand.setCommand("NO");
                     messageToCommand.setPayload(null);
                     info.sendMessage(messageToCommand.toMessage());

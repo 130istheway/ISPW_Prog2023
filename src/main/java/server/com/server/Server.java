@@ -8,14 +8,15 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import server.com.server.handler.ClientHandler;
 import server.com.server.exception.PersonalException;
-import util.SingletonLogger;
-import model.domain.LivelloInformazione;
 
 public class Server implements Runnable{
-
-    SingletonLogger log = SingletonLogger.getInstance();
+    
+    Logger logger = LogManager.getLogger(Server.class);
 
     ArrayList<Thread> threads = new ArrayList<>();
     ArrayList<ClientHandler> app = new ArrayList<>();
@@ -23,7 +24,7 @@ public class Server implements Runnable{
 
     @Override
     public void run() {
-        log.sendInformazione( LivelloInformazione.TRACE ,"Starting the Server...");
+        logger.trace("Starting the Server...");
         try {
             handlerConnection();
         }catch (Exception e) {
@@ -31,7 +32,7 @@ public class Server implements Runnable{
             Thread currentThread = Thread.currentThread();
             long threadId = currentThread.getId();     //avrei voluto usare threadId() ma sonarcloud ha detto di no
 
-            log.sendInformazione( LivelloInformazione.ERROR ,"Il Server al thread : " + threadId + " Si è concluso, il messaggio d'errore è : " + e.getMessage());
+            logger.error("Il Server al thread : %d Si è concluso, il messaggio d'errore è : %s", threadId, e.getMessage());
             Thread.currentThread().interrupt();
         }
     }
@@ -40,7 +41,7 @@ public class Server implements Runnable{
         ServerSocket serverSocket = new ServerSocket(5000);
         while (possoAvereAltreConnessioni) {
             try {
-                log.sendInformazione(LivelloInformazione.TRACE,"Attendo connessioni...");
+                logger.trace("Attendo connessioni...");
                 Socket socket = serverSocket.accept();
 
                 handler(socket);
@@ -49,7 +50,7 @@ public class Server implements Runnable{
                 throw new PersonalException("Qualcosa è andato storto con la socket | " + e.getMessage());
             }catch (PersonalException e){
                 if (!(e.getMessage().contains("NONSTOPPAREILSERVER"))) {
-                    log.sendInformazione(LivelloInformazione.TRACE,"Server shutDown");
+                    logger.trace("Server shutdown");
                 for (ClientHandler ClientHandlerapp : app) {
                     ClientHandlerapp.stopRunning();
                 }
@@ -71,7 +72,7 @@ public class Server implements Runnable{
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             if (Objects.equals(in.readLine(), "STOPIT")) {
-                log.sendInformazione(LivelloInformazione.INFO,"Ok sto avviando la chiusura dell'applicativo che funge da server");
+                logger.info("Ok sto avviando la chiusura dell'applicativo che funge da server");
                 throw new PersonalException("STOPIT");
             }
 
@@ -82,17 +83,17 @@ public class Server implements Runnable{
             appthread.start();
             clientHandlerTemporaneo.setNumber(appthread.getId());
             threads.add(appthread);
-            log.sendInformazione( LivelloInformazione.INFO,"aviato il thread : " + appthread.getId());
+            logger.info("aviato il thread : %d ", appthread.getId());
         }catch (IllegalThreadStateException e){
-            log.sendInformazione(LivelloInformazione.ERROR,"L'applicazione ha provato a rilanciare un thread, cià non dovrebbe mai succedere quindi non so cosa sta succedendo, per sicurezza chiudo l'app");
+            logger.error("L'applicazione ha provato a rilanciare un thread, cià non dovrebbe mai succedere quindi non so cosa sta succedendo, per sicurezza chiudo l'app");
             throw e;
         }catch(IOException e){
-            log.sendInformazione(LivelloInformazione.TRACE,"Questo è un problema con la socket");
+            logger.trace("Questo è un problema con la socket");
         }catch (PersonalException e){
             if (e.getMessage().equals("Errore nella creazione dei buffer per leggere e  scrivere")) {
                 throw new PersonalException("NONSTOPPAREILSERVER ma penso abbiamo finito gli handle per gli agganci alle socket");
             }
-            log.sendInformazione(LivelloInformazione.ERROR,"mi hanno detto : " + e.getMessage());
+            logger.error("mi hanno detto : %s", e.getMessage());
             throw new PersonalException("Server ShutDown");
         }
     }

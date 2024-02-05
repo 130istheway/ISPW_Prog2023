@@ -2,7 +2,6 @@ package controller.negozio;
 
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
-import model.domain.LivelloInformazione;
 import model.dao.DAORecoverArticoliDB;
 import model.dao.DAORecuperaIdArticolo;
 import model.dao.exception.DAOException;
@@ -14,10 +13,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import carrello.Carrello;
 import carrello.CarrelloCache;
 
 public class VisualizzaNegozioController {
+    
+    Logger logger = LogManager.getLogger(VisualizzaNegozioController.class);
+    
     List<Integer> numero = new ArrayList<>();
 
     NegozioBDController negozioElimina = new NegozioBDController();
@@ -42,7 +47,7 @@ public class VisualizzaNegozioController {
                 }
             }
         } catch (IOException e) {
-            info.sendlog(LivelloInformazione.ERROR, e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 

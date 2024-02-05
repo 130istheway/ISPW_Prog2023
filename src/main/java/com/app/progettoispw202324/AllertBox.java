@@ -1,8 +1,6 @@
 package com.app.progettoispw202324;
 
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,14 +11,12 @@ import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
 import util.MessageToCommand;
 
-import java.io.IOException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AllertBox {
 
-    static Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+    static Logger logger = LogManager.getLogger(AllertBox.class);
 
     private AllertBox() {
         throw new IllegalStateException("Utility class");
@@ -70,8 +66,6 @@ public class AllertBox {
 
 
     private static void setControllerMenu(String negozio){
-        FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("menu.fxml"));
-        MenuController controller = fxmlLoader.getController();
-        controller.setNegozio(negozio);
+        MenuController.setNegozio(negozio);
     }
 }

@@ -2,14 +2,17 @@ package controller.negozio;
 
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
-import model.domain.LivelloInformazione;
-
 import util.MessageToCommand;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import model.dao.exception.DAOException;
 import model.dao.negozio.*;
 
 public class NegozioBDController {
+    
+    Logger logger = LogManager.getLogger(NegozioBDController.class);
 
     MessageToCommand messageToCommand = new MessageToCommand();
     
@@ -55,7 +58,7 @@ public class NegozioBDController {
             messageToCommand.setCommand("NO");
             messageToCommand.setPayload("articolo non aggiunto");
             info.sendMessage(messageToCommand.toMessage());
-            info.sendlog(LivelloInformazione.ERROR, e.getMessage());
+            logger.error(e.getMessage());
             return false;
         }
     }
@@ -92,7 +95,7 @@ public class NegozioBDController {
             messageToCommand.setPayload("articolo non eliminato per errore");
 
             info.sendMessage(messageToCommand.toMessage());
-            info.sendlog(LivelloInformazione.ERROR, e.getMessage());
+            logger.error(e.getMessage());
             return false;
         }
     }

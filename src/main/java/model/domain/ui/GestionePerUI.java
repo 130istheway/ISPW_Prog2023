@@ -39,11 +39,7 @@ public class GestionePerUI {
     }
 
     public String getMessage() throws IOException{
-        try {
-            return in.readLine();
-        } catch (IOException e) {
-            throw e;
-        }
+        return in.readLine();
     }
 
 

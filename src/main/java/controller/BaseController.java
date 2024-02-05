@@ -3,13 +3,15 @@ package controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import model.dao.exception.DAOException;
 import model.dao.negozio.DAOIdNegozio;
 import model.dao.notifica.DAORecuperaIdOrdini;
 import model.dao.user.DAOUser;
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
-import model.domain.LivelloInformazione;
 
 import server.com.server.exception.PersonalException;
 
@@ -19,10 +21,11 @@ import carrello.Carrello;
 
 import controller.negozio.*;
 import controller.user.*;
-import javafx.application.Platform;
 import controller.notifica.NotificaNegozioController;
 
 public class BaseController {
+    
+    Logger logger = LogManager.getLogger(BaseController.class);
 
     ControllerInfoSulThread info;
     LoginController login;
@@ -128,7 +131,7 @@ public class BaseController {
                     info.sendMessage(messageToCommand.toMessage());
                     return;
                 } catch (DAOException e) {
-                    info.sendlog(LivelloInformazione.ERROR, "Problema rilevato nelle DAO per visualizare le notifiche " + e.getMessage());
+                    logger.error("Problema rilevato nelle DAO per visualizare le notifiche %s", e.getMessage());
                 }    
             } else{
                 //implementare le notifiche per l'utente
@@ -139,14 +142,14 @@ public class BaseController {
 
     private void ordiniConfermati() {
         if (cred!=null && (cred.getRole().ordinal()<3)){
-            info.sendlog(LivelloInformazione.TRACE, "Recupero degli ORDINI del carrello");
+            logger.trace("Recupero degli ORDINI del carrello");
             DAOUser daoUser = new DAOUser();
             DAOIdNegozio daoIdNegozio = new DAOIdNegozio();
             int id = 0;
             try {
                 id = daoIdNegozio.execute(cred.getUsername());
             } catch (DAOException e) {
-                info.sendlog(LivelloInformazione.ERROR, "OrdiniConfermati" + e.getMessage());
+                logger.error("OrdiniConfermati %s",e.getMessage());
                 messageToCommand.setCommand("NO");
                 messageToCommand.setPayload("Problema con l'id contatta l'amministratore con messaggio 0x321123654");
                 info.sendMessage(messageToCommand.toMessage());
@@ -156,7 +159,7 @@ public class BaseController {
             try {
                 ordini = daoUser.execute(id);
             } catch (DAOException e) {
-                info.sendlog(LivelloInformazione.ERROR, "Errore nel recupero degli ORDINI da confermare" + e.getMessage());
+                logger.error("Errore nel recupero degli ORDINI da confermare %s",e.getMessage());
                 messageToCommand.setCommand("NO");
                 messageToCommand.setPayload("Problema con l'id contatta l'amministratore con messaggio 0x321123662");
                 info.sendMessage(messageToCommand.toMessage());
@@ -170,12 +173,12 @@ public class BaseController {
 
     private void resetNegozio(){
         carrellino = new Carrello();
-        info.sendlog(LivelloInformazione.TRACE, "Carrello resettato");
+        logger.trace("Carrello resettato");
     }
 
 
     private void tryLogin() throws PersonalException {
-        info.sendlog(LivelloInformazione.TRACE, "Entering LOGIN");
+        logger.trace("Entering LOGIN");
                 login = new LoginController(info);
                 try{
                     cred = login.execute();
@@ -194,7 +197,7 @@ public class BaseController {
                     messageToCommand.setCommand(STOPTHAT);
                     messageToCommand.setPayload(null);
                     info.sendMessage(messageToCommand.toMessage());
-                    info.sendlog(LivelloInformazione.TRACE, "Login failed");
+                    logger.trace("Login failed");
                 }catch (Exception e){
                     if (e instanceof PersonalException) {
                         throw e;
@@ -202,7 +205,7 @@ public class BaseController {
                     messageToCommand.setCommand(STOPTHAT);
                     messageToCommand.setPayload(null);
                     info.sendMessage(messageToCommand.toMessage());
-                    info.sendlog(LivelloInformazione.TRACE, "Login failed");
+                    logger.trace("Login failed");
                 }
     }
 
@@ -211,7 +214,7 @@ public class BaseController {
         messageToCommand.setCommand(STOPTHAT);
         messageToCommand.setPayload(null);
         info.sendMessage(messageToCommand.toMessage());
-        info.sendlog(LivelloInformazione.TRACE, "Entering EXIT");
+        logger.trace("Exit");
         if (cred!=null) throw new PersonalException("Esco, " + cred.getUsername() + " si era autenticato ma è voluto uscire");
         throw new PersonalException("NON si è voluto autenticare");
     }
@@ -219,12 +222,12 @@ public class BaseController {
 
     private void visualizza(){
         if (cred!=null && (cred.getRole().ordinal()<3)){
-            info.sendlog(LivelloInformazione.TRACE, "Entering Visualizza per l'utente : " + cred.getUsername());
+            logger.trace("Entering Visualizza per l'utente : %s",cred.getUsername());
             userVisualizza.viusalizzaController(cred, info, carrellino);
-            info.sendlog(LivelloInformazione.TRACE, "Exiting visualizza per l'utente : " + cred.getUsername());
+            logger.trace("Exiting visualizza per l'utente : %s" + cred.getUsername());
             return;
         }
-        info.sendlog(LivelloInformazione.TRACE, "Ha provato a VISUALIZARE senza essere Loggato");
+        logger.trace("Ha provato a VISUALIZARE senza essere Loggato");
         messageToCommand.setCommand(NAUTORIZZATO);
         messageToCommand.setPayload(null);
         info.sendMessage(messageToCommand.toMessage());
@@ -232,26 +235,26 @@ public class BaseController {
 
 
     private void rispondereACioCheMandaComeUnPappagallo(ControllerInfoSulThread info) throws IOException {
-        info.sendlog(LivelloInformazione.TRACE, "Entering Writeback");
+        logger.trace("Entering Writeback");
         messageToCommand.setCommand("WRITEBACK MODE");
         messageToCommand.setPayload(null);
         info.sendMessage(messageToCommand.toMessage());
-        this.info.sendlog( LivelloInformazione.TRACE ,"WRITEBACK MODE");
+        logger.trace("WRITEBACK MODE");
         String inputLine;
         while ((inputLine = info.getMessage())!= null){
-            this.info.sendlog( LivelloInformazione.INFO ,"Server " + this.info.getThreadId()  + ": " + inputLine);
+            logger.trace("Server %d : %s",this.info.getThreadId(),inputLine);
             if (inputLine.equals("STOPWRITEBACK")){
                 messageToCommand.setCommand("WRITEBACKENDED");
                 messageToCommand.setPayload(null);
                 info.sendMessage(messageToCommand.toMessage());
-                info.sendlog(LivelloInformazione.FATAL, "Exiting WRITEBACK : xxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                logger.trace("Exiting WRITEBACK : xxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
                 return;
             }
             if (!this.info.isRunning()) {
                 messageToCommand.setCommand(STOPTHAT);
                 messageToCommand.setPayload(null);
                 info.sendMessage(messageToCommand.toMessage());
-                this.info.sendlog( LivelloInformazione.DEBUG ,"Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
+                logger.debug("Server %d : Non rispondo poichè sto chiudendo la connessione", this.info.getThreadId());
                 return;
             }
             messageToCommand.setCommand(inputLine);
@@ -264,12 +267,12 @@ public class BaseController {
     private void aggiungiLista(String negozio){
         if (cred!=null && (cred.getRole().ordinal()<3)){
             AggiungiUserController aggiungi = new AggiungiUserController(negozio);
-            info.sendlog(LivelloInformazione.TRACE, "Entering AggiungiLista per l'utente : " + cred.getUsername());
+            logger.trace("Entering AggiungiLista per l'utente : %s", cred.getUsername());
             aggiungi.aggiungiUserController(cred, info, carrellino);
-            info.sendlog(LivelloInformazione.TRACE, "Exiting AggiungiLista per l'utente : " + cred.getUsername());
+            logger.trace("Exiting AggiungiLista per l'utente : %s", cred.getUsername());
             return;
         }
-        info.sendlog(LivelloInformazione.TRACE, "Ha provato ad AGGIUNGERE alla Lista senza essere Loggato");
+        logger.trace("Ha provato ad AGGIUNGERE alla Lista senza essere Loggato");
         messageToCommand.setCommand(NAUTORIZZATO);
         messageToCommand.setPayload(null);
         info.sendMessage(messageToCommand.toMessage());
@@ -279,12 +282,12 @@ public class BaseController {
     private void confermaLista(String negozio){
         if (cred!=null && (cred.getRole().ordinal()<3)){
             ConfermaListaController conferma = new ConfermaListaController(Integer.parseInt(negozio));
-            info.sendlog(LivelloInformazione.TRACE, "Entering Confermalista per l'utente : " + cred.getUsername());
+            logger.trace("Entering Confermalista per l'utente : %s" + cred.getUsername());
             conferma.confermaLista(cred, info, carrellino);
-            info.sendlog(LivelloInformazione.TRACE, "Exiting Confermalista per l'utente : " + cred.getUsername());
+            logger.trace("Exiting Confermalista per l'utente : %S" + cred.getUsername());
             return;
         }
-        info.sendlog(LivelloInformazione.TRACE, "Ha provato ad CONFERMALISTA senza essere Loggato");
+        logger.trace("Ha provato ad CONFERMALISTA senza essere Loggato");
         messageToCommand.setCommand(NAUTORIZZATO);
         messageToCommand.setPayload(null);
         info.sendMessage(messageToCommand.toMessage());
@@ -294,17 +297,17 @@ public class BaseController {
     private void aggiungiArticoloDB(){
         if (cred!=null && (cred.getRole().ordinal()<2)){
             cred.getUsername();
-            info.sendlog(LivelloInformazione.TRACE, "Entering AggiungiArticoloDB per il negozio : " + cred.getUsername());
+            logger.trace("Entering AggiungiArticoloDB per il negozio : %s" + cred.getUsername());
             boolean aggiunto = negozioInserisci.aggiungiDBArticolo(cred, info, messageToCommand.getPayload());
             if (aggiunto) {
                 messageToCommand.setCommand("SI");
                 messageToCommand.setPayload(null);
                 info.sendMessage(messageToCommand.toMessage());
             }
-            info.sendlog(LivelloInformazione.TRACE, "Exiting AggiungiArticoloDB per il negozio : " + cred.getUsername());
+            logger.trace("Exiting AggiungiArticoloDB per il negozio : %s" + cred.getUsername());
             return;
         }
-        info.sendlog(LivelloInformazione.TRACE, "Ha provato ad AGGIUNGERE un Articolo al DB senza essere Loggato");
+        logger.trace("Ha provato ad AGGIUNGERE un Articolo al DB senza essere Loggato");
         messageToCommand.setCommand(NAUTORIZZATO);
         messageToCommand.setPayload(null);
         info.sendMessage(messageToCommand.toMessage());
@@ -313,12 +316,12 @@ public class BaseController {
     private void visualizzaDaDB(){
         if (cred!=null && (cred.getRole().ordinal()<2)){
             cred.getUsername();
-            info.sendlog(LivelloInformazione.TRACE, "Entering visualizza Da DB per il negozio : " + cred.getUsername());
+            logger.trace("Entering visualizza Da DB per il negozio : %s" + cred.getUsername());
             negozioVisualizza.viusalizzaNegozioController(cred, info);
-            info.sendlog(LivelloInformazione.TRACE, "Exiting visualizza Da DB per il negozio : " + cred.getUsername());
+            logger.trace("Exiting visualizza Da DB per il negozio : %s" + cred.getUsername());
             return;
         }
-        info.sendlog(LivelloInformazione.TRACE, "ha provato a Articolo dal DB senza essere Loggato");
+        logger.trace("ha provato a Articolo dal DB senza essere Loggato");
         messageToCommand.setCommand(NAUTORIZZATO);
         messageToCommand.setPayload(null);
         info.sendMessage(messageToCommand.toMessage());
@@ -328,13 +331,13 @@ public class BaseController {
     private void notifica() {
         if (cred!=null && (cred.getRole().ordinal()<2)){
             cred.getUsername();
-            info.sendlog(LivelloInformazione.TRACE, "Entering NOTIFICA per il negozio : " + cred.getUsername());
+            logger.trace("Entering NOTIFICA per il negozio : %s" + cred.getUsername());
             NotificaNegozioController notifica = new NotificaNegozioController();
             notifica.notificaController(cred, info);
-            info.sendlog(LivelloInformazione.TRACE, "Exiting NOTIFICA per il negozio : " + cred.getUsername());
+            logger.trace("Exiting NOTIFICA per il negozio : %s" + cred.getUsername());
             return;
         }
-        info.sendlog(LivelloInformazione.TRACE, "Ha provato a vedere notifica senza essere Loggato");
+        logger.trace("Ha provato a vedere notifica senza essere Loggato");
         messageToCommand.setCommand(NAUTORIZZATO);
         messageToCommand.setPayload(null);
         info.sendMessage(messageToCommand.toMessage());

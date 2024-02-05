@@ -24,7 +24,7 @@ import org.apache.logging.log4j.Logger;
 
 public class VisualizzaDB {
     
-    Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+    Logger logger = LogManager.getLogger(VisualizzaDB.class);
 
     MessageToCommand messageToCommand = new MessageToCommand();
 
@@ -54,7 +54,7 @@ public class VisualizzaDB {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            logger.error("0x006001" + e.getMessage());
+            logger.error("0x006001    %s", e.getMessage());
             Platform.exit();
         }
     }

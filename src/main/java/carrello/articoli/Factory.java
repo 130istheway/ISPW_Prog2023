@@ -2,13 +2,15 @@ package carrello.articoli;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import carrello.articoli.articoli_alimentari.*;
-import util.SingletonLogger;
 
 
 public abstract class Factory {
     
-    static SingletonLogger log = SingletonLogger.getInstance();
+    Logger logger = LogManager.getLogger(Factory.class);
 
     private Factory() {
         throw new IllegalStateException("Utility class");

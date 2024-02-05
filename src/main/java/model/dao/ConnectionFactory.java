@@ -8,13 +8,14 @@ import java.sql.*;
 
 import java.util.Properties;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import model.domain.Credential;
-import model.domain.LivelloInformazione;
-import util.SingletonLogger;
 
 public class ConnectionFactory {
-
-    static SingletonLogger log = SingletonLogger.getInstance();
+    
+    static Logger logger = LogManager.getLogger(ConnectionFactory.class);
 
     private static Connection connection;
 
@@ -33,9 +34,9 @@ public class ConnectionFactory {
             connection = DriverManager.getConnection(connectionUrl, username, password);
 
         } catch (IOException e) {
-            log.sendInformazione(LivelloInformazione.ERROR, e.getMessage());
+            logger.error(e.getMessage());
         } catch (SQLException e1) {
-            log.sendInformazione(LivelloInformazione.ERROR, e1.getMessage());
+            logger.error(e1.getMessage());
         }
     }
 
@@ -56,9 +57,9 @@ public class ConnectionFactory {
             connection = DriverManager.getConnection(connectionUrl, username, password);
             
         } catch (IOException e) {
-            log.sendInformazione(LivelloInformazione.ERROR, e.getMessage());
+            logger.error(e.getMessage());
         } catch (SQLException e1) {
-            log.sendInformazione(LivelloInformazione.ERROR, e1.getMessage());
+            logger.error(e1.getMessage());
         }
     }
 

@@ -5,16 +5,21 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import carrello.Carrello;
 import model.dao.exception.DAOException;
 import model.dao.negozio.DAOIdNegozio;
 import model.dao.notifica.DAOInserisciOrdine;
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
-import model.domain.LivelloInformazione;
 import util.MessageToCommand;
 
 public class ConfermaListaController {
+    
+    
+    Logger logger = LogManager.getLogger(ConfermaListaController.class);
 
     int negozio;
     boolean cambiaAttivita = false;
@@ -70,7 +75,7 @@ public class ConfermaListaController {
             messageToCommand.setPayload(null);
             info.sendMessage(messageToCommand.toMessage());
         } catch ( DAOException e ) {
-            info.sendlog(LivelloInformazione.ERROR, e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 

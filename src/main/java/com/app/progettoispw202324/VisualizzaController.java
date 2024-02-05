@@ -25,7 +25,7 @@ import com.app.progettoispw202324.util.PrintArticoli;
 
 public class VisualizzaController {
     
-    Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+    Logger logger = LogManager.getLogger(VisualizzaController.class);
 
     MessageToCommand messageToCommand = new MessageToCommand();
 
@@ -59,7 +59,7 @@ public class VisualizzaController {
         stage.setScene(scene);
         stage.show();
         } catch (IOException e) {
-            logger.error("0x005001" + e.getMessage());
+            logger.error("0x005001    %s", e.getMessage());
             Platform.exit();
         }
     }

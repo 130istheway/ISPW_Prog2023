@@ -1,11 +1,12 @@
 package carrello;
 
-
-import model.domain.LivelloInformazione;
-import util.SingletonLogger;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.app.progettoispw202324.MenuController;
 
 import carrello.articoli.Articoli;
 import carrello.articoli.Factory;
@@ -19,8 +20,8 @@ import carrello.articoli.Factory;
  * @author Simone
  */
 public class Carrello extends CarrelloCache{
-
-    SingletonLogger log = SingletonLogger.getInstance();
+    
+    Logger logger = LogManager.getLogger(MenuController.class);
     
     /** Flag che indica se il pagamento è stato effettuato */
     boolean pagato;
@@ -75,14 +76,14 @@ public class Carrello extends CarrelloCache{
 
         Articoli prodotto = Factory.factoryProdotto(inserire);
         if (prodotto == null) {
-            log.sendInformazione(LivelloInformazione.ERROR , "problem whit the insertion of the articolo from the factory");
+            logger.error("problem whit the insertion of the articolo from the factory");
             return false;
         }
         try {
             this.carrellino.add(prodotto);
             return true;
         } catch (Exception e) {
-            log.sendInformazione(LivelloInformazione.ERROR , "problem whit the insertion of the articolo");
+            logger.error("problem whit the insertion of the articolo");
             return false;
         }
     }

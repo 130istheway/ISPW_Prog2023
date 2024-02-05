@@ -3,13 +3,17 @@ package controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.app.progettoispw202324.NotificaController;
+
 import model.dao.ConnectionFactory;
 import model.dao.exception.DAOException;
 import model.dao.login.DAOLogin;
 
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
-import model.domain.LivelloInformazione;
 import model.domain.Role;
 
 import server.com.server.exception.PersonalException;
@@ -17,6 +21,8 @@ import util.MessageToCommand;
 import util.PayloadToCredential;
 
 public class LoginController {
+    
+    Logger logger = LogManager.getLogger(NotificaController.class);
 
     ControllerInfoSulThread info;
     
@@ -28,8 +34,8 @@ public class LoginController {
         MessageToCommand messageToCommand = new MessageToCommand();
         Credential cred = null;
         String inputLine;
-        final String accettata = "Accettata";
-        final String rifiutata = "Rifiutato";
+        final String ACCETTATA = "ACCETTATA";
+        final String RIFIUTATA = "Rifiutato";
         int retryCount = 0;
 
         if (!info.isRunning()) {
@@ -47,9 +53,9 @@ public class LoginController {
                 messageToCommand.setCommand("STOPIT");
                 messageToCommand.setPayload(null);
                 info.sendMessage(messageToCommand.toMessage());
-                this.info.sendlog( LivelloInformazione.DEBUG ,"Server " + this.info.getThreadId()  + ": Non rispondo poichè sto chiudendo la connessione");
+                logger.debug("Server : %d : Non rispondo poichè sto chiudendo la connessione", this.info.getThreadId());
                 cred = new Credential(null,null, Role.NONE);
-                this.info.sendlog( LivelloInformazione.DEBUG ,"STOPTHAT " + (cred.getRole()).ordinal());
+                logger.debug("STOPTHAT %d", (cred.getRole()).ordinal());
                 return cred;
             }
             DAOLogin dao = new DAOLogin();
@@ -69,10 +75,10 @@ public class LoginController {
                 autenticato = false;
             }
             if (autenticato) {        
-                messageToCommand.setCommand(accettata+cred.getRole().ordinal());
+                messageToCommand.setCommand(ACCETTATA+cred.getRole().ordinal());
                 messageToCommand.setPayload(null);
                 info.sendMessage(messageToCommand.toMessage());
-                this.info.sendlog( LivelloInformazione.TRACE ,accettata + " " + " " + cred.getUsername() + " Role:" +(cred.getRole()).ordinal());
+                logger.trace("%s -> %s Role: %d",ACCETTATA,cred.getUsername(),(cred.getRole()).ordinal());
                 return cred;       
             }
             if (retryCount > 4) {
@@ -85,7 +91,7 @@ public class LoginController {
             
         }
         cred = new Credential(null,null, Role.NONE);
-        this.info.sendlog( LivelloInformazione.TRACE ,rifiutata + (cred.getRole()).ordinal());
+        logger.trace("%s  Role: %d",RIFIUTATA,(cred.getRole()).ordinal());
         return cred;
     }
 }

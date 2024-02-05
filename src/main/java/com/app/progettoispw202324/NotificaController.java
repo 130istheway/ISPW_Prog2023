@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 
 public class NotificaController {
     
-    Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+    Logger logger = LogManager.getLogger(NotificaController.class);
 
     private static final String ER = "Errore nel recupero del messaggio";
 
@@ -58,7 +58,7 @@ public class NotificaController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            logger.error("0x003001" + e.getMessage());
+            logger.error("0x003001    %s", e.getMessage());
             Platform.exit();
         }
     }

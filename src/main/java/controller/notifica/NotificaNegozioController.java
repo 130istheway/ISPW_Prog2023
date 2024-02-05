@@ -1,8 +1,10 @@
 package controller.notifica;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import model.dao.exception.DAOException;
 import model.dao.negozio.DAOIdNegozio;
@@ -11,15 +13,15 @@ import model.dao.notifica.DAORecuperaIdOrdini;
 import model.dao.notifica.DAORecuperaOrdiniDaID;
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
-import model.domain.LivelloInformazione;
 import util.MessageToCommand;
 
 public class NotificaNegozioController {
+    
+    Logger logger = LogManager.getLogger(NotificaNegozioController.class);
 
     boolean cambiaAttivita = false;
     List<Integer> listaID;
     List<String> listaDati;
-    String appoggio;
 
     public void notificaController(Credential credentials, ControllerInfoSulThread info){
         MessageToCommand messageToCommand = new MessageToCommand();
@@ -44,7 +46,7 @@ public class NotificaNegozioController {
                 }
             }
         } catch (IOException e) {
-            info.sendlog(LivelloInformazione.ERROR, e.getMessage());
+           logger.error(e.getMessage());
         }
     }
 
@@ -91,12 +93,12 @@ public class NotificaNegozioController {
                     }
                     info.sendMessage(messageToCommand.toMessage());
                 } catch (DAOException e) {
-                    info.sendlog(LivelloInformazione.ERROR, "Problema rilevato nelle DAO per confermare le notifiche");
+                    logger.error("Problema rilevato nelle DAO per confermare le notifiche");
                     messageToCommand.setCommand("ERROR");
                     messageToCommand.setPayload(null);
                     info.sendMessage(messageToCommand.toMessage());
                 } catch (NumberFormatException e1) {
-                    info.sendlog(LivelloInformazione.ERROR, "Problema rilevato nella conversione della stringa ad intero");
+                    logger.error("Problema rilevato nella conversione della stringa ad intero");
                     messageToCommand.setCommand("ERRORConversione");
                     messageToCommand.setPayload(null);
                     info.sendMessage(messageToCommand.toMessage());
@@ -126,7 +128,7 @@ public class NotificaNegozioController {
             listaID = idOrdini.execute(id);
             
         } catch (DAOException e) {
-            info.sendlog(LivelloInformazione.ERROR, "Problema rilevato nelle DAO per visualizare le notifiche " + e.getMessage());
+            logger.error("Problema rilevato nelle DAO per visualizare le notifiche %s", e.getMessage());
         }
 
     }

@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 
 public class LoginController {
     
-    Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
+    Logger logger = LogManager.getLogger(LoginController.class);
 
     static GestionePerUI gestionePerUI;
 
@@ -69,9 +69,8 @@ public class LoginController {
 
             FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("menu.fxml"));
             Parent root = fxmlLoader.load();
-            MenuController controller = fxmlLoader.getController();
-            controller.passGestione(gestionePerUI);
-            controller.passLivello(n);
+            MenuController.passGestione(gestionePerUI);
+            MenuController.passLivello(n);
 
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
@@ -80,7 +79,7 @@ public class LoginController {
             stage.show();
 
         }catch (IOException e){
-            logger.error("0x000100" + e.getMessage());
+            logger.error("0x000100   %s", e.getMessage());
         }
     }
 }

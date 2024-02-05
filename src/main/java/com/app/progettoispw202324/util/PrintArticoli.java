@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class PrintArticoli {
 
-    private static final String minuti = " minuti";
+    private static final String MINUTI = " MINUTI";
 
     static TextArea testoBox;
 
@@ -57,7 +57,7 @@ public class PrintArticoli {
             lievitatura = "Non naturale";
         }
 
-        testo = testo + "Tempo Cottura : " + lista.get(0) + minuti + capo + "Tempo Lievitatura : " + lista.get(1) + minuti + capo + "Lievitatura : " + lievitatura+ capo + "Descrizione : " + lista.get(3);
+        testo = testo + "Tempo Cottura : " + lista.get(0) + MINUTI + capo + "Tempo Lievitatura : " + lista.get(1) + MINUTI + capo + "Lievitatura : " + lievitatura+ capo + "Descrizione : " + lista.get(3);
         testoBox.setText(testo);
     }
 
@@ -96,7 +96,7 @@ public class PrintArticoli {
             lievitatura = "Non naturale";
         }
 
-        testo = testo + "Tempo Cottura : " + lista.get(0) + minuti + capo + "Forma : " + forma + capo + "Lievitatura : " + lievitatura+ capo + "Descrizione : " + lista.get(3);
+        testo = testo + "Tempo Cottura : " + lista.get(0) + MINUTI + capo + "Forma : " + forma + capo + "Lievitatura : " + lievitatura+ capo + "Descrizione : " + lista.get(3);
         testoBox.setText(testo);
     }
 
