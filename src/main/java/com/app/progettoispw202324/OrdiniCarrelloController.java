@@ -1,5 +1,6 @@
 package com.app.progettoispw202324;
 
+import com.app.progettoispw202324.util.Comandi;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,17 +32,7 @@ public class OrdiniCarrelloController {
 
 
     public void menu(ActionEvent event){
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("menu.fxml"));
-            Parent root = fxmlLoader.load();
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            logger.error("0x004001    %s", e.getMessage());
-            Platform.exit();
-        }
+        Comandi.menu(event, gestionePerUI);
     }
 
     private String messaggio(){

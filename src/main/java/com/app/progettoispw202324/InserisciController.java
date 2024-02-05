@@ -1,5 +1,6 @@
 package com.app.progettoispw202324;
 
+import com.app.progettoispw202324.util.Comandi;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,17 +47,7 @@ public class InserisciController {
     Button pizza;
 
     public void menu(ActionEvent event){
-        try {
-            fxmlLoader = new FXMLLoader(ClientApplication.class.getResource(TAG));
-            root = fxmlLoader.load();
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            logger.error(FTL);
-            Platform.exit();
-        }
+        Comandi.menu(event, gestionePerUI);
     }
 
     public void setPane(ActionEvent event){

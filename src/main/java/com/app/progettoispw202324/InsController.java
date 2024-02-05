@@ -1,27 +1,22 @@
 package com.app.progettoispw202324;
 
 import com.app.progettoispw202324.util.PrintArticoli;
+import com.app.progettoispw202324.util.Comandi;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import util.ConvertiStringToArticolo;
 import util.MessageToCommand;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class InsController {
     
@@ -45,21 +40,7 @@ public class InsController {
     TextArea testoLibero;
 
     public void menu(ActionEvent event){
-        messageToCommand.setCommand("EXIT");
-        messageToCommand.setPayload("0");
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("menu.fxml"));
-            Parent root = fxmlLoader.load();
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            logger.error("didn't load 0x02001");
-            Platform.exit();
-        }
+        Comandi.menu(event, gestionePerUI);
     }
 
     public void vaiSuccessivo(){
