@@ -180,13 +180,7 @@ public class MenuController {
                 fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaDB.fxml"));
                 root = fxmlLoader.load();
                 VisualizzaDB.passGestione(gestionePerUI);
-
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.setTitle("Visualizza dal DB");
-                stage.show();
-
+                setCose(event, "Visualizza dal DB");
             } catch (IOException e) {
                 logger.error("0x000114    %s", e.getMessage());
                 Platform.exit();
@@ -204,12 +198,7 @@ public class MenuController {
                 fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaNotifica.fxml"));
                 root = fxmlLoader.load();
                 NotificaController.passGestione(gestionePerUI);
-
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.setTitle("Visualizza Ordini");
-                stage.show();
+                setCose(event, "Visualizza Ordini");
             } catch (IOException e) {
                 logger.error("0x000115    %s", e.getMessage());
                 Platform.exit();
@@ -217,6 +206,14 @@ public class MenuController {
         } else if (Objects.equals(input, "NULL")) {
             ordine.setText("Nessun Ordine");
         }
+    }
+
+    private void setCose(ActionEvent event, String stringa){
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle(stringa);
+        stage.show();
     }
     
     public void ordiniPerOggi() {
