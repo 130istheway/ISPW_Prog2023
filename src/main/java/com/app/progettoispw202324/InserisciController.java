@@ -50,6 +50,26 @@ public class InserisciController {
         Comandi.menu(event, gestionePerUI);
     }
 
+    private void cosaSuccesso(ActionEvent event){
+        if (Objects.equals(messageToCommand.getCommand(), "NO")) {
+            infoDiInserire.setStyle(IMPOSTAROSSO);
+        } else if (Objects.equals(messageToCommand.getCommand(), "SI")) {
+            infoDiInserire.setText("Articolo Aggiunto");
+        } else if (Objects.equals(messageToCommand.getCommand(), "NON AUTORIZATO")) {
+            try {
+                fxmlLoader = new FXMLLoader(ClientApplication.class.getResource(TAG));
+                root = fxmlLoader.load();
+                Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                logger.error(FTL);
+                Platform.exit();
+            }
+        }
+    }
+
     public void setPane(ActionEvent event){
         String receive = "";
         cosaInserisco = "pane";
@@ -61,23 +81,7 @@ public class InserisciController {
             receive = messaggio();
             messageToCommand.fromMessage(receive);
             pane.setStyle("-fx-background-color: green;");
-            if (Objects.equals(messageToCommand.getCommand(), "NO")) {
-                infoDiInserire.setStyle(IMPOSTAROSSO);
-            } else if (Objects.equals(messageToCommand.getCommand(), "SI")) {
-                infoDiInserire.setText("Articolo Aggiunto");
-            } else if (Objects.equals(messageToCommand.getCommand(), "NON AUTORIZATO")) {
-                try {
-                    fxmlLoader = new FXMLLoader(ClientApplication.class.getResource(TAG));
-                    root = fxmlLoader.load();
-                    Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException e) {
-                    logger.error(FTL);
-                    Platform.exit();
-                }
-            }
+            cosaSuccesso(event);
         }else{
             pane.setStyle(IMPOSTAROSSO);
         }
@@ -104,23 +108,7 @@ public class InserisciController {
             receive = messaggio();
             messageToCommand.fromMessage(receive);
             pizza.setStyle("-fx-background-color: green;");
-            if (Objects.equals(messageToCommand.getCommand(), "NO")) {
-                infoDiInserire.setStyle(IMPOSTAROSSO);
-            } else if (Objects.equals(messageToCommand.getCommand(), "SI")) {
-                infoDiInserire.setText("Articolo Aggiunto");
-            } else if (Objects.equals(messageToCommand.getCommand(), "NON AUTORIZATO")) {
-                try {
-                    fxmlLoader = new FXMLLoader(ClientApplication.class.getResource(TAG));
-                    root = fxmlLoader.load();
-                    Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException e) {
-                    logger.error(FTL);
-                    Platform.exit();
-                }
-            }
+            cosaSuccesso(event);
         }else{
             pizza.setStyle(IMPOSTAROSSO);
         }
