@@ -33,7 +33,6 @@ public class DAOInserisciOrdine implements GenericProcedureDAO<Boolean>{
                 return rowsInserted > 0;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DAOException("DAOInserisciOrdine : " + e.getMessage());
         }
     }

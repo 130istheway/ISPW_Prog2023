@@ -38,7 +38,7 @@ public class AggiungiUserController {
                 appoggio.aggiungiProdotto(yatta3);
             }
         } catch (DAOException e){
-            e.printStackTrace();
+            logger.error("Non è stato possibile aggiungere");
         }
         cache = appoggio;
     }

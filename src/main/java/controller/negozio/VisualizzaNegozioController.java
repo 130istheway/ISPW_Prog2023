@@ -112,7 +112,7 @@ public class VisualizzaNegozioController {
                 appoggio.aggiungiProdotto(yatta3);
             }
         } catch (DAOException e){
-            e.printStackTrace();
+            logger.error("Errore nel recuperare il carrello per la cache");
         }
         cache = appoggio;
 

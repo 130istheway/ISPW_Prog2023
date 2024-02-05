@@ -11,8 +11,6 @@ package carrello.articoli;
  
 public class Articoli {
 
-    java.util.Random rand = new java.util.Random();
-
     /** ID univoco dell'articolo */
     private int id;
 
@@ -30,7 +28,7 @@ public class Articoli {
      * Inizializza gli attributi con valori predefiniti.
      */
     public Articoli() {
-        setId(getRandom());
+        setId(0);
         this.nomeArticolo = "Prova";
         this.prezzoArticolo = 0.0;
         this.quantitaArticolo = 0;
@@ -45,7 +43,7 @@ public class Articoli {
      * @param quantita_articolo Quantità dell'articolo
      */
     public Articoli(String nomeArticolo, double prezzoArticolo, float quantitaArticolo) {
-        setId(getRandom());
+        setId(0);
         this.nomeArticolo = nomeArticolo;
         this.prezzoArticolo = prezzoArticolo;
         this.quantitaArticolo = quantitaArticolo;
@@ -121,15 +119,6 @@ public class Articoli {
      */
     public float getQuantitaArticolo() {
         return quantitaArticolo;
-    }
-
-    /**
-     * Genera un numero casuale e restituisce il suo valore assoluto come ID.
-     *
-     * @return ID generato casualmente
-     */
-    private int getRandom() {
-        return rand.nextInt();
     }
 
     public String toString() {
