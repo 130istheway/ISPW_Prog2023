@@ -21,41 +21,41 @@ public class DAOAggiungiNegozio implements GenericProcedureDAO<Boolean>{
         String dati = (String) params[0];
         Integer id = (Integer) params[1];
         ResultSet rs;
+        int autoId = Integer.MAX_VALUE;
 
         try{
             Connection conn = ConnectionFactory.getConnection();
-             
             String sql = "INSERT INTO articoli (ARTICOblob, idNegozio) VALUES (?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, dati);
-            stmt.setLong(2, id);
+            try(PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
 
-            int rowsInserted = stmt.executeUpdate();
-            rs = stmt.getGeneratedKeys();
+                stmt.setString(1, dati);
+                stmt.setLong(2, id);
 
-            if (rowsInserted < 1){
-                return false;
-            }
+                int rowsInserted = stmt.executeUpdate();
+                rs = stmt.getGeneratedKeys();
 
-            int autoId = 999;
-            
-            if (rs.next()) {
-                autoId = rs.getInt(1);
+                if (rowsInserted < 1){
+                    return false;
+                }
+                
+                if (rs.next()) {
+                    autoId = rs.getInt(1);
+                }
             }
 
             List<Object> listaList = new ArrayList<>();
             listaList = ConvertiStringToArticolo.convertToArticoloList(dati);
             Articoli articolo = Factory.factoryProdotto(listaList);
             articolo.setId(autoId);
-
+            
             sql = "UPDATE articoli SET ARTICOblob = ? WHERE idARTICOLI = ?";
-            stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, articolo.toString());
-            stmt.setInt(2, autoId);
+            try(PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
+                stmt.setString(1, articolo.toString());
+                stmt.setInt(2, autoId);
 
-            rowsInserted = stmt.executeUpdate();
-
-            return rowsInserted >0;
+                int rowsInserted = stmt.executeUpdate();
+                return rowsInserted >0;
+            }    
         } catch (SQLException e) {
             throw new DAOException("DAOAggiungiNegozio : " + e.getMessage());
         }

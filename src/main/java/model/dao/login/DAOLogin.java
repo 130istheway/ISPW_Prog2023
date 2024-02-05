@@ -21,17 +21,18 @@ public class DAOLogin implements GenericProcedureDAO<Credential>{
             
             String sql = "SELECT role FROM login WHERE username = ? AND password = ? LIMIT 1";
 
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, username);
-            stmt.setString(2, password);
+            try(PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, username);
+                stmt.setString(2, password);
 
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    role = rs.getString("ROLE");
-                    return new Credential(username, password, model.domain.Role.valueOf(role));
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        role = rs.getString("ROLE");
+                        return new Credential(username, password, model.domain.Role.valueOf(role));
+                    }
+                } catch (SQLTimeoutException e) {
+                    throw new DAOException("DAOLogin : Time out");
                 }
-            } catch (SQLTimeoutException e) {
-                throw new DAOException("DAOLogin : Time out");
             }
             return new Credential(null, null, Role.NONE);
         } catch (SQLException e) {

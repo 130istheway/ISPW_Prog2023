@@ -17,19 +17,17 @@ public class DAOCountArticoli implements GenericProcedureDAO<Integer>{
 
         try{
             Connection conn = ConnectionFactory.getConnection();
-
             String sql = "SELECT COUNT(idARTICOLI) as number FROM articoli WHERE `idNegozio` = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, username);
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setInt(1, username);
 
-            ResultSet rs = stmt.executeQuery();
+                ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                id = rs.getInt("number");
-            }
-
-            stmt.close();
-            return id;
+                if (rs.next()) {
+                    id = rs.getInt("number");
+                }
+                return id;
+        }
         } catch (SQLException e) {
             throw new DAOException("DAOCountArticoli error: " + e.getMessage());
         }

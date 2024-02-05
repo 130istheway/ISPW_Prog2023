@@ -20,16 +20,15 @@ public class DAORecuperaIdArticolo implements GenericProcedureDAO<List<Integer>>
         try{
             Connection conn = ConnectionFactory.getConnection();
             String sql = "SELECT idARTICOLI as ARTICOLO FROM articoli WHERE idNegozio = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setLong(1, id);
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setLong(1, id);
 
-            ResultSet rs = stmt.executeQuery();
+                ResultSet rs = stmt.executeQuery();
 
-            while(rs.next()) {
-                result.add(rs.getInt("ARTICOLO"));
+                while(rs.next()) {
+                    result.add(rs.getInt("ARTICOLO"));
+                }   
             }
-
-            stmt.close();
             return result;
         } catch (SQLException e) {
             throw new DAOException("DAORecuperaIdArticolo error: " + e.getMessage());

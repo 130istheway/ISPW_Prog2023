@@ -23,19 +23,19 @@ public class DAORecuperaIdOrdini implements GenericProcedureDAO<List<Integer>>{
             Connection conn = ConnectionFactory.getConnection();
             
             String sql = "SELECT * FROM ORDINI WHERE idNegozio = ? AND DATA > CURRENT_DAte() AND CONFERMATO = 'NI'";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setLong(1, id);
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setLong(1, id);
 
-            ResultSet rs = stmt.executeQuery();
-            if (!rs.wasNull()) {    
-                while (rs.next()) {
-                    result.add(rs.getInt("idORDINI"));   
+                ResultSet rs = stmt.executeQuery();
+                if (!rs.wasNull()) {    
+                    while (rs.next()) {
+                        result.add(rs.getInt("idORDINI"));   
+                    }
+                    return result;
+                } else {
+                    return Collections.emptyList();
                 }
-                return result;
-            } else {
-                return Collections.emptyList();
             }
-
         } catch (SQLException e) {
             throw new DAOException("DAORecuperaIdOrdini : " + e.getMessage());
         }

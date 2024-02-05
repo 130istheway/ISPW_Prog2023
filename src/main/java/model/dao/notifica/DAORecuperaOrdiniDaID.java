@@ -26,21 +26,22 @@ public class DAORecuperaOrdiniDaID implements GenericProcedureDAO<List<String>>{
             Connection conn = ConnectionFactory.getConnection();
             
             String sql = "SELECT * FROM ORDINI WHERE `idORDINI` = ? LIMIT 1";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setLong(1, id);
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setLong(1, id);
 
-            ResultSet rs = stmt.executeQuery();
-            
-            rs.next();
+                ResultSet rs = stmt.executeQuery();
+                
+                rs.next();
 
-            result.add(String.valueOf(rs.getInt("idORDINI")));
-            result.add(rs.getString("idNegozio"));
-            result.add(rs.getString("idUtente"));
-            result.add(rs.getString("listaOrdine"));
-            result.add(formatter.format(rs.getDate("DATA")));
-            result.add(rs.getString("CONFERMATO"));
+                result.add(String.valueOf(rs.getInt("idORDINI")));
+                result.add(rs.getString("idNegozio"));
+                result.add(rs.getString("idUtente"));
+                result.add(rs.getString("listaOrdine"));
+                result.add(formatter.format(rs.getDate("DATA")));
+                result.add(rs.getString("CONFERMATO"));
 
-            return result;
+                return result;
+            }
         } catch (SQLException e) {
             throw new DAOException("DAORecuperaOrdiniDaID : " + e.getMessage());
         }

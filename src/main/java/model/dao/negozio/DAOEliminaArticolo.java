@@ -19,13 +19,14 @@ public class DAOEliminaArticolo implements GenericProcedureDAO<Boolean>{
             Connection conn = ConnectionFactory.getConnection();
             
             String sql = "DELETE FROM articoli WHERE idARTICOLI = ? AND idNegozio = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setLong(1, idArticoli);
-            stmt.setLong(2, idNegozio);
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setLong(1, idArticoli);
+                stmt.setLong(2, idNegozio);
 
-            int rowsInserted = stmt.executeUpdate();
+                int rowsInserted = stmt.executeUpdate();
 
-            return rowsInserted > 0;
+                return rowsInserted > 0;
+            }
         } catch (SQLException e) {
             throw new DAOException("DAOEliminaArticolo : " + e.getMessage());
         }

@@ -23,23 +23,24 @@ public class DAORecuperaTuttiArticoliBase implements GenericProcedureDAO<String>
             Connection conn = ConnectionFactory.getConnection();
             
             String sql = "SELECT * FROM Articoli WHERE `idNegozio` = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setLong(1, id);
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setLong(1, id);
 
-            ResultSet rs = stmt.executeQuery();
+                ResultSet rs = stmt.executeQuery();
 
-            String capo = "_";
-            StringBuilder daRestituire = new StringBuilder();
+                String capo = "_";
+                StringBuilder daRestituire = new StringBuilder();
 
-            while(rs.next()){
+                while(rs.next()){
 
-                List<Object> listaList = new ArrayList<>();
-                listaList = ConvertiStringToArticolo.convertToArticoloList( rs.getString("ARTICOblob"));
-                Articoli articolo = Factory.factoryProdotto(listaList);
+                    List<Object> listaList = new ArrayList<>();
+                    listaList = ConvertiStringToArticolo.convertToArticoloList( rs.getString("ARTICOblob"));
+                    Articoli articolo = Factory.factoryProdotto(listaList);
 
-                daRestituire.append("ID : " + rs.getInt("idARTICOLI") + " | ARTICOLO :" + articolo.getNomeArticolo() + "  prezzo :" + articolo.getPrezzoArticolo()+ "  quantita : "  + articolo.getQuantitaArticolo() + capo);
+                    daRestituire.append("ID : " + rs.getInt("idARTICOLI") + " | ARTICOLO :" + articolo.getNomeArticolo() + "  prezzo :" + articolo.getPrezzoArticolo()+ "  quantita : "  + articolo.getQuantitaArticolo() + capo);
+                }
+                return daRestituire.toString();
             }
-            return daRestituire.toString();
         } catch (SQLException e) {
             throw new DAOException("DAORecuperaIdOrdini : " + e.getMessage());
         }

@@ -18,18 +18,19 @@ public class DAOUser implements GenericProcedureDAO<String>{
             Connection conn = ConnectionFactory.getConnection();
             
             String sql = "SELECT * FROM ORDINI WHERE `idUtente` = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setLong(1, id);
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setLong(1, id);
 
-            ResultSet rs = stmt.executeQuery();
+                ResultSet rs = stmt.executeQuery();
 
-            String capo = "_";
-            StringBuilder daRestituire = new StringBuilder();
+                String capo = "_";
+                StringBuilder daRestituire = new StringBuilder();
 
-            while(rs.next()){
-                daRestituire.append("ID : " + rs.getInt("idORDINI") + " | Negozio - " + rs.getString("idNegozio") + " | Utente - " + rs.getString("idUtente") + " | Ordine - " + rs.getString("listaOrdine") + " | Data - " + rs.getString("DATA").substring(0, 10) + " | Conferma - " + rs.getString("CONFERMATO")+ capo);
+                while(rs.next()){
+                    daRestituire.append("ID : " + rs.getInt("idORDINI") + " | Negozio - " + rs.getString("idNegozio") + " | Utente - " + rs.getString("idUtente") + " | Ordine - " + rs.getString("listaOrdine") + " | Data - " + rs.getString("DATA").substring(0, 10) + " | Conferma - " + rs.getString("CONFERMATO")+ capo);
+                }
+                return daRestituire.toString();
             }
-            return daRestituire.toString();
         } catch (SQLException e) {
             throw new DAOException("DAOUser : " + e.getMessage());
         }

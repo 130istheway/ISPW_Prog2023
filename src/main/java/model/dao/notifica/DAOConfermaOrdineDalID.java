@@ -19,14 +19,14 @@ public class DAOConfermaOrdineDalID implements GenericProcedureDAO<Boolean>{
             Connection conn = ConnectionFactory.getConnection();
             
             String sql = "UPDATE ORDINI SET CONFERMATO = ? WHERE idORDINI = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setLong(2, id);
-            stmt.setString(1, cosa);
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setLong(2, id);
+                stmt.setString(1, cosa);
 
-            int rowsInserted = stmt.executeUpdate();
+                int rowsInserted = stmt.executeUpdate();
 
-            return rowsInserted > 0;
-
+                return rowsInserted > 0;
+            }
         } catch (SQLException e) {
             throw new DAOException("DAOConfermaOrdineDalID : " + e.getMessage());
         }
