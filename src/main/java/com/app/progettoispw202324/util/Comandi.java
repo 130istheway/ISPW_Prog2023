@@ -55,22 +55,7 @@ public class Comandi {
     public static void vaiSuccessivo(Boolean finiti, Integer posizione, Button successivo, Button precedente, TextArea testoLibero, String lollo){
         if (Boolean.FALSE.equals(finiti)) {
             posizione++;
-            switch(lollo){
-                case IC:
-                    InsController.visualizzaCarrello();
-                    break;
-                case NC:
-                    NotificaController.visualizzaCarrello();
-                    break;
-                case VC:
-                    VisualizzaController.visualizzaCarrello();
-                    break;
-                case VBD:
-                    VisualizzaDB.visualizzaCarrello();
-                default:
-                    logger.error("Non dovrei poter entrare qua dentro 0x0701");
-                break;
-            }
+            pippo(lollo);
             if (posizione > 0) {
                 precedente.setText("<<");
             }
@@ -83,47 +68,36 @@ public class Comandi {
 
     public static boolean vaiPrecedente(Boolean finiti, Integer posizione, Button successivo, Button precedente, String lollo){
         if (posizione == 0){
-            switch(lollo){
-                case IC:
-                    InsController.visualizzaCarrello();
-                    break;
-                case NC:
-                    NotificaController.visualizzaCarrello();
-                    break;
-                case VC:
-                    VisualizzaController.visualizzaCarrello();
-                    break;
-                case VBD:
-                    VisualizzaDB.visualizzaCarrello();
-                default:
-                    logger.error("Non dovrei poter entrare qua dentro 0x0702");
-                break;
-            }
+            pippo(lollo);
             successivo.setText(">>");
         }else {
             posizione--;
-            switch(lollo){
-                case IC:
-                    InsController.visualizzaCarrello();
-                    break;
-                case NC:
-                    NotificaController.visualizzaCarrello();
-                    break;
-                case VC:
-                    VisualizzaController.visualizzaCarrello();
-                    break;
-                case VBD:
-                    VisualizzaDB.visualizzaCarrello();  
-                default:
-                    logger.error("Non dovrei poter entrare qua dentro 0x0703");
-                break;
-            }
+            pippo(lollo);
             }
             if (posizione < 1) {
                 precedente.setText("|");
                 return false;
             }
             return finiti;
+    }
+
+    private void pippo(String lollo){
+        switch(lollo){
+            case IC:
+                InsController.visualizzaCarrello();
+                break;
+            case NC:
+                NotificaController.visualizzaCarrello();
+                break;
+            case VC:
+                VisualizzaController.visualizzaCarrello();
+                break;
+            case VBD:
+                VisualizzaDB.visualizzaCarrello();  
+            default:
+                logger.error("Non dovrei poter entrare qua dentro 0x0703");
+            break;
+        }
     }
 
     private static void riceviMessaggio(String string, GestionePerUI gestionePerUI, int posizione){
