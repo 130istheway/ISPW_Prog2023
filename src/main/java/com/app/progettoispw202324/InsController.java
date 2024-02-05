@@ -48,7 +48,7 @@ public class InsController {
     }
 
     public void vaiPrecedente(){
-        Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,testoLibero, INSCONTROLLER);
+        Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,INSCONTROLLER);
     }
 
     public void inserisci(){

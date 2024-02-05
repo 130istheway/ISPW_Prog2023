@@ -48,35 +48,16 @@ public class VisualizzaDB {
     }
 
     public void vaiSuccessivo(){
-        if (Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, VISUALIZZADB)){
-            visualizzaCarrello();
-        }
+        Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, VISUALIZZADB);
     }
 
 
     public void vaiPrecedente(){
-        Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,testoLibero, VISUALIZZADB);
+        Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,VISUALIZZADB);
     }
 
     public void elimina(){
-        messageToCommand = new MessageToCommand();
-        String receive = null;
-
-        messageToCommand.setCommand("RIMUOVIART");
-        messageToCommand.setPayload(String.valueOf(posizione));
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
-        try{
-            receive = gestionePerUI.getMessage();
-        }catch (IOException e){
-            logger.error("Errore nel recupero del messaggio");
-            Platform.exit();
-        }
-        messageToCommand.fromMessage(receive);
-        if (Objects.equals(messageToCommand.getCommand(), "NO")){
-            testoLibero.setText(messageToCommand.getPayload());
-        }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
-            testoLibero.setText("Articolo Eliminato");
-        }
+        Comandi.elimina(posizione,gestionePerUI,testoLibero);
     }
 
     public static void visualizzaCarrello(){

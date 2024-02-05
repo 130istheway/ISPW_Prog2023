@@ -57,7 +57,7 @@ public class NotificaController {
 
 
     public void vaiPrecedente(){
-        Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,testoLibero, NOTIFICACONTROLLER);
+        Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,NOTIFICACONTROLLER);
     }
 
     public void conferma(){

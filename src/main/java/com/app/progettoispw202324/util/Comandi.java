@@ -41,11 +41,9 @@ public class Comandi {
     }
 
 
-    public static boolean vaiSuccessivo(Boolean finiti, Integer posizione, Button successivo, Button precedente, TextArea testoLibero, String lollo){
-        boolean ritorno = false;
+    public static void vaiSuccessivo(Boolean finiti, Integer posizione, Button successivo, Button precedente, TextArea testoLibero, String lollo){
         if (!finiti) {
             posizione++;
-            ritorno = true;
             switch(lollo){
                 case "InsCotroller":
                     InsController.visualizzaCarrello();
@@ -67,10 +65,9 @@ public class Comandi {
                 finiti = true;
             }
         }
-        return ritorno;
     }
 
-    public static void vaiPrecedente(Boolean finiti, Integer posizione, Button successivo, Button precedente,TextArea testoLibero, String lollo){
+    public static void vaiPrecedente(Boolean finiti2, Integer posizione, Button successivo, Button precedente, String lollo){
         if (posizione == 0){
             switch(lollo){
                 case "InsCotroller":
@@ -104,8 +101,29 @@ public class Comandi {
             }
             if (posizione < 1) {
                 precedente.setText("|");
-                finiti = false;
+                finiti2 = false;
             }
         }
-    
+
+    public static void elimina(Integer posizione, GestionePerUI gestionePerUI, TextArea testoLibero){
+        messageToCommand = new MessageToCommand();
+        String receive = null;
+
+        messageToCommand.setCommand("RIMUOVIART");
+        messageToCommand.setPayload(String.valueOf(posizione));
+        gestionePerUI.sendMessage(messageToCommand.toMessage());
+        try{
+            receive = gestionePerUI.getMessage();
+        }catch (IOException e){
+            logger.error("Errore nel recupero del messaggio");
+            Platform.exit();
+        }
+        messageToCommand.fromMessage(receive);
+        if (Objects.equals(messageToCommand.getCommand(), "NO")){
+            testoLibero.setText(messageToCommand.getPayload());
+        }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
+            testoLibero.setText("Articolo Eliminato");
+        }
+    }
 }
+

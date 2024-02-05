@@ -27,6 +27,49 @@ public class AllerBoxPerInserimentoArticoli {
     private static final String FALSO = "false";
     private static final String VERO = "true";
 
+
+    
+
+    setGiusto(false);
+        
+    TextField nome = new TextField();
+    nome.setPromptText("nome");
+
+    TextField prezzo = new TextField();
+    prezzo.setPromptText("prezzo");
+
+    TextField quantita = new TextField();
+    quantita.setPromptText("quantita");
+
+    TextField ingredienti = new TextField();
+    ingredienti.setPromptText("Ingredienti suddivisi da ,");
+
+    TextField peso = new TextField();
+    peso.setPromptText("Peso");
+
+    TextField cottura = new TextField();
+    cottura.setPromptText("Cottura");
+
+    TextField tempoLievitatura = new TextField();
+    tempoLievitatura.setPromptText("Tempo Lievitatura");
+
+    ChoiceBox<String> lievitatura = new ChoiceBox<>();
+    lievitatura.getItems().addAll(NATURALE, NNATURALE);
+    // Set an initial selection
+    lievitatura.setValue("Tipo lievitatura");
+
+    TextField descrizione = new TextField();
+    descrizione.setPromptText("Descrizione");
+
+    ChoiceBox<String> forma = new ChoiceBox<>();
+    forma.getItems().addAll("Tonda", "Quadrate");
+    // Set an initial selection
+    forma.setValue("Lievitatura");
+
+    TextField descrizione = new TextField();
+    descrizione.setPromptText("Descrizione");
+
+
     private AllerBoxPerInserimentoArticoli(){
         throw new IllegalStateException("Utility class");
     }
@@ -162,38 +205,6 @@ public class AllerBoxPerInserimentoArticoli {
 
     private static void pane(Stage window){
 
-        setGiusto(false);
-        
-        TextField nome = new TextField();
-        nome.setPromptText("nome");
-
-        TextField prezzo = new TextField();
-        prezzo.setPromptText("prezzo");
-
-        TextField quantita = new TextField();
-        quantita.setPromptText("quantita");
-
-        TextField ingredienti = new TextField();
-        ingredienti.setPromptText("Ingredienti suddivisi da ,");
-
-        TextField peso = new TextField();
-        peso.setPromptText("Peso");
-
-        TextField cottura = new TextField();
-        cottura.setPromptText("Cottura");
-
-        TextField tempoLievitatura = new TextField();
-        tempoLievitatura.setPromptText("Tempo Lievitatura");
-
-        ChoiceBox<String> lievitatura = new ChoiceBox<>();
-        lievitatura.getItems().addAll(NATURALE, NNATURALE);
-        // Set an initial selection
-        lievitatura.setValue("Tipo lievitatura");
-
-        TextField descrizione = new TextField();
-        descrizione.setPromptText("Descrizione");
-
-
         Button closeButton = new Button("Inserisci");
         try {
             closeButton.setOnAction(e -> {
@@ -253,42 +264,6 @@ public class AllerBoxPerInserimentoArticoli {
     }
 
     private static void pizza(Stage window){
-
-        setGiusto(false);
-
-        AtomicBoolean ok = new AtomicBoolean(true);
-
-        TextField nome = new TextField();
-        nome.setPromptText("nome");
-
-        TextField prezzo = new TextField();
-        prezzo.setPromptText("prezzo");
-
-        TextField quantita = new TextField();
-        quantita.setPromptText("quantita");
-
-        TextField ingredienti = new TextField();
-        ingredienti.setPromptText("Ingredienti suddivisi da ,");
-
-        TextField peso = new TextField();
-        peso.setPromptText("Peso");
-
-        TextField cottura = new TextField();
-        cottura.setPromptText("Cottura");
-
-        ChoiceBox<String> lievitatura = new ChoiceBox<>();
-        lievitatura.getItems().addAll(NATURALE, NNATURALE);
-        // Set an initial selection
-        lievitatura.setValue("Tipo lievitatura");
-
-        ChoiceBox<String> forma = new ChoiceBox<>();
-        forma.getItems().addAll("Tonda", "Quadrate");
-        // Set an initial selection
-        forma.setValue("Lievitatura");
-
-        TextField descrizione = new TextField();
-        descrizione.setPromptText("Descrizione");
-
 
         Button closeButton = new Button("Inserisci");
         try {
