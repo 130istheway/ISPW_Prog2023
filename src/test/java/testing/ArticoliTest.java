@@ -38,17 +38,17 @@ class ArticoliTest {
     @Test
     void testConvertiStringToArticolo(){
         List<String> lista = ConvertiStringToArticolo.convertToListStringFromString("{pane}{1|pane|0.0|0.0}{[farina, uova]|0.0}{0|0|true|qwertyuiopasdfghjklzxcvbnm}");
-        assertEquals(lista.get(0),("pane"));
-        assertEquals(lista.get(1),("1"));
-        assertEquals(lista.get(2),("pane"));
-        assertEquals(lista.get(3),("0.0"));
-        assertEquals(lista.get(4),("0.0"));
-        assertEquals(lista.get(5),("[farina, uova]"));
-        assertEquals(lista.get(6),("0.0"));
-        assertEquals(lista.get(7),("0"));
-        assertEquals(lista.get(7),("0"));
-        assertEquals(lista.get(9),("true"));
-        assertEquals(lista.get(10),("qwertyuiopasdfghjklzxcvbnm"));
+        assertEquals("pane", lista.get(0));
+        assertEquals("1",lista.get(1));
+        assertEquals("pane",lista.get(2));
+        assertEquals("0.0",lista.get(3));
+        assertEquals("0.0",lista.get(4));
+        assertEquals("[farina, uova]",lista.get(5));
+        assertEquals("0.0",lista.get(6));
+        assertEquals("0",lista.get(7));
+        assertEquals("0",lista.get(7));
+        assertEquals("true",lista.get(9));
+        assertEquals("qwertyuiopasdfghjklzxcvbnm",lista.get(10));
 
         List<Object> listaOggetti = ConvertiStringToArticolo.convertToArticoloList("{pane}{1|pane|0.0|0.0}{[farina, uova]|0.0}{0|0|true|qwertyuiopasdfghjklzxcvbnm}");
 
@@ -64,17 +64,17 @@ class ArticoliTest {
         boolean decimo = (boolean)listaOggetti.get(9);
         String undicesimo = (String)listaOggetti.get(10);
 
-        assertEquals(primo,"pane");
-        assertEquals(secondo, 1);
-        assertEquals(terzo,"pane");
-        assertEquals(quarto, 0.0);
-        assertEquals(quinto, 0.0);
-        assertEquals(sesto.toString(),("[farina, uova]"));
-        assertEquals(settimo, 0.0);
-        assertEquals(ottavo,0);
-        assertEquals(nono,0);
+        assertEquals("pane", primo);
+        assertEquals(1, secondo);
+        assertEquals("pane", terzo);
+        assertEquals(0.0, quarto);
+        assertEquals(0.0, quinto);
+        assertEquals("[farina, uova]", sesto.toString());
+        assertEquals(0.0, settimo);
+        assertEquals(0, ottavo);
+        assertEquals(0, nono);
         assertTrue(decimo);
-        assertEquals(undicesimo,("qwertyuiopasdfghjklzxcvbnm"));
+        assertEquals("qwertyuiopasdfghjklzxcvbnm",undicesimo);
     }
 
     @Test
