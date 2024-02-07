@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.xml.transform.Result;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -129,7 +130,7 @@ public class AllerBoxPerInserimentoArticoli {
             ingredienti.setText("");
             ingredienti.setStyle(IMPOSTAROSSO);
             ok.set(false);
-            return null;
+            return new String[0];
         }
         return ingredienti2.split(",");
     }

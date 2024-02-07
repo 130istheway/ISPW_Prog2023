@@ -42,7 +42,6 @@ public class LoginController {
         } catch (IOException e){
             ricevi = "non riuscito a recuperare il messaggio";
         }
-        System.out.println(ricevi);
         if (ricevi.contains("ACCETTATA")){
             int n = Integer.parseInt(ricevi.substring(ricevi.length()-1));
             buttonLogin.setStyle("-fx-background-color: green;");
@@ -58,7 +57,7 @@ public class LoginController {
             buttonLogin.setStyle("-fx-background-color: black;");
             Platform.exit();
         } else{
-            System.out.println("Cose che non capisco");
+            logger.error("Noon so cosa mi ha ridato");
         }
     }
 

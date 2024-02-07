@@ -40,12 +40,17 @@ public class PrintArticoli {
         for (int i=0 ; i<4; i++) {
             listaTronca.add(lista.get(i));
         }
-        lista.removeAll(listaTronca);
+        for (int i=0 ; i<4 ; i++){
+            lista.remove(0);
+        }
         String testo = "PANE" + capo + printArticolo(listaTronca);
         
         listaTronca = new ArrayList<>();
         for (int i=0 ; i<2; i++) {
             listaTronca.add(lista.get(i));
+        }
+        for (int i=0 ; i<2 ; i++){
+            lista.remove(0);
         }
         lista.removeAll(listaTronca);
         testo = testo + printArticoloAlimentare(listaTronca);

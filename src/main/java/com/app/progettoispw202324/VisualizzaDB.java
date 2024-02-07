@@ -23,7 +23,7 @@ public class VisualizzaDB {
 
     static GestionePerUI gestionePerUI;
 
-    private static int posizione = 0;
+    private int posizione = 0;
     private boolean finiti = false;
 
     @FXML

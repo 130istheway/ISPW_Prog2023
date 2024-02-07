@@ -217,8 +217,8 @@ public class MenuController {
     public void logOut(ActionEvent event ) throws IOException {
         String input = cech("LOGIN", null);
         if(Objects.equals(input, "Autenticarsi: ")) {
-            FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("ControllerLogin.fxml"));
-            Parent root = fxmlLoader.load();
+            fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("ControllerLogin.fxml"));
+            root = fxmlLoader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);

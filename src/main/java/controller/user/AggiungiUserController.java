@@ -98,8 +98,6 @@ public class AggiungiUserController {
                     numberPezzi = 1;
                 }
 
-                System.out.println(parti[0]+parti[1]);
-
                 boolean aggiunto = carrello.aggiungi(cache.ritornaArticolo(numberId), numberPezzi);
 
                 if (!aggiunto) {

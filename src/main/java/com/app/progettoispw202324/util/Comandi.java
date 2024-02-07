@@ -26,7 +26,7 @@ public class Comandi {
     Logger logger = LogManager.getLogger(Comandi.class);
     MessageToCommand messageToCommand = new MessageToCommand();
 
-    static GestionePerUI gestionePerUI;
+    GestionePerUI gestionePerUI;
     TextArea testoLibero;
 
     public Comandi(GestionePerUI lollo, TextArea testoLibero2) {
@@ -98,7 +98,6 @@ public class Comandi {
         messageToCommand.setCommand(string);
         messageToCommand.setPayload(String.valueOf(posizione));
         gestionePerUI.sendMessage(messageToCommand.toMessage());
-        System.out.println(messageToCommand.toMessage());
         try{
             receive = gestionePerUI.getMessage();
         }catch (IOException e){
@@ -119,14 +118,12 @@ public class Comandi {
 
     public void visualizzaCarrello(boolean scelta, int posizione, Button successivo){
         riceviMessaggio("VISUALIZZAART",posizione);
-        System.out.println(messageToCommand.getCommand());
         if (Objects.equals(messageToCommand.getCommand(), "NO")){
             testoLibero.setText("Articoli Finiti");
             if (scelta) successivo.setText("|");
         }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
             String articolo = messageToCommand.getPayload();
             List<String> lista = ConvertiStringToArticolo.convertToListStringFromString(articolo);
-            PrintArticoli.stampaArticolisuTextBox(lista, testoLibero);
         }else if (Objects.equals(messageToCommand.getCommand(), "SINOTI")){
             testoLibero.setText(StringToOrdini.coverti(messageToCommand.getPayload()));
         }

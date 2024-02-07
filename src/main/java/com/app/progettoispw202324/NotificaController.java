@@ -30,11 +30,12 @@ public class NotificaController {
     private static final String ER = "Errore nel recupero del messaggio";
 
     private static final String NC = "NotificaController";
+    private static final String SETGREY = "-fx-background-color: grey;";
 
     static MessageToCommand messageToCommand = new MessageToCommand();
     static GestionePerUI gestionePerUI;
 
-    private static int posizione = 0;
+    private int posizione = 0;
     private boolean finiti = false;
     @FXML
     Button precedente;
@@ -101,14 +102,14 @@ public class NotificaController {
         if (Objects.equals(messageToCommand.getCommand(), "NO")){
             testoLibero.setText(messageToCommand.getPayload());
             visualizza.setStyle("-fx-background-color: red;");
-            accetta.setStyle("-fx-background-color: grey;");
-            rifiuta.setStyle("-fx-background-color: grey;");
+            accetta.setStyle(SETGREY);
+            rifiuta.setStyle(SETGREY);
 
         }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
             testoLibero.setText(messageToCommand.getPayload());
             visualizza.setStyle("-fx-background-color: green;");
-            accetta.setStyle("-fx-background-color: grey;");
-            rifiuta.setStyle("-fx-background-color: grey;");
+            accetta.setStyle(SETGREY);
+            rifiuta.setStyle(SETGREY);
         }
         visualizzaCarrello();
     }

@@ -27,7 +27,7 @@ public class InsController {
     static GestionePerUI gestionePerUI;
 
 
-    private static Integer posizione = 0;
+    private Integer posizione = 0;
     private Boolean finiti = false;
 
     @FXML

@@ -83,7 +83,7 @@ public class Server implements Runnable{
             appthread.start();
             clientHandlerTemporaneo.setNumber(appthread.getId());
             threads.add(appthread);
-            logger.info("aviato il thread : $d ", appthread.getId());
+            logger.info("aviato il thread : %d ", appthread.getId());
         }catch (IllegalThreadStateException e){
             logger.error("L'applicazione ha provato a rilanciare un thread, cià non dovrebbe mai succedere quindi non so cosa sta succedendo, per sicurezza chiudo l'app");
             throw e;
@@ -93,7 +93,7 @@ public class Server implements Runnable{
             if (e.getMessage().equals("Errore nella creazione dei buffer per leggere e  scrivere")) {
                 throw new PersonalException("NONSTOPPAREILSERVER ma penso abbiamo finito gli handle per gli agganci alle socket");
             }
-            logger.error("mi hanno detto : $s", e.getMessage());
+            logger.error("mi hanno detto : %s", e.getMessage());
             throw new PersonalException("Server ShutDown");
         }
     }

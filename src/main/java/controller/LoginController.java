@@ -51,9 +51,7 @@ public class LoginController {
                 messageToCommand.setCommand("STOPIT");
                 messageToCommand.setPayload(null);
                 info.sendMessage(messageToCommand.toMessage());
-                logger.debug(String.format("Server : %d : Non rispondo poichè sto chiudendo la connessione", this.info.getThreadId()));
                 cred = new Credential(null,null, Role.NONE);
-                logger.debug(String.format("STOPTHAT %d", (cred.getRole()).ordinal()));
                 return cred;
             }
             DAOLogin dao = new DAOLogin();

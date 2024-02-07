@@ -131,7 +131,7 @@ public class BaseController {
                     info.sendMessage(messageToCommand.toMessage());
                     return;
                 } catch (DAOException e) {
-                    logger.error("Problema rilevato nelle DAO per recuperare l'id del negozio", e.getMessage());
+                    logger.error("Problema rilevato nelle DAO per recuperare l'id del negozio %s", e.getMessage());
                 }    
             } else{
                 //implementare le notifiche per l'utente
