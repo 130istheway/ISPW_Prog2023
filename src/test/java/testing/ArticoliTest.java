@@ -9,7 +9,10 @@ import util.ConvertiStringToArticolo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArticoliTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class ArticoliTest {
 
     @Test
     void controllaConversioneStringaArticolo(){
@@ -27,25 +30,25 @@ public class ArticoliTest {
         articolo.setTempoLievitatura(0);
         articolo.setLievitatura(true);
         articolo.setDescrizione("qwertyuiopasdfghjklzxcvbnm");
-        assert(articolo.toString().equals("{pane}{1|pane|0.0|0.0}{[farina, uova]|0.0}{0|0|true|qwertyuiopasdfghjklzxcvbnm}"));
+        assertEquals(articolo.toString(),("{pane}{1|pane|0.0|0.0}{[farina, uova]|0.0}{0|0|true|qwertyuiopasdfghjklzxcvbnm}"));
         Articoli appoggio = articolo;
-        assert(appoggio.toString().equals("{pane}{1|pane|0.0|0.0}{[farina, uova]|0.0}{0|0|true|qwertyuiopasdfghjklzxcvbnm}"));
+        assertEquals(appoggio.toString(),("{pane}{1|pane|0.0|0.0}{[farina, uova]|0.0}{0|0|true|qwertyuiopasdfghjklzxcvbnm}"));
     }
 
     @Test
     void testConvertiStringToArticolo(){
         List<String> lista = ConvertiStringToArticolo.convertToListStringFromString("{pane}{1|pane|0.0|0.0}{[farina, uova]|0.0}{0|0|true|qwertyuiopasdfghjklzxcvbnm}");
-        assert(lista.get(0).equals("pane"));
-        assert(lista.get(1).equals("1"));
-        assert(lista.get(2).equals("pane"));
-        assert(lista.get(3).equals("0.0"));
-        assert(lista.get(4).equals("0.0"));
-        assert(lista.get(5).equals("[farina, uova]"));
-        assert(lista.get(6).equals("0.0"));
-        assert(lista.get(7).equals("0"));
-        assert(lista.get(7).equals("0"));
-        assert(lista.get(9).equals("true"));
-        assert(lista.get(10).equals("qwertyuiopasdfghjklzxcvbnm"));
+        assertEquals(lista.get(0),("pane"));
+        assertEquals(lista.get(1),("1"));
+        assertEquals(lista.get(2),("pane"));
+        assertEquals(lista.get(3),("0.0"));
+        assertEquals(lista.get(4),("0.0"));
+        assertEquals(lista.get(5),("[farina, uova]"));
+        assertEquals(lista.get(6),("0.0"));
+        assertEquals(lista.get(7),("0"));
+        assertEquals(lista.get(7),("0"));
+        assertEquals(lista.get(9),("true"));
+        assertEquals(lista.get(10),("qwertyuiopasdfghjklzxcvbnm"));
 
         List<Object> listaOggetti = ConvertiStringToArticolo.convertToArticoloList("{pane}{1|pane|0.0|0.0}{[farina, uova]|0.0}{0|0|true|qwertyuiopasdfghjklzxcvbnm}");
 
@@ -61,23 +64,23 @@ public class ArticoliTest {
         boolean decimo = (boolean)listaOggetti.get(9);
         String undicesimo = (String)listaOggetti.get(10);
 
-        assert(primo.equals("pane"));
-        assert(secondo == 1);
-        assert(terzo.equals("pane"));
-        assert(Math.abs(quarto - 0.0) < 0.000001);
-        assert(Math.abs(quinto - 0.0) < 0.000001);
-        assert(sesto.toString().equals("[farina, uova]"));
-        assert((Math.abs(settimo - 0.0) < 0.000001));
-        assert(ottavo == 0);
-        assert(nono == 0);
-        assert(decimo);
-        assert(undicesimo.equals("qwertyuiopasdfghjklzxcvbnm"));
+        assertEquals(primo,"pane");
+        assertEquals(secondo, 1);
+        assertEquals(terzo,"pane");
+        assertEquals(quarto, 0.0);
+        assertEquals(quinto, 0.0);
+        assertEquals(sesto.toString(),("[farina, uova]"));
+        assertEquals(settimo, 0.0);
+        assertEquals(ottavo,0);
+        assertEquals(nono,0);
+        assertTrue(decimo);
+        assertEquals(undicesimo,("qwertyuiopasdfghjklzxcvbnm"));
     }
 
     @Test
     void testFactoryPerArticoli(){
         List<Object> lista = ConvertiStringToArticolo.convertToArticoloList("{pane}{1|pane|0.0|0.0}{[farina, uova]|0.0}{0|0|true|qwertyuiopasdfghjklzxcvbnm}");
         Articoli articolo = Factory.factoryProdotto(lista);
-        assert(articolo.toString().equals("{pane}{1|pane|0.0|0.0}{[farina, uova]|0.0}{0|0|true|qwertyuiopasdfghjklzxcvbnm}"));
+        assertEquals(articolo.toString(), ("{pane}{1|pane|0.0|0.0}{[farina, uova]|0.0}{0|0|true|qwertyuiopasdfghjklzxcvbnm}"));
     }
 }
