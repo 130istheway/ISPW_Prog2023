@@ -60,7 +60,7 @@ public class NotificaNegozioController {
 
 
         switch (command) {
-            case "VISUALIZZANOTI":
+            case "VISUALIZZAART":
                 try {
                     StringBuilder appoggio = new StringBuilder();
                     int number = Integer.parseInt(messageToCommand.getPayload());
@@ -68,7 +68,7 @@ public class NotificaNegozioController {
                     for (String string : listaDati) {
                         appoggio = appoggio.append(string + "_");
                     }
-                    messageToCommand.setCommand("SI");
+                    messageToCommand.setCommand("SINOTI");
                     messageToCommand.setPayload(appoggio.toString());
                 } catch (IndexOutOfBoundsException | DAOException e) {
                     messageToCommand.setCommand("NO");

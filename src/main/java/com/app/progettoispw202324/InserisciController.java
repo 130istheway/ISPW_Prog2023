@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
@@ -46,11 +47,18 @@ public class InserisciController {
     @FXML
     Button pizza;
 
+    TextArea testoLibero = null;
+
+
+    Comandi comandi = new Comandi(gestionePerUI, testoLibero);
+
     public void menu(ActionEvent event){
-        Comandi.menu(event, gestionePerUI);
+        setComandi();
+        comandi.menu(event, 0);
     }
 
     private void cosaSuccesso(ActionEvent event){
+        setComandi();
         if (Objects.equals(messageToCommand.getCommand(), "NO")) {
             infoDiInserire.setStyle(IMPOSTAROSSO);
         } else if (Objects.equals(messageToCommand.getCommand(), "SI")) {
@@ -71,9 +79,11 @@ public class InserisciController {
     }
 
     public void setPane(ActionEvent event){
+        setComandi();
         String receive = "";
         cosaInserisco = "pane";
-        AllerBoxPerInserimentoArticoli.allertSceltaNegozio(cosaInserisco);
+        AllerBoxPerInserimentoArticoli allert = new AllerBoxPerInserimentoArticoli();
+        allert.allertSceltaNegozio(cosaInserisco);
         if (giusto) {
             messageToCommand.setCommand("AGGIUNGIARTICOLODB");
             messageToCommand.setPayload(lista);
@@ -88,6 +98,7 @@ public class InserisciController {
     }
 
     private String messaggio(){
+        setComandi();
         try {
             return gestionePerUI.getMessage();
         } catch (IOException e) {
@@ -98,9 +109,11 @@ public class InserisciController {
     }
 
     public void setPizza(ActionEvent event){
+        setComandi();
         String receive = "";
         cosaInserisco = "pizza";
-        AllerBoxPerInserimentoArticoli.allertSceltaNegozio(cosaInserisco);
+        AllerBoxPerInserimentoArticoli allert = new AllerBoxPerInserimentoArticoli();
+        allert.allertSceltaNegozio(cosaInserisco);
         if (giusto) {
             messageToCommand.setCommand("AGGIUNGIARTICOLODB");
             messageToCommand.setPayload(lista);
@@ -114,14 +127,15 @@ public class InserisciController {
         }
     }
 
+    private void setComandi(){
+        comandi.setGestionePerUI(gestionePerUI);
+    }
     public static void passGestione(GestionePerUI temporaneo){
         gestionePerUI = temporaneo;
     }
-
     public static void passLista(String temporaneo){
         lista = temporaneo;
     }
-
     public static void passGiusto(boolean lollo){
         giusto = lollo;
     }

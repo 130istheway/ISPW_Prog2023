@@ -40,36 +40,47 @@ public class VisualizzaController {
     @FXML
     Button precedente;
     @FXML
-    static Button successivo;
+    Button successivo;
     @FXML
-    static TextArea testoLibero;
+    TextArea testoLibero;
 
-    public void initializa(){
-        visualizzaCarrello();
-    }
+    Comandi comandi = new Comandi(gestionePerUI, testoLibero);
+
 
     public void menu(ActionEvent event){
-        Comandi.menu(event, gestionePerUI);
+        setComandi();
+        comandi.menu(event, 2);
     }
 
     public void vaiSuccessivo(){
-        Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, VC);
+        setComandi();
+        posizione = comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, true);
     }
 
 
     public void vaiPrecedente(){
-        finiti = Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,VC);
+        setComandi();
+        List<Object> ritorno = comandi.vaiPrecedente(finiti,posizione,successivo,precedente,testoLibero,true);
+        finiti = (boolean)ritorno.get(0);
+        posizione = (Integer)ritorno.get(1);
     }
 
     public void elimina(){
-        Comandi.elimina(posizione,gestionePerUI,testoLibero);
+        setComandi();
+        comandi.elimina(posizione,testoLibero);
     }
 
-    public static void visualizzaCarrello(){
-        Comandi.visualizzaCarrello(true,posizione,gestionePerUI,testoLibero,successivo);
+    public void visualizzaCarrello(){
+        setComandi();
+        comandi.setTestoLibero(testoLibero);
+        comandi.visualizzaCarrello(true,posizione,successivo);
     }
 
     public static void passGestione(GestionePerUI temporaneo){
         gestionePerUI = temporaneo;
+    }
+
+    private void setComandi(){
+        comandi.setGestionePerUI(gestionePerUI);
     }
 }

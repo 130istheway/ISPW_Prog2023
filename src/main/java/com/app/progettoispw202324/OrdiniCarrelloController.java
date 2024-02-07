@@ -30,9 +30,10 @@ public class OrdiniCarrelloController {
     @FXML
     TextArea testoLibero;
 
+    Comandi comandi = new Comandi(gestionePerUI, testoLibero);
 
     public void menu(ActionEvent event){
-        Comandi.menu(event, gestionePerUI);
+        comandi.menu(event, 0);
     }
 
     private String messaggio(){

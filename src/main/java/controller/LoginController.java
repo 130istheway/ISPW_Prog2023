@@ -51,9 +51,9 @@ public class LoginController {
                 messageToCommand.setCommand("STOPIT");
                 messageToCommand.setPayload(null);
                 info.sendMessage(messageToCommand.toMessage());
-                logger.debug("Server : %d : Non rispondo poichè sto chiudendo la connessione", this.info.getThreadId());
+                logger.debug(String.format("Server : %d : Non rispondo poichè sto chiudendo la connessione", this.info.getThreadId()));
                 cred = new Credential(null,null, Role.NONE);
-                logger.debug("STOPTHAT %d", (cred.getRole()).ordinal());
+                logger.debug(String.format("STOPTHAT %d", (cred.getRole()).ordinal()));
                 return cred;
             }
             DAOLogin dao = new DAOLogin();
@@ -76,7 +76,7 @@ public class LoginController {
                 messageToCommand.setCommand(ACCETTATA+cred.getRole().ordinal());
                 messageToCommand.setPayload(null);
                 info.sendMessage(messageToCommand.toMessage());
-                logger.trace("%s -> %s Role: %d",ACCETTATA,cred.getUsername(),(cred.getRole()).ordinal());
+                logger.trace(String.format("%s -> %s Role: %d",ACCETTATA,cred.getUsername(),(cred.getRole()).ordinal()));
                 return cred;       
             }
             if (retryCount > 4) {
@@ -89,7 +89,7 @@ public class LoginController {
             
         }
         cred = new Credential(null,null, Role.NONE);
-        logger.trace("%s  Role: %d",RIFIUTATA,(cred.getRole()).ordinal());
+        logger.trace(String.format("%s  Role: %d",RIFIUTATA,(cred.getRole()).ordinal()));
         return cred;
     }
 }

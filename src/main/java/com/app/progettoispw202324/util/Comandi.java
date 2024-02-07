@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
 import org.apache.logging.log4j.LogManager;
@@ -17,27 +18,28 @@ import util.ConvertiStringToArticolo;
 import util.MessageToCommand;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Comandi {
-    static Logger logger = LogManager.getLogger(Comandi.class);
-    static MessageToCommand messageToCommand = new MessageToCommand();
+    Logger logger = LogManager.getLogger(Comandi.class);
+    MessageToCommand messageToCommand = new MessageToCommand();
 
-    private static final String IC = "InsCotroller";
-    private static final String NC = "NotificaController";
-    private static final String VC = "VisualizzaController";
-    private static final String VDB = "VisualizzaDB";
+    static GestionePerUI gestionePerUI;
+    TextArea testoLibero;
 
-    private Comandi() {
-        throw new IllegalStateException("Utility class");
+    public Comandi(GestionePerUI lollo, TextArea testoLibero2) {
+        gestionePerUI = lollo;
+        testoLibero = testoLibero2;
     }
 
-    public static void menu(ActionEvent event, GestionePerUI gestionePerUI){
+    public void menu(ActionEvent event, int nExit){
         messageToCommand.setCommand("EXIT");
         messageToCommand.setPayload("0");
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
+        for (int i=0; i<nExit; i++){
+            gestionePerUI.sendMessage(messageToCommand.toMessage());
+        }
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("menu.fxml"));
             Parent root = fxmlLoader.load();
@@ -52,10 +54,11 @@ public class Comandi {
     }
 
 
-    public static void vaiSuccessivo(Boolean finiti, Integer posizione, Button successivo, Button precedente, TextArea testoLibero, String lollo){
+    public int vaiSuccessivo(Boolean finiti, Integer posizione, Button successivo, Button precedente, TextArea testoLibero2, boolean scelta){
+        testoLibero = testoLibero2;
         if (Boolean.FALSE.equals(finiti)) {
             posizione++;
-            pippo(lollo);
+            visualizzaCarrello(scelta, posizione, successivo);
             if (posizione > 0) {
                 precedente.setText("<<");
             }
@@ -64,49 +67,38 @@ public class Comandi {
                 finiti = true;
             }
         }
+        return posizione;
     }
 
-    public static boolean vaiPrecedente(Boolean finiti, Integer posizione, Button successivo, Button precedente, String lollo){
+    public List<Object> vaiPrecedente(Boolean finiti, Integer posizione, Button successivo, Button precedente, TextArea testoLibero2, boolean scelta){
+        List<Object> ritorno = new ArrayList<>();
+        testoLibero = testoLibero2;
         if (posizione == 0){
-            pippo(lollo);
+            visualizzaCarrello(scelta, posizione, successivo);
             successivo.setText(">>");
         }else {
             posizione--;
-            pippo(lollo);
+            visualizzaCarrello(scelta, posizione, successivo);
             }
-            if (posizione < 1) {
-                precedente.setText("|");
-                return false;
-            }
-            return finiti;
-    }
-
-    private static void pippo(String lollo){
-        switch(lollo){
-            case IC:
-                InsController.visualizzaCarrello();
-                break;
-            case NC:
-                NotificaController.visualizzaCarrello();
-                break;
-            case VC:
-                VisualizzaController.visualizzaCarrello();
-                break;
-            case VDB:
-                VisualizzaDB.visualizzaCarrello();  
-            default:
-                logger.error("Non dovrei poter entrare qua dentro 0x0703");
-            break;
+        if (posizione < 1) {
+            precedente.setText("|");
+            ritorno.add(false);
+            ritorno.add(posizione);
+            return ritorno;
         }
+        ritorno.add(finiti);
+        ritorno.add(posizione);
+        return ritorno;
     }
 
-    private static void riceviMessaggio(String string, GestionePerUI gestionePerUI, int posizione){
+    private void riceviMessaggio(String string, int posizione){
         messageToCommand = new MessageToCommand();
         String receive = "";
 
         messageToCommand.setCommand(string);
         messageToCommand.setPayload(String.valueOf(posizione));
         gestionePerUI.sendMessage(messageToCommand.toMessage());
+        System.out.println(messageToCommand.toMessage());
         try{
             receive = gestionePerUI.getMessage();
         }catch (IOException e){
@@ -116,8 +108,8 @@ public class Comandi {
         messageToCommand.fromMessage(receive);
     }
 
-    public static void elimina(Integer posizione, GestionePerUI gestionePerUI, TextArea testoLibero){
-        riceviMessaggio("RIMUOVIART", gestionePerUI, posizione);
+    public void elimina(Integer posizione, TextArea testoLibero){
+        riceviMessaggio("RIMUOVIART", posizione);
         if (Objects.equals(messageToCommand.getCommand(), "NO")){
             testoLibero.setText(messageToCommand.getPayload());
         }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
@@ -125,8 +117,9 @@ public class Comandi {
         }
     }
 
-    public static void visualizzaCarrello(boolean scelta, int posizione, GestionePerUI gestionePerUI, TextArea testoLibero, Button successivo){
-        riceviMessaggio("VISUALIZZAART", gestionePerUI,posizione);
+    public void visualizzaCarrello(boolean scelta, int posizione, Button successivo){
+        riceviMessaggio("VISUALIZZAART",posizione);
+        System.out.println(messageToCommand.getCommand());
         if (Objects.equals(messageToCommand.getCommand(), "NO")){
             testoLibero.setText("Articoli Finiti");
             if (scelta) successivo.setText("|");
@@ -134,7 +127,17 @@ public class Comandi {
             String articolo = messageToCommand.getPayload();
             List<String> lista = ConvertiStringToArticolo.convertToListStringFromString(articolo);
             PrintArticoli.stampaArticolisuTextBox(lista, testoLibero);
+        }else if (Objects.equals(messageToCommand.getCommand(), "SINOTI")){
+            testoLibero.setText(StringToOrdini.coverti(messageToCommand.getPayload()));
         }
+    }
+
+    public void setGestionePerUI(GestionePerUI lollo){
+        gestionePerUI = lollo;
+    }
+
+    public void setTestoLibero(TextArea testo){
+        testoLibero = testo;
     }
 }
 

@@ -8,15 +8,19 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.FocusModel;
 import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
 import util.MessageToCommand;
 
 import java.io.IOException;
+import java.util.EventListener;
 import java.util.Objects;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.app.progettoispw202324.*;
 
 public class MenuController {
     
@@ -35,26 +39,28 @@ public class MenuController {
 
     @FXML
     Button scegliNegozio;
-
     @FXML
     Button confermaCarrello;
-
     @FXML
     Button ordine;
+    @FXML
+    Button visualizza;
+    @FXML
+    Button ordini;
+    @FXML
+    Button aggiungi;
 
     public void scegliNegozio() {
         if (gestionePerUI.getNegozio() == null) {
             AllertBox.allertSceltaNegozio("Scelta", "L'id del negozio?", gestionePerUI, false);
-            scegliNegozio.setStyle(IMPOSTAROSSO);
         }else {
             AllertBox.allertSceltaNegozio("Scelta", "L'id del negozio è " + gestionePerUI.getNegozio(), gestionePerUI, true);
-            scegliNegozio.setStyle(IMPOSTAVERDE);
         }
     }
 
-    private String cech(){
-        messageToCommand.setCommand("VISUALIZZA");
-        messageToCommand.setPayload(null);
+    private String cech(String cose, String pay){
+        messageToCommand.setCommand(cose);
+        messageToCommand.setPayload(pay);
         gestionePerUI.sendMessage(messageToCommand.toMessage());
         try {
             return gestionePerUI.getMessage();
@@ -65,7 +71,7 @@ public class MenuController {
 
     public void visualizza(ActionEvent event){
         if (livello>=3){return;}
-        String input = cech();
+        String input = cech("VISUALIZZA", null);
         if (Objects.equals(input, "OK")) {
             try {
                 fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaCarrello.fxml"));
@@ -73,7 +79,7 @@ public class MenuController {
                 VisualizzaController.passGestione(gestionePerUI);
                 setCose(event,"Visualizza");
             } catch (IOException e) {
-                logger.error("0x000110    %s", e.getMessage());
+                logger.error(String.format("0x000110    %s", e.getMessage()));
                 Platform.exit();
             }
         }   else if (input.contains(STOPIT)){
@@ -86,7 +92,7 @@ public class MenuController {
         if (gestionePerUI.getNegozio() == null) {
             scegliNegozio();
         } else {
-            String input = cech();
+            String input = cech("AGGIUNGILISTA", gestionePerUI.getNegozio());
             if (Objects.equals(input, "OK")) {
                 try {
                     fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("InserisciCarrello.fxml"));
@@ -94,7 +100,7 @@ public class MenuController {
                     InsController.passGestione(gestionePerUI);
                     setCose(event,"Inserisci");
                 } catch (IOException e) {
-                    logger.error("0x000111    %s", e.getMessage());
+                    logger.error(String.format("0x000111    %s", e.getMessage()));
                     Platform.exit();
                 }
             } else if (input.contains(STOPIT)){
@@ -108,7 +114,7 @@ public class MenuController {
         if (gestionePerUI.getNegozio() == null){
             scegliNegozio();
         }else {
-            String input = cech();
+            String input = cech("CONFERMALISTA", gestionePerUI.getNegozio());
             if (Objects.equals(input, "OK")) {
                 confermaCarrello.setStyle(IMPOSTAVERDE);
                 messageToCommand.setCommand("RESETNEGOZIO");
@@ -130,28 +136,32 @@ public class MenuController {
             OrdiniCarrelloController.passGestione(gestionePerUI);
             setCose(event,"Verifica se le tue prenotazioni sono accettate");
         }catch (IOException e){
-            logger.error("0x000112    %s", e.getMessage());
+            logger.error(String.format("0x000112    %s", e.getMessage()));
             Platform.exit();
         }
     }
 
 
     public void aggiungiDaDb(ActionEvent event) {
-        if (livello>=3){return;}
+        if (livello>=2){
+            aggiungi.setStyle(IMPOSTAROSSO);
+            return;}
         try {
             fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("CosaInserire.fxml"));
             root = fxmlLoader.load();
             InserisciController.passGestione(gestionePerUI);
             setCose(event,"Aggiungi al DB");
         } catch (IOException e) {
-            logger.error("0x000113    %s", e.getMessage());
+            logger.error(String.format("0x000113    %s", e.getMessage()));
             Platform.exit();
         }
     }
 
     public void visualizzaDaDb (ActionEvent event) {
-        if (livello>=2){return;}
-        String input = cech();
+        if (livello>=2){
+            visualizza.setStyle(IMPOSTAROSSO);
+            return;}
+        String input = cech("VISUALIZZAARTICOLODB", null);
         if (Objects.equals(input, "OK")) {
             try {
                 fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaDB.fxml"));
@@ -159,7 +169,7 @@ public class MenuController {
                 VisualizzaDB.passGestione(gestionePerUI);
                 setCose(event, "Visualizza dal DB");
             } catch (IOException e) {
-                logger.error("0x000114    %s", e.getMessage());
+                logger.error(String.format("0x000114    %s", e.getMessage()));
                 Platform.exit();
             }
         }
@@ -167,8 +177,11 @@ public class MenuController {
 
 
     public void notificheDaAccettare(ActionEvent event) {
-        if (livello>=2){return;}
-        String input = cech();
+        if (livello>=2){
+            ordine.setStyle(IMPOSTAROSSO);
+            return;
+        }
+        String input = cech("NOTIFICA", null);
         if (Objects.equals(input, "OK")) {
             ordine.setText("ORDINE");
             try {
@@ -194,15 +207,25 @@ public class MenuController {
     }
     
     public void ordiniPerOggi() {
-        if (livello>=2){return;}
+        if (livello>=0){
+            ordini.setStyle(IMPOSTAROSSO);
+            return;
+        }
         VisualizzaController.passGestione(gestionePerUI);
     }
 
-    public void logOut() {
-        messageToCommand.setCommand("EXIT");
-        messageToCommand.setPayload(null);
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
-        Platform.exit();
+    public void logOut(ActionEvent event ) throws IOException {
+        String input = cech("LOGIN", null);
+        if(Objects.equals(input, "Autenticarsi: ")) {
+            FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("ControllerLogin.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }else{
+            Platform.exit();
+        }
     }
 
 

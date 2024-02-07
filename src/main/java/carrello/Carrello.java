@@ -88,7 +88,10 @@ public class Carrello extends CarrelloCache{
 
     public boolean aggiungi(Articoli articoloDaAggiungere, int count){
         if(articoloDaAggiungere != null){
-            articoloDaAggiungere.setQuantitaArticolo(count);
+            double y = articoloDaAggiungere.getPrezzoArticolo();
+            articoloDaAggiungere.setPrezzoArticolo(count*y);
+            float x = articoloDaAggiungere.getQuantitaArticolo();
+            articoloDaAggiungere.setQuantitaArticolo(count*x);
             carrellino.add(articoloDaAggiungere);
             return true;
         }else{

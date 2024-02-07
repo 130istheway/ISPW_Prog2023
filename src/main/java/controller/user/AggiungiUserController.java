@@ -91,17 +91,19 @@ public class AggiungiUserController {
                 int numberPezzi;
 
                 String[] parti = number.split("\\|");
-                int numberId = Integer.parseInt(parti[1].trim());
+                int numberId = Integer.parseInt(parti[0].trim());
                 if (parti.length > 1) {
                     numberPezzi = Integer.parseInt(parti[1].trim());
                 }else{
                     numberPezzi = 1;
                 }
 
+                System.out.println(parti[0]+parti[1]);
+
                 boolean aggiunto = carrello.aggiungi(cache.ritornaArticolo(numberId), numberPezzi);
 
                 if (!aggiunto) {
-                    logger.info("non è stato possibile inserire l'articolo : %s : %s",number,credentials.getUsername());
+                    logger.info(String.format("non è stato possibile inserire l'articolo : %s : %s",number,credentials.getUsername()));
                     messageToCommand.setCommand("NO");
                     messageToCommand.setPayload(null);
                     info.sendMessage(messageToCommand.toMessage());

@@ -42,14 +42,14 @@ public class LoginController {
         } catch (IOException e){
             ricevi = "non riuscito a recuperare il messaggio";
         }
-        if (ricevi.contains("Accettata")){
+        System.out.println(ricevi);
+        if (ricevi.contains("ACCETTATA")){
             int n = Integer.parseInt(ricevi.substring(ricevi.length()-1));
             buttonLogin.setStyle("-fx-background-color: green;");
             Role ruolo;
             ruolo = Role.values()[Integer.parseInt(ricevi.substring(ricevi.length()-1))];
             gestionePerUI.setCredential(username.getText(), ruolo);
             setControllerMenu(event, n);
-            //fargli cambiare scena
         } else if (ricevi.contains("Riprova")){
             buttonLogin.setText("Riprova");
             buttonLogin.setStyle("-fx-background-color: red;");
@@ -57,6 +57,8 @@ public class LoginController {
             buttonLogin.setText("Sbagliato");
             buttonLogin.setStyle("-fx-background-color: black;");
             Platform.exit();
+        } else{
+            System.out.println("Cose che non capisco");
         }
     }
 

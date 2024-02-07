@@ -28,23 +28,24 @@ public class AllerBoxPerInserimentoArticoli {
     
 
         
-    static TextField nome = new TextField();
-    static TextField prezzo = new TextField();
-    static TextField quantita = new TextField();
-    static TextField ingredienti = new TextField();
-    static TextField peso = new TextField();
-    static TextField cottura = new TextField();
-    static TextField tempoLievitatura = new TextField();
-    static ChoiceBox<String> lievitatura = new ChoiceBox<>();
-    static TextField descrizione = new TextField();
-    static ChoiceBox<String> forma = new ChoiceBox<>();
+    TextField nome = new TextField();
+    TextField prezzo = new TextField();
+    TextField quantita = new TextField();
+    TextField ingredienti = new TextField();
+    TextField peso = new TextField();
+    TextField cottura = new TextField();
+    TextField tempoLievitatura = new TextField();
+    ChoiceBox<String> lievitatura = new ChoiceBox<>();
+    TextField descrizione = new TextField();
+    ChoiceBox<String> forma = new ChoiceBox<>();
 
 
-    private static void setEverithing(){
+    AllerBoxPerInserimentoArticoli(){
         setGiusto(false);
         nome.setPromptText("nome");
         prezzo.setPromptText("prezzo");
         quantita.setPromptText("quantita");
+        peso.setPromptText("peso");
         ingredienti.setPromptText("Ingredienti suddivisi da ,");
         cottura.setPromptText("Cottura");
         tempoLievitatura.setPromptText("Tempo Lievitatura");
@@ -54,11 +55,8 @@ public class AllerBoxPerInserimentoArticoli {
         forma.getItems().addAll("Tonda", "Quadrate");
         forma.setValue("Lievitatura");
     }
-    private AllerBoxPerInserimentoArticoli(){
-        throw new IllegalStateException("Utility class");
-    }
 
-    public static void allertSceltaNegozio(String message) {
+    public void allertSceltaNegozio(String message) {
 
         Stage window = new Stage();
 
@@ -88,7 +86,7 @@ public class AllerBoxPerInserimentoArticoli {
         InserisciController.passGiusto(bool);
     }
 
-    private static String getNome(){
+    private  String getNome(){
         String nome2 = nome.getText();
         if (Objects.equals(nome2, "")){
             nome.setText("");
@@ -99,7 +97,7 @@ public class AllerBoxPerInserimentoArticoli {
         return nome2;
     }
 
-    private static double getPrezzo(){
+    private  double getPrezzo(){
         double prezzo2;
         try {
             prezzo2 = Double.parseDouble(prezzo.getText());
@@ -112,7 +110,7 @@ public class AllerBoxPerInserimentoArticoli {
         return prezzo2;
     }
 
-    private static float getQuantita(){
+    private  float getQuantita(){
         float quantita2;
         try {
             quantita2 = Float.parseFloat(quantita.getText());
@@ -125,7 +123,7 @@ public class AllerBoxPerInserimentoArticoli {
         return quantita2;
     }
 
-    private static String[] getIngredienti(){
+    private  String[] getIngredienti(){
         String ingredienti2 = ingredienti.getText();
         if (Objects.equals(ingredienti2, "")){
             ingredienti.setText("");
@@ -136,7 +134,7 @@ public class AllerBoxPerInserimentoArticoli {
         return ingredienti2.split(",");
     }
 
-    private static double getPeso(){
+    private  double getPeso(){
         double peso2;
         try {
             peso2 = Double.parseDouble(peso.getText());
@@ -149,7 +147,7 @@ public class AllerBoxPerInserimentoArticoli {
         return peso2;
     }
 
-    private static int getCottura(){
+    private  int getCottura(){
         int cottura2;
         try {
             cottura2 = Integer.parseInt(cottura.getText());
@@ -162,7 +160,7 @@ public class AllerBoxPerInserimentoArticoli {
         return cottura2;
     }
 
-    private static int getTempoLievitatura(){
+    private  int getTempoLievitatura(){
         int tempoLievitatura2;
         try {
             tempoLievitatura2 = Integer.parseInt(tempoLievitatura.getText());
@@ -175,7 +173,7 @@ public class AllerBoxPerInserimentoArticoli {
         return tempoLievitatura2;
     }
 
-    private static String getDescrizione(){
+    private  String getDescrizione(){
         String descrizione2 = descrizione.getText();
         if (Objects.equals(descrizione2, "")){
             descrizione.setText("");
@@ -186,9 +184,7 @@ public class AllerBoxPerInserimentoArticoli {
         return descrizione2;
     }
 
-    private static void pane(Stage window){
-
-        setEverithing();
+    private void pane(Stage window){
 
         Button closeButton = new Button("Inserisci");
         try {
@@ -249,9 +245,7 @@ public class AllerBoxPerInserimentoArticoli {
         window.showAndWait();
     }
 
-    private static void pizza(Stage window){
-
-        setEverithing();
+    private void pizza(Stage window){
 
         Button closeButton = new Button("Inserisci");
         try {

@@ -1,8 +1,6 @@
 package com.app.progettoispw202324;
 
 import com.app.progettoispw202324.util.Comandi;
-import com.app.progettoispw202324.util.PrintArticoli;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,10 +8,8 @@ import javafx.scene.control.TextArea;
 import model.domain.ui.GestionePerUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.ConvertiStringToArticolo;
 import util.MessageToCommand;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,31 +31,45 @@ public class VisualizzaDB {
     @FXML
     Button successivo;
     @FXML
-    static TextArea testoLibero;
+    TextArea testoLibero;
+
+    Comandi comandi = new Comandi(gestionePerUI, testoLibero);
 
     public void menu(ActionEvent event){
-        Comandi.menu(event, gestionePerUI);
+        setComandi();
+        comandi.menu(event, 2);
     }
 
     public void vaiSuccessivo(){
-        Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, VDB);
+        setComandi();
+        posizione = comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, false);
     }
 
 
     public void vaiPrecedente(){
-        finiti = Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,VDB);
+        setComandi();
+        List<Object> ritorno = comandi.vaiPrecedente(finiti,posizione,successivo,precedente,testoLibero,false);
+        finiti = (boolean)ritorno.get(0);
+        posizione = (Integer)ritorno.get(1);
     }
 
     public void elimina(){
-        Comandi.elimina(posizione,gestionePerUI,testoLibero);
+        setComandi();
+        comandi.elimina(posizione,testoLibero);
     }
 
-    public static void visualizzaCarrello(){
-        Comandi.visualizzaCarrello(false,posizione,gestionePerUI,testoLibero,null);
+    public void visualizzaCarrello(){
+        setComandi();
+        comandi.setTestoLibero(testoLibero);
+        comandi.visualizzaCarrello(false,posizione,null);
     }
 
     public static void passGestione(GestionePerUI temporaneo){
         gestionePerUI = temporaneo;
+    }
+
+    private void setComandi(){
+        comandi.setGestionePerUI(gestionePerUI);
     }
 
 }

@@ -12,10 +12,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
 import util.MessageToCommand;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.logging.log4j.LogManager;
@@ -39,25 +41,33 @@ public class NotificaController {
     @FXML
     Button successivo;
     @FXML
-    static TextArea testoLibero;
+    TextArea testoLibero;
     @FXML
     Button accetta;
     @FXML
     Button rifiuta;
+    @FXML
+    TextField visualizza;
 
+    Comandi comandi = new Comandi(gestionePerUI, testoLibero);
 
 
     public void menu(ActionEvent event){
-        Comandi.menu(event, gestionePerUI);
+        setComandi();
+        comandi.menu(event, 2);
     }
 
     public void vaiSuccessivo(){
-        Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, NC);
+        setComandi();
+        posizione = comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, false);
     }
 
-
     public void vaiPrecedente(){
-        finiti = Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,NC);
+        setComandi();
+        List<Object> ritorno = comandi.vaiPrecedente(finiti,posizione,successivo,precedente,testoLibero,false);
+        finiti = (boolean)ritorno.get(0);
+        posizione = (Integer)ritorno.get(1);
+
     }
 
     public void conferma(){
@@ -69,8 +79,11 @@ public class NotificaController {
     }
 
     private synchronized void confermaRifiuta(String stringa){
-
-        accetta.setStyle("-fx-background-color: grey;");
+        if (Objects.equals(stringa, "SI")) {
+            accetta.setStyle("-fx-background-color: blue;");
+        }else{
+            rifiuta.setStyle("-fx-background-color: blue;");
+        }
 
         messageToCommand = new MessageToCommand();
         String receive = null;
@@ -87,20 +100,32 @@ public class NotificaController {
         messageToCommand.fromMessage(receive);
         if (Objects.equals(messageToCommand.getCommand(), "NO")){
             testoLibero.setText(messageToCommand.getPayload());
-            rifiuta.setStyle("-fx-background-color: red;");
+            visualizza.setStyle("-fx-background-color: red;");
+            accetta.setStyle("-fx-background-color: grey;");
+            rifiuta.setStyle("-fx-background-color: grey;");
+
         }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
             testoLibero.setText(messageToCommand.getPayload());
-            rifiuta.setStyle("-fx-background-color: green;");
+            visualizza.setStyle("-fx-background-color: green;");
+            accetta.setStyle("-fx-background-color: grey;");
+            rifiuta.setStyle("-fx-background-color: grey;");
         }
         visualizzaCarrello();
     }
 
-    public static void visualizzaCarrello(){
-        Comandi.visualizzaCarrello(false,posizione,gestionePerUI,testoLibero,null);
+    public void visualizzaCarrello(){
+        setComandi();
+        comandi.setTestoLibero(testoLibero);
+        comandi.visualizzaCarrello(false,posizione,null);
     }
 
 
     public static void passGestione(GestionePerUI temporaneo){
         gestionePerUI = temporaneo;
     }
+
+    private void setComandi(){
+        comandi.setGestionePerUI(gestionePerUI);
+    }
+
 }

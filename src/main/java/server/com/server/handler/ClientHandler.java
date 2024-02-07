@@ -73,7 +73,7 @@ public class ClientHandler implements Runnable {
                     
                 }
             }catch (Exception e){
-                logger.error("%s the thread is : %d ",e.getMessage(),this.info.getThreadId());
+                logger.error(String.format("%s the thread is : %d ",e.getMessage(),this.info.getThreadId()));
             }
             if (!this.info.isRunning()) {
                 logger.error("il capo mi sta chiudendo | thread number: %d",this.info.getThreadId() );

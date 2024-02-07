@@ -24,8 +24,8 @@ public class InsController {
 
     static MessageToCommand messageToCommand = new MessageToCommand();
 
-    private static final String IC = "InsCotroller";
     static GestionePerUI gestionePerUI;
+
 
     private static Integer posizione = 0;
     private Boolean finiti = false;
@@ -33,29 +33,35 @@ public class InsController {
     @FXML
     Button precedente;
     @FXML
-    static Button successivo;
+    Button successivo;
     @FXML
     TextField quantita;
     @FXML
-    static TextArea testoLibero;
+    TextArea testoLibero;
+
+    Comandi comandi = new Comandi(gestionePerUI, testoLibero);
 
     public void menu(ActionEvent event){
-        Comandi.menu(event, gestionePerUI);
+        setComandi();
+        comandi.menu(event, 2);
     }
 
     public void vaiSuccessivo(){
-        Comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, IC);
+        setComandi();
+        posizione = comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, false);
     }
 
     public void vaiPrecedente(){
-        finiti = Comandi.vaiPrecedente(finiti,posizione,successivo,precedente,IC);
+        setComandi();
+        List<Object> ritorno = comandi.vaiPrecedente(finiti,posizione,successivo,precedente,testoLibero, false);
+        finiti = (boolean)ritorno.get(0);
+        posizione = (Integer)ritorno.get(1);
     }
 
     public void inserisci(){
         String receive = "NO";
         try {
             int quant = Integer.parseInt(quantita.getText());
-            quantita.setStyle("-fx-background-color: green;");
             messageToCommand.setCommand("AGGIUNGILISTA");
             String message = posizione + "|" + quant;
             messageToCommand.setPayload(message);
@@ -86,7 +92,7 @@ public class InsController {
     }
 
 
-    public static void visualizzaCarrello(){
+    public void visualizzaCarrello(){
         String receive = "NO";
         messageToCommand.setCommand("VISUALIZZAART");
         messageToCommand.setPayload(String.valueOf(posizione));
@@ -105,5 +111,9 @@ public class InsController {
 
     public static void passGestione(GestionePerUI temporaneo){
         gestionePerUI = temporaneo;
+    }
+
+    private void setComandi(){
+        comandi.setGestionePerUI(gestionePerUI);
     }
 }
