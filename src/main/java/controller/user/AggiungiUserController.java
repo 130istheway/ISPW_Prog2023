@@ -101,7 +101,7 @@ public class AggiungiUserController {
                 boolean aggiunto = carrello.aggiungi(cache.ritornaArticolo(numberId), numberPezzi);
 
                 if (!aggiunto) {
-                    logger.info(String.format("non è stato possibile inserire l'articolo : "+ number +" : %s" + credentials.getUsername()));
+                    logger.info(String.format("non è stato possibile inserire l'articolo : {}",credentials.getUsername()));
                     messageToCommand.setCommand("NO");
                     messageToCommand.setPayload(null);
                     info.sendMessage(messageToCommand.toMessage());

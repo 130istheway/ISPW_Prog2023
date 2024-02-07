@@ -74,7 +74,7 @@ public class LoginController {
                 messageToCommand.setCommand(ACCETTATA+cred.getRole().ordinal());
                 messageToCommand.setPayload(null);
                 info.sendMessage(messageToCommand.toMessage());
-                logger.trace(ACCETTATA + " -> " + cred.getUsername() + " Role:" +(cred.getRole()).ordinal());
+                logger.trace("{0} -> {1} Role: {2}",ACCETTATA,cred.getUsername(),(cred.getRole()).ordinal());
                 return cred;       
             }
             if (retryCount > 4) {
@@ -87,7 +87,7 @@ public class LoginController {
             
         }
         cred = new Credential(null,null, Role.NONE);
-        logger.trace(RIFIUTATA + " -> " + cred.getUsername() + " Role:" +(cred.getRole()).ordinal());
+        logger.trace("{0} -> {1} Role: {2}",RIFIUTATA,cred.getUsername(),(cred.getRole()).ordinal());
         return cred;
     }
 }
