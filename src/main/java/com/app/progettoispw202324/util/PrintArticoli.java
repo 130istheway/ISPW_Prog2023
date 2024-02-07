@@ -40,8 +40,8 @@ public class PrintArticoli {
         for (int i=0 ; i<4; i++) {
             listaTronca.add(lista.get(i));
         }
-        for (int i=0 ; i<4 ; i++){
-            lista.remove(0);
+        for (int i=3 ; i>=0 ; i--){
+            lista.remove(i);
         }
         String testo = "PANE" + capo + printArticolo(listaTronca);
         
@@ -49,8 +49,8 @@ public class PrintArticoli {
         for (int i=0 ; i<2; i++) {
             listaTronca.add(lista.get(i));
         }
-        for (int i=0 ; i<2 ; i++){
-            lista.remove(0);
+        for (int i=1 ; i>=0 ; i--){
+            lista.remove(i);
         }
         lista.removeAll(listaTronca);
         testo = testo + printArticoloAlimentare(listaTronca);

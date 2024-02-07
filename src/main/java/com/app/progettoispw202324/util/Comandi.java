@@ -124,6 +124,7 @@ public class Comandi {
         }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
             String articolo = messageToCommand.getPayload();
             List<String> lista = ConvertiStringToArticolo.convertToListStringFromString(articolo);
+            PrintArticoli.stampaArticolisuTextBox(lista, testoLibero);
         }else if (Objects.equals(messageToCommand.getCommand(), "SINOTI")){
             testoLibero.setText(StringToOrdini.coverti(messageToCommand.getPayload()));
         }
