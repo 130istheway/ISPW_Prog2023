@@ -78,24 +78,7 @@ public class InserisciController {
         }
     }
 
-    public void setPane(ActionEvent event){
-        setComandi();
-        String receive = "";
-        cosaInserisco = "pane";
-        AllerBoxPerInserimentoArticoli allert = new AllerBoxPerInserimentoArticoli();
-        allert.allertSceltaNegozio(cosaInserisco);
-        if (giusto) {
-            messageToCommand.setCommand("AGGIUNGIARTICOLODB");
-            messageToCommand.setPayload(lista);
-            gestionePerUI.sendMessage(messageToCommand.toMessage());
-            receive = messaggio();
-            messageToCommand.fromMessage(receive);
-            pane.setStyle("-fx-background-color: green;");
-            cosaSuccesso(event);
-        }else{
-            pane.setStyle(IMPOSTAROSSO);
-        }
-    }
+
 
     private String messaggio(){
         setComandi();
@@ -108,10 +91,10 @@ public class InserisciController {
         return null;
     }
 
-    public void setPizza(ActionEvent event){
+    private void setArticolo(ActionEvent event, String pippo){
         setComandi();
         String receive = "";
-        cosaInserisco = "pizza";
+        cosaInserisco = pippo;
         AllerBoxPerInserimentoArticoli allert = new AllerBoxPerInserimentoArticoli();
         allert.allertSceltaNegozio(cosaInserisco);
         if (giusto) {
@@ -125,6 +108,14 @@ public class InserisciController {
         }else{
             pizza.setStyle(IMPOSTAROSSO);
         }
+    }
+
+    public void setPizza(ActionEvent event){
+        setArticolo(event, "pizza");
+    }
+
+    public void setPane(ActionEvent event){
+        setArticolo(event, "pane");
     }
 
     private void setComandi(){
