@@ -8,18 +8,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.apache.logging.log4j.*;
-
 public class AllerBoxPerInserimentoArticoli {
 
-    static Logger logger = LogManager.getLogger(AllerBoxPerInserimentoArticoli.class);
-
-    AtomicBoolean ok = new AtomicBoolean(true);
+    static AtomicBoolean ok = new AtomicBoolean(true);
 
     private static final String NATURALE = "NATURALE";
     private static final String NNATURALE = "Non naturale";
@@ -30,46 +27,33 @@ public class AllerBoxPerInserimentoArticoli {
 
     
 
-    setGiusto(false);
         
-    TextField nome = new TextField();
-    nome.setPromptText("nome");
-
-    TextField prezzo = new TextField();
-    prezzo.setPromptText("prezzo");
-
-    TextField quantita = new TextField();
-    quantita.setPromptText("quantita");
-
-    TextField ingredienti = new TextField();
-    ingredienti.setPromptText("Ingredienti suddivisi da ,");
-
-    TextField peso = new TextField();
-    peso.setPromptText("Peso");
-
-    TextField cottura = new TextField();
-    cottura.setPromptText("Cottura");
-
-    TextField tempoLievitatura = new TextField();
-    tempoLievitatura.setPromptText("Tempo Lievitatura");
-
-    ChoiceBox<String> lievitatura = new ChoiceBox<>();
-    lievitatura.getItems().addAll(NATURALE, NNATURALE);
-    // Set an initial selection
-    lievitatura.setValue("Tipo lievitatura");
-
-    TextField descrizione = new TextField();
-    descrizione.setPromptText("Descrizione");
-
-    ChoiceBox<String> forma = new ChoiceBox<>();
-    forma.getItems().addAll("Tonda", "Quadrate");
-    // Set an initial selection
-    forma.setValue("Lievitatura");
-
-    TextField descrizione = new TextField();
-    descrizione.setPromptText("Descrizione");
+    static TextField nome = new TextField();
+    static TextField prezzo = new TextField();
+    static TextField quantita = new TextField();
+    static TextField ingredienti = new TextField();
+    static TextField peso = new TextField();
+    static TextField cottura = new TextField();
+    static TextField tempoLievitatura = new TextField();
+    static ChoiceBox<String> lievitatura = new ChoiceBox<>();
+    static TextField descrizione = new TextField();
+    static ChoiceBox<String> forma = new ChoiceBox<>();
 
 
+    private static void setEverithing(){
+        setGiusto(false);
+        nome.setPromptText("nome");
+        prezzo.setPromptText("prezzo");
+        quantita.setPromptText("quantita");
+        ingredienti.setPromptText("Ingredienti suddivisi da ,");
+        cottura.setPromptText("Cottura");
+        tempoLievitatura.setPromptText("Tempo Lievitatura");
+        lievitatura.getItems().addAll(NATURALE, NNATURALE);
+        lievitatura.setValue("Tipo lievitatura");
+        descrizione.setPromptText("Descrizione");
+        forma.getItems().addAll("Tonda", "Quadrate");
+        forma.setValue("Lievitatura");
+    }
     private AllerBoxPerInserimentoArticoli(){
         throw new IllegalStateException("Utility class");
     }
@@ -104,130 +88,132 @@ public class AllerBoxPerInserimentoArticoli {
         InserisciController.passGiusto(bool);
     }
 
-    private String getNome(TextField nome){
-        String nome2 = this.nome.getText();
+    private static String getNome(){
+        String nome2 = nome.getText();
         if (Objects.equals(nome2, "")){
-            this.prezzo.setText("");
-            this.prezzo.setStyle(IMPOSTAROSSO);
+            nome.setText("");
+            nome.setStyle(IMPOSTAROSSO);
             ok.set(false);
-            return;
+            return null;
         }
         return nome2;
     }
 
-    private double getPrezzo(TextField prezzo){
-        double prezzo2 = 0;
+    private static double getPrezzo(){
+        double prezzo2;
         try {
-            prezzo2 = Double.parseDouble(this.prezzo.getText());
+            prezzo2 = Double.parseDouble(prezzo.getText());
         } catch (NumberFormatException e1) {
-            this.prezzo.setText("");
-            this.prezzo.setStyle(IMPOSTAROSSO);
+            prezzo.setText("");
+            prezzo.setStyle(IMPOSTAROSSO);
             ok.set(false);
-            return;
+            return 0;
         }
         return prezzo2;
     }
 
-    private float getQuantita(TextField quantita){
-        float quantita2 = 0.0;
+    private static float getQuantita(){
+        float quantita2;
         try {
-            quantita2 = Float.parseFloat(this.quantita.getText());
+            quantita2 = Float.parseFloat(quantita.getText());
         } catch (NumberFormatException e1) {
-            this.quantita.setText("");
-            this.quantita.setStyle(IMPOSTAROSSO);
+            quantita.setText("");
+            quantita.setStyle(IMPOSTAROSSO);
             ok.set(false);
-            return;
+            return 0;
         }
         return quantita2;
     }
 
-    private String[] getIngredienti(TextField ingredienti){
-        String ingredienti2 = this.ingredienti.getText();
+    private static String[] getIngredienti(){
+        String ingredienti2 = ingredienti.getText();
         if (Objects.equals(ingredienti2, "")){
-            this.ingredienti.setText("");
-            this.ingredienti.setStyle(IMPOSTAROSSO);
+            ingredienti.setText("");
+            ingredienti.setStyle(IMPOSTAROSSO);
             ok.set(false);
-            return;
+            return null;
         }
-        String[] splitted = ingredienti2.split(",");
-        return splitted
+        return ingredienti2.split(",");
     }
 
-    private double getPeso(TextField peso){
-        double peso2 = 0;
+    private static double getPeso(){
+        double peso2;
         try {
-            peso2 = Double.parseDouble(this.peso.getText());
+            peso2 = Double.parseDouble(peso.getText());
         } catch (NumberFormatException e1) {
-            this.peso.setText("");
-            this.peso.setStyle(IMPOSTAROSSO);
+            peso.setText("");
+            peso.setStyle(IMPOSTAROSSO);
             ok.set(false);
-            return;
+            return 0;
         }
         return peso2;
     }
 
-    private int getCottura(TextField cottura){
-        int cottura2 = 0;
+    private static int getCottura(){
+        int cottura2;
         try {
-            cottura2 = Integer.parseInt(this.cottura.getText());
+            cottura2 = Integer.parseInt(cottura.getText());
         } catch (NumberFormatException e1) {
-            this.cottura.setText("");
-            this.cottura.setStyle(IMPOSTAROSSO);
+            cottura.setText("");
+            cottura.setStyle(IMPOSTAROSSO);
             ok.set(false);
-            return;
+            return 0;
         }
         return cottura2;
     }
 
-    private int getTempoLievitatura(TextField tempoLievitatura){
-        int tempoLievitatura2 = 0;
+    private static int getTempoLievitatura(){
+        int tempoLievitatura2;
         try {
-            tempoLievitatura2 = Integer.parseInt(this.tempoLievitatura.getText());
+            tempoLievitatura2 = Integer.parseInt(tempoLievitatura.getText());
         } catch (NumberFormatException e1) {
-            this.tempoLievitatura.setText("");
-            this.tempoLievitatura.setStyle(IMPOSTAROSSO);
+            tempoLievitatura.setText("");
+            tempoLievitatura.setStyle(IMPOSTAROSSO);
             ok.set(false);
-            return;
+            return 0;
         }
         return tempoLievitatura2;
     }
 
-    private String getDescrizione(TextField descrizione){
-        String descrizione2 = this.descrizione.getText();
+    private static String getDescrizione(){
+        String descrizione2 = descrizione.getText();
         if (Objects.equals(descrizione2, "")){
-            this.descrizione.setText("");
-            this.descrizione.setStyle(IMPOSTAROSSO);
+            descrizione.setText("");
+            descrizione.setStyle(IMPOSTAROSSO);
             ok.set(false);
-            return;
+            return null;
         }
         return descrizione2;
     }
 
     private static void pane(Stage window){
 
+        setEverithing();
+
         Button closeButton = new Button("Inserisci");
         try {
             closeButton.setOnAction(e -> {
 
-                String nome2 = getNome(nome);
+                String nome2 = getNome();
 
-                double prezzo2 = getPrezzo(prezzo);
+                double prezzo2 = getPrezzo();
                 
-                float quantita2 = getQuantita(quantita);
+                float quantita2 = getQuantita();
                 
-                String[] splitted = getIngredienti(ingredienti);
+                String[] splitted = getIngredienti();
                 
-                double peso2 = getPeso(peso);
+                double peso2 = getPeso();
                 
-                int cottura2 = getCottura(cottura);
+                int cottura2 = getCottura();
                 
-                int tempoLievitatura2 = getTempoLievitatura(tempoLievitatura);
+                int tempoLievitatura2 = getTempoLievitatura();
                 
-                String descrizione2 = getDescrizione(descrizione);
+                String descrizione2 = getDescrizione();
 
                 List<String> ingredientiString = new ArrayList<>();
 
                 if (ok.get()) {
+                    assert splitted != null;
                     for (String fruit : splitted) {
                         ingredientiString.add(fruit.trim());
                     }
@@ -241,7 +227,7 @@ public class AllerBoxPerInserimentoArticoli {
                         lievitatura2 = FALSO;
                     }
 
-                    String tot = "{pane}" + "{" + "0" + linea + nome2 + linea + prezzo2 + linea + quantita2 + "}" + "{" + ingredientiString.toString() + linea + peso2 + "}" + "{" + cottura2 + linea + tempoLievitatura2 + linea + lievitatura2 + linea + descrizione2 + "}";
+                    String tot = "{pane}" + "{" + "0" + linea + nome2 + linea + prezzo2 + linea + quantita2 + "}" + "{" + ingredientiString + linea + peso2 + "}" + "{" + cottura2 + linea + tempoLievitatura2 + linea + lievitatura2 + linea + descrizione2 + "}";
 
                     setLista(tot);
                     setGiusto(true);
@@ -265,26 +251,29 @@ public class AllerBoxPerInserimentoArticoli {
 
     private static void pizza(Stage window){
 
+        setEverithing();
+
         Button closeButton = new Button("Inserisci");
         try {
             closeButton.setOnAction(e -> {
-                String nome2 = getNome(nome);
+                String nome2 = getNome();
                 
-                double prezzo2 = getPrezzo(prezzo);
+                double prezzo2 = getPrezzo();
+
+                float quantita2 = getQuantita();
+
+                String[] splitted = getIngredienti();
                 
-                float quantita2 = getQuantita(quantita);
+                double peso2 = getPeso();
 
-                String[] splitted = getIngredienti(ingredienti);
-                
-                double peso2 = getPeso(peso);
+                int cottura2 = getCottura();
 
-                int cottura2 = getCottura(cottura);
-
-                String descrizione2 = getDescrizione(descrizione);
+                String descrizione2 = getDescrizione();
 
                 List<String> ingredientiString = new ArrayList<>();
 
                 if (ok.get()) {
+                    assert splitted != null;
                     for (String fruit : splitted) {
                         ingredientiString.add(fruit.trim());
                     }
@@ -305,7 +294,7 @@ public class AllerBoxPerInserimentoArticoli {
                         lievitatura2 = FALSO;
                     }
 
-                    String tot = "{pizza}" + "{" + "0" + linea + nome2 + linea + prezzo2 + linea + quantita2 + "}" + "{" + ingredientiString.toString() + linea + peso2 + "}" + "{" + cottura2 + linea + lievitatura2 + linea + forma2 + linea + descrizione2 + "}";
+                    String tot = "{pizza}" + "{" + "0" + linea + nome2 + linea + prezzo2 + linea + quantita2 + "}" + "{" + ingredientiString + linea + peso2 + "}" + "{" + cottura2 + linea + lievitatura2 + linea + forma2 + linea + descrizione2 + "}";
 
                     setLista(tot);
                     setGiusto(true);

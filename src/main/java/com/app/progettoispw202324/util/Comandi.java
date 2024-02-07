@@ -24,12 +24,12 @@ public class Comandi {
     static Logger logger = LogManager.getLogger(Comandi.class);
     static MessageToCommand messageToCommand = new MessageToCommand();
 
-    private static final String IC = "InsCotroller"
-    private static final String NC = "NotificaController"
-    private static final String VC = "VisualizzaController"
-    private static final String VDB = "VisualizzaDB"
+    private static final String IC = "InsCotroller";
+    private static final String NC = "NotificaController";
+    private static final String VC = "VisualizzaController";
+    private static final String VDB = "VisualizzaDB";
 
-    private Comandi{
+    private Comandi() {
         throw new IllegalStateException("Utility class");
     }
 
@@ -81,7 +81,7 @@ public class Comandi {
             return finiti;
     }
 
-    private void pippo(String lollo){
+    private static void pippo(String lollo){
         switch(lollo){
             case IC:
                 InsController.visualizzaCarrello();
@@ -92,7 +92,7 @@ public class Comandi {
             case VC:
                 VisualizzaController.visualizzaCarrello();
                 break;
-            case VBD:
+            case VDB:
                 VisualizzaDB.visualizzaCarrello();  
             default:
                 logger.error("Non dovrei poter entrare qua dentro 0x0703");
