@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import carrello.Carrello;
+import util.VisualizzaArtPerRepeatedCode;
 
 public class VisualizzaUserController {
     
@@ -44,19 +45,8 @@ public class VisualizzaUserController {
 
         switch (command) {
             case "VISUALIZZAART":
-                String articolo = carrello.ritornaArticoloString(number);
-                MessageToCommand message = new MessageToCommand();
-                if (articolo == null) {
-                    message.setCommand("NO");
-                    message.setPayload("Elemento non esistente");
-                    info.sendMessage(message.toMessage());
-                    return;
-                }
-
-                message.setCommand("SI");
-                message.setPayload(articolo);
-                info.sendMessage(message.toMessage());
-
+                VisualizzaArtPerRepeatedCode code = new VisualizzaArtPerRepeatedCode();
+                code.visualizzaArtPerRepeateCode(info,number, carrello);
                 break;
 
             case "RIMUOVIART":

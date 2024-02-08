@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import carrello.Carrello;
 import carrello.CarrelloCache;
+import util.VisualizzaArtPerRepeatedCode;
 
 public class AggiungiUserController {
     
@@ -72,17 +73,8 @@ public class AggiungiUserController {
 
         switch (command) {
             case "VISUALIZZAART":
-                String articolo = cache.ritornaArticoloString(Integer.parseInt(number));
-                MessageToCommand message = new MessageToCommand();
-                if (articolo == null) {
-                    message.setCommand("NO");
-                    message.setPayload("Elemento non esistente");
-                    info.sendMessage(message.toMessage());
-                    return;
-                }
-                message.setCommand("SI");
-                message.setPayload(articolo);
-                info.sendMessage(message.toMessage());
+                VisualizzaArtPerRepeatedCode code = new VisualizzaArtPerRepeatedCode();
+                code.visualizzaArtPerRepeateCode(info, Integer.parseInt(number), cache);
                 break;
 
 
