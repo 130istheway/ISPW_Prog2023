@@ -6,16 +6,15 @@ import model.domain.Role;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
 public class DAOLoginFileSystem {
 
-    static Logger logger = LogManager.getLogger(ConnectionFactory.class);
+    static Logger logger = LogManager.getLogger(DAOLoginFileSystem.class);
 
     public Credential execute(Object... params){
         String username = (String) params[0];
@@ -23,23 +22,15 @@ public class DAOLoginFileSystem {
 
         List<String> lista = new ArrayList<>();
         
-        try (InputStream input = new FileInputStream("C:\\Users\\stefa\\Desktop\\ISPW_Prog2023\\src\\main\\java\\util\\Sensitive\\login.properties")){
-            
-            OrderedProperties properties = new OrderedProperties();
-            properties.load(input);
-            Enumeration<?> keys = properties.propertyNames();
-            
-            while (keys.hasMoreElements()) {
-                String key = (String) keys.nextElement();
-                String value = properties.getProperty(key);
-                String key2 = (String) keys.nextElement();
-                String value2 = properties.getProperty(key2);
-                String key3 = (String) keys.nextElement();
-                String value3 = properties.getProperty(key3);
-                lista.add(value+value2+value3);
+        try (BufferedReader input = new BufferedReader(new FileReader("C:\\Users\\stefa\\Desktop\\ISPW_Prog2023\\src\\main\\java\\util\\Sensitive\\login.txt"))){
+
+            String line;
+            while ((line = input.readLine()) != null) {
+                lista.add(line); // Process each line here
             }
+
         }catch(IOException e) {
-            logger.fatal("Non è stato possibile recuperare il file login.properties");
+            logger.fatal("Non è stato possibile recuperare il file login.txt");
         }
 
         for (String string : lista) {
