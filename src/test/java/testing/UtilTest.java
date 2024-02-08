@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class UtilTest {
 
     @Test
-    public void testPayloadToCredential(){
+    void testPayloadToCredential(){
         String input = "user:abcd,pass:efgh";
         PayloadToCredential brigido = new PayloadToCredential();
         List<String> test = brigido.getCredentials(input);
@@ -24,7 +24,7 @@ class UtilTest {
     }
 
     @Test
-    public void testMessageToCredential(){
+    void testMessageToCredential(){
         MessageToCommand message = new MessageToCommand();
         String input = "EXIT | sei sicuro";
         message.fromMessage(input);
