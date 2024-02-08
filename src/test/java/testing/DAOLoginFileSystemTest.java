@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author Stefano
+ */
 class DAOLoginFileSystemTest {
 
     @Test

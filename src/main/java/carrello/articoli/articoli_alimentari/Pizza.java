@@ -101,8 +101,12 @@ public class Pizza extends ArticoliAlimentari {
     }
 
 
+    /**
+     * Il metodo di inserimento sull'articolo
+     * 
+     * @param ins lista di object per inserire nell'articolo
+     */
     @SuppressWarnings (value="unchecked")
-
     public void inserisciDati(List<Object> ins){
         
         setId((int)ins.get(0));
@@ -126,7 +130,13 @@ public class Pizza extends ArticoliAlimentari {
         setDescrizione((String)ins.get(9));
     
     }
-
+    
+    
+    /**
+     * Override del metodo che restituisce la Stringa con all'interno i componenti dell'articolo
+     * 
+     * @return Stringa
+     */
     @Override
     public String toString() {
         String linea = "|";

@@ -18,7 +18,10 @@ import org.apache.logging.log4j.Logger;
 
 import carrello.Carrello;
 import carrello.CarrelloCache;
-
+/**
+ * Il controller della visualizazzione del DB del Negozio
+ * @author Stefano
+ */
 public class VisualizzaNegozioController {
     
     Logger logger = LogManager.getLogger(VisualizzaNegozioController.class);
@@ -30,6 +33,14 @@ public class VisualizzaNegozioController {
     CarrelloCache cache;
     Carrello appoggio;
 
+
+    /**
+     * Visualizazzione dal DB da parte del Negozio
+     * Il Metodo che si occupa di ricevere i messaggi dalla socket e distribuirli dove sono necessa, inoltre permette anche di inizializare la cache {un istanza di CarreloloCache che permette una reattività migliore ed un utilizzo del DB inferiore poichè fa la cache della lista dei possibili elementi gia dal DB}
+     * Per la cancellazione basta prendere l'id del Articolo che si sta visionando e eliminarlo dal DB
+     * @param credentials
+     * @param info
+     */
     public void viusalizzaNegozioController(Credential credentials, ControllerInfoSulThread info){appoggio = new Carrello();
 
         setcache(credentials);
@@ -51,7 +62,13 @@ public class VisualizzaNegozioController {
         }
     }
 
-
+    /**
+     * La parte di controllo vera e propri, parte della logica applicativa
+     * @param inputLine
+     * @param credentials
+     * @param info
+     * @param carrello
+     */
     private void controll(String inputLine, Credential credentials, ControllerInfoSulThread info, CarrelloCache carrello){
         MessageToCommand messageToCommand = new MessageToCommand();
         messageToCommand.fromMessage(inputLine);
@@ -92,8 +109,11 @@ public class VisualizzaNegozioController {
                 break;
         }
     }
-
-
+    
+    /**
+     * Metodo per settare la cache, se è gia settata ne l risetta
+     * @param credentials
+     */
     private void setcache(Credential credentials){
 
         appoggio = new Carrello();

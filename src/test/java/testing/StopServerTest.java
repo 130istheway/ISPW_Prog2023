@@ -13,6 +13,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * @author Stefano
+ */
 class StopServerTest {
 
     @BeforeEach

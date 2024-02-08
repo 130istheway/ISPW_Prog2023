@@ -12,7 +12,6 @@ import carrello.articoli.Articoli;
  * La lista del carrello utilizza il polimorfismo per gestire tutti gli articoli derivati dalla classe base {@code articoli}.
  * Include funzionalità per il controllo del pagamento e la gestione dei dati utente.
  * @author Stefano
- * @author Simone
  */
 public class CarrelloCache{
     /** Lista degli articoli nel carrello */
@@ -42,7 +41,11 @@ public class CarrelloCache{
         this.carrellino = carello;
     }
 
-
+    /**
+     * un metodo per richiamare il metodo toString() di un articolo all'interno della lista di articoli di carrellino
+     * @param number indice
+     * @return
+     */
     public String ritornaArticoloString(int number) {
         
         if (number >= carrellino.size()) {
@@ -58,6 +61,12 @@ public class CarrelloCache{
         }
     }
 
+
+    /**
+     * Metodo per far tornare un oggetto di tipo Articoli che sta nell'indice della lista del carrelloache
+     * @param number
+     * @return
+     */
     public Articoli ritornaArticolo(int number) {
         if (number > carrellino.size() || carrellino.isEmpty()) {
             return null;

@@ -23,6 +23,10 @@ import controller.negozio.*;
 import controller.user.*;
 import controller.notifica.NotificaNegozioController;
 
+/**
+ * Classe per la gestione principale del menu, un controller principale che smista richieste agli altri controller in caso non sia in grado di gestirle d'asolo, ciò avviene quando sono commandi innestati
+ * @author Stefano
+ */
 public class BaseController {
     
     Logger logger = LogManager.getLogger(BaseController.class);
@@ -140,6 +144,9 @@ public class BaseController {
         throw new UnsupportedOperationException("Unimplemented method 'recuperaInfo'");
     }
 
+    /**
+     * Gestore per conoscere lo stato degli ordini dell'utente
+     */
     private void ordiniConfermati() {
         if (cred!=null && (cred.getRole().ordinal()<3)){
             logger.trace("Recupero degli ORDINI del carrello");
@@ -176,7 +183,10 @@ public class BaseController {
         logger.trace("Carrello resettato");
     }
 
-
+    /**
+     * Metodo che si occupa del login
+     * @throws PersonalException
+     */
     private void tryLogin() throws PersonalException {
         logger.trace("Entering LOGIN");
                 login = new LoginController(info);
@@ -209,7 +219,10 @@ public class BaseController {
                 }
     }
 
-
+    /**
+     * Metodo che si occupa dell'uscita dal controller
+     * @throws PersonalException
+     */
     private void exit() throws PersonalException{
         messageToCommand.setCommand(STOPTHAT);
         messageToCommand.setPayload(null);
@@ -219,7 +232,9 @@ public class BaseController {
         throw new PersonalException("NON si è voluto autenticare");
     }
 
-
+    /**
+     * Metodo per la visualizzazione da parte dell'utente della propria lista
+     */
     private void visualizza(){
         if (cred!=null && (cred.getRole().ordinal()<3)){
             logger.trace("Entering Visualizza per l'utente : %s",cred.getUsername());
@@ -233,7 +248,11 @@ public class BaseController {
         info.sendMessage(messageToCommand.toMessage());
     }
 
-
+    /**
+     * Metodo ceh risponde a tutti senza controllare se siano loggati
+     * @param info
+     * @throws IOException
+     */
     private void rispondereACioCheMandaComeUnPappagallo(ControllerInfoSulThread info) throws IOException {
         logger.trace("Entering Writeback");
         messageToCommand.setCommand("WRITEBACK MODE");
@@ -263,7 +282,10 @@ public class BaseController {
         }
     }
 
-
+    /**
+     * Metodo per inserire nella lista personale
+     * @param negozio
+     */
     private void aggiungiLista(String negozio){
         if (cred!=null && (cred.getRole().ordinal()<3)){
             AggiungiUserController aggiungi = new AggiungiUserController(negozio);
@@ -279,6 +301,10 @@ public class BaseController {
     }
 
 
+    /**
+     * Metodo che fa confermare la lista
+     * @param negozio
+     */
     private void confermaLista(String negozio){
         if (cred!=null && (cred.getRole().ordinal()<3)){
             ConfermaListaController conferma = new ConfermaListaController(Integer.parseInt(negozio));
@@ -294,6 +320,9 @@ public class BaseController {
     }
 
 
+    /**
+     * Metodo per aggiungere nel DB
+     */
     private void aggiungiArticoloDB(){
         if (cred!=null && (cred.getRole().ordinal()<2)){
             cred.getUsername();
@@ -313,6 +342,10 @@ public class BaseController {
         info.sendMessage(messageToCommand.toMessage());
     }
 
+
+    /**
+     * Metdo per vedere dal DB
+     */
     private void visualizzaDaDB(){
         if (cred!=null && (cred.getRole().ordinal()<2)){
             cred.getUsername();
@@ -328,6 +361,9 @@ public class BaseController {
     }
 
     
+    /**
+     * Metodo per gli ordini del negozio
+     */
     private void notifica() {
         if (cred!=null && (cred.getRole().ordinal()<2)){
             cred.getUsername();
@@ -347,9 +383,6 @@ public class BaseController {
     public BaseController(ControllerInfoSulThread infoest){
         this.info = infoest;
     }
-
-
-
 
     public void execute() throws IOException, PersonalException {
         String inputLine;

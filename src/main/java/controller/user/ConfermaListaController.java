@@ -16,6 +16,10 @@ import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
 import util.MessageToCommand;
 
+/**
+ * Classe che si occupa della conferma dell'Ordinazione, inserendo la lista di id sotto forma di stringa nel DB per il Negozio corrispondente
+ * @author Stefano
+ */
 public class ConfermaListaController {
     
     
@@ -29,6 +33,12 @@ public class ConfermaListaController {
         this.negozio = negozio;
     }
 
+    /**
+     * Il metodo che si occupa di confermare la lista e di fare i dovuti controllli per l'inserimento all'interno del DB oltre a controllare che l'inserimento sia avvenuto
+     * @param credentials
+     * @param info
+     * @param carrello
+     */
     public void confermaLista(Credential credentials, ControllerInfoSulThread info, Carrello carrello){
         MessageToCommand messageToCommand = new MessageToCommand();
 

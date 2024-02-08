@@ -15,7 +15,6 @@ import carrello.articoli.Factory;
  * La lista del carrello utilizza il polimorfismo per gestire tutti gli articoli derivati dalla classe base {@code articoli}.
  * Include funzionalità per il controllo del pagamento e la gestione dei dati utente.
  * @author Stefano
- * @author Simone
  */
 public class Carrello extends CarrelloCache{
     
@@ -69,7 +68,11 @@ public class Carrello extends CarrelloCache{
         return pagato;
     }
 
-    
+    /**
+     * Meodo per aggiungere un prodotto al carrello attraverso la Lista di Object tramite la factory
+     * @param inserire
+     * @return boolean se il prodotto è stato inserito o menno
+     */
     public boolean aggiungiProdotto(List<Object> inserire) {
 
         Articoli prodotto = Factory.factoryProdotto(inserire);
@@ -86,6 +89,12 @@ public class Carrello extends CarrelloCache{
         }
     }
 
+    /**
+     * Metodo per aggiungere avendo già un Oggetto articolo 
+     * @param articoloDaAggiungere 
+     * @param count la quantità di questo prodotto 
+     * @return boolean
+     */
     public boolean aggiungi(Articoli articoloDaAggiungere, int count){
         if(articoloDaAggiungere != null){
             double y = articoloDaAggiungere.getPrezzoArticolo();
@@ -100,6 +109,11 @@ public class Carrello extends CarrelloCache{
     }
 
 
+    /**
+     * Metodo per eliminare un articolo dalla lista se il numero fornito in input è inferiore alla size del carrello
+     * @param number
+     * @return
+     */
     public boolean elimina(int number){
         if (number < carrellino.size()) {
             carrellino.remove(number);
@@ -109,6 +123,12 @@ public class Carrello extends CarrelloCache{
     }
 
 
+    /**
+     * Metodo per modificare la QUantità dell'articolo in un determinato indice nella lista del carrello
+     * @param id
+     * @param quantity
+     * @return
+     */
     public boolean modificaQuantita(int id, int quantity) {
         if (id > carrellino.size()) {
             return false;
@@ -119,6 +139,10 @@ public class Carrello extends CarrelloCache{
     }
 
 
+    /**
+     * Metodo che fa tornare tutti gli id della lista del carrello con un metodo semplice per gestire la quantità, ossia ripetere l'id di quanto è la quantità
+     * @return List<Integer>
+     */
     public List<Integer> ritornaIDList(){
         List<Integer> ritornaList = new ArrayList<>();
         for (Articoli articoli : carrellino) {
@@ -130,6 +154,10 @@ public class Carrello extends CarrelloCache{
     }
 
 
+    /**
+     * Altro metodo per far tornare la lista degli Id degli articoli sotto forma di stringa
+     * @return String
+     */
     public String getLista(){
         StringBuilder ritornaLista = new StringBuilder();
         for (Articoli articoli : carrellino) {

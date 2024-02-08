@@ -5,7 +5,6 @@ package carrello.articoli;
  *
  * <p>Gli ID vengono generati in modo casuale utilizzando {@code get_Random()}.
  * @author Stefano
- * @author Simone
  */
 
  
@@ -121,6 +120,11 @@ public class Articoli {
         return quantitaArticolo;
     }
 
+    /**
+     * Override del metodo che restituisce la Stringa con all'interno i componenti dell'articolo
+     * 
+     * @return Stringa
+     */
     public String toString() {
         String linea = "|";
         String str;

@@ -15,6 +15,11 @@ import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
 import util.MessageToCommand;
 
+
+/**
+ * Il controler che permette ad un negozio di vedere gli ordini che ha ricevuto e che permette di accettarli o rifiutarli
+ * @author Stefano
+ */
 public class NotificaNegozioController {
     
     Logger logger = LogManager.getLogger(NotificaNegozioController.class);
@@ -23,6 +28,12 @@ public class NotificaNegozioController {
     List<Integer> listaID;
     List<String> listaDati;
 
+
+    /**
+     * Metodo di ricezzione della socket e si occupa di instanziare alcuni inmporttanti oggetti di UTIL
+     * @param credentials
+     * @param info
+     */
     public void notificaController(Credential credentials, ControllerInfoSulThread info){
         MessageToCommand messageToCommand = new MessageToCommand();
         String inputLine;
@@ -51,7 +62,12 @@ public class NotificaNegozioController {
     }
 
 
-
+    /**
+     * La vera e propria logica applicativa di questa classe che si occupa di visualizare una per una le ordinazioni al negozio e rispettivamente permette di confermarle o rifiutarle attraverso il comando "CONFERMANOTIFICA"
+     * @param inputLine
+     * @param credentials
+     * @param info
+     */
     private void controll(String inputLine, Credential credentials, ControllerInfoSulThread info){
         DAORecuperaOrdiniDaID ordini = new DAORecuperaOrdiniDaID();
         MessageToCommand messageToCommand = new MessageToCommand();
@@ -119,6 +135,11 @@ public class NotificaNegozioController {
         }
     }
 
+
+    /**
+     * metodo per settare la cache
+     * @param credentials
+     */
     private void setcache(Credential credentials){
 
         DAOIdNegozio daoIdNegozio = new DAOIdNegozio();

@@ -9,6 +9,9 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author Stefano
+ */
 class UtilTest {
 
     @Test

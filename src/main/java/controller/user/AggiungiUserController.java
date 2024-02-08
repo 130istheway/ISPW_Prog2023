@@ -18,6 +18,11 @@ import carrello.Carrello;
 import carrello.CarrelloCache;
 import util.VisualizzaArtPerRepeatedCode;
 
+/**
+ * Controler per inserire nella lista personale dell'utente prendendo da una cache che si crea
+ * La cachei in questa classe poichè non è effettuvamente mai modificata dalle operazioni dell'utente non puà essere aggiornata
+ * @author Stefano
+ */
 public class AggiungiUserController {
     
     Logger logger = LogManager.getLogger(AggiungiUserController.class);
@@ -25,6 +30,10 @@ public class AggiungiUserController {
     CarrelloCache cache;
     Carrello appoggio;
     
+    /**
+     * Metodo di interfaccia con l'esterno che si occupa di inizializare la cache e di ricevere i messaggi dalla socket
+     * @param negozio
+     */
     public AggiungiUserController(String negozio){
         appoggio = new Carrello();
 
@@ -64,7 +73,13 @@ public class AggiungiUserController {
     }
     
 
-
+    /**
+     * Verta e propria logica applicativa della classe dove si può visualizare dalla cache e poi inserire dalla cache al carrrello dell'utente
+     * @param inputLine
+     * @param credentials
+     * @param info
+     * @param carrello
+     */
     private void controll(String inputLine, Credential credentials, ControllerInfoSulThread info, Carrello carrello){
         MessageToCommand messageToCommand = new MessageToCommand();
         messageToCommand.fromMessage(inputLine);

@@ -9,13 +9,23 @@ import org.apache.logging.log4j.Logger;
 
 import model.dao.exception.DAOException;
 import model.dao.negozio.*;
-
+/**
+ * Classe per il Controller di Negozio
+ * @author Stefano
+*/
 public class NegozioBDController {
     
     Logger logger = LogManager.getLogger(NegozioBDController.class);
 
     MessageToCommand messageToCommand = new MessageToCommand();
     
+    /**
+     * Metodo che destisce l'aggiunte di un articolo al DB
+     * @param credential modello delle credenzialo
+     * @param info 
+     * @param string Stringa da agigungere al DB
+     * @return
+     */
     public boolean aggiungiDBArticolo(Credential credential, ControllerInfoSulThread info, String string){
 
         int negozioId;
@@ -54,6 +64,12 @@ public class NegozioBDController {
         }
     }
 
+
+    /**
+     * Un metodo privato per mandare messaggi in modo più semplice
+     * @param info
+     * @param stringa
+     */
     private void sendMessaggioNO(ControllerInfoSulThread info,String stringa){
         messageToCommand.setCommand("NO");
         messageToCommand.setPayload(stringa);
@@ -61,7 +77,13 @@ public class NegozioBDController {
     }
 
     
-
+    /**
+     * Il metodo che si occupa della cancellazione di un articolo dal DB
+     * @param credential
+     * @param info
+     * @param number
+     * @return
+     */
     public boolean rimuoviDBArticolo(Credential credential, ControllerInfoSulThread info, Integer number){
         int idNegozio;
 
@@ -84,6 +106,7 @@ public class NegozioBDController {
             return false;
         }
     }
+
 
     private boolean controlloResult(boolean result,ControllerInfoSulThread info){
         if (!result) {

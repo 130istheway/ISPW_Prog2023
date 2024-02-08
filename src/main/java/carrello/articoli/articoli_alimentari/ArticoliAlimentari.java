@@ -10,7 +10,6 @@ import carrello.articoli.Articoli;
  * con attributi specifici come la lista degli ingredienti e il peso.
  * Estende la classe {@code articoli}.
  * @author Stefano
- * @author Simone
  */
 public class ArticoliAlimentari extends Articoli {
 
@@ -80,6 +79,11 @@ public class ArticoliAlimentari extends Articoli {
         return peso;
     }
 
+    /**
+     * Override del metodo che restituisce la Stringa con all'interno i componenti dell'articolo
+     * 
+     * @return Stringa
+     */
     @Override
     public String toString() {
         String linea = "|";

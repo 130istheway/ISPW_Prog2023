@@ -16,6 +16,13 @@ public abstract class Factory {
         throw new IllegalStateException("Utility class");
     }
 
+
+    /**
+     * Factory per creare i diversi Articoli per sapere quale articolo creare va a vedere nello specifico il primo elemento dell lista di Object ma in realtà puà andare a vedere tutti gli elementi, ma tanto non conosce che tipo sono e in che ordine sono messi quindi è inutile
+     * 
+     * @param ins List<Object>
+     * @return un Oggetto di tipo Articoli 
+     */
     public static Articoli factoryProdotto(List<Object> ins){
         
         Articoli art;
