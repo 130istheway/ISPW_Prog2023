@@ -18,7 +18,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-public class InsController extends generic {
+public class InsController extends Generic {
+    static Logger logger = LogManager.getLogger(InsController.class);
 
     @FXML
     TextField quantita;

@@ -24,16 +24,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.app.progettoispw202324.util.PrintArticoli;
 
-public class VisualizzaController extends generic {
-
-    @FXML
-    Button precedente;
-    @FXML
-    Button successivo;
-    @FXML
-    TextArea testoLibero;
-
-    Comandi comandi = new Comandi(gestionePerUI, testoLibero);
+public class VisualizzaController extends Generic {
+    static Logger logger = LogManager.getLogger(VisualizzaController.class);
 
     public void elimina(){
         setComandi();

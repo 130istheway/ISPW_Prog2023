@@ -12,8 +12,8 @@ import util.MessageToCommand;
 
 import java.util.List;
 
-public class generic {
-    static Logger logger = LogManager.getLogger(VisualizzaController.class);
+public class Generic {
+    static Logger logger = LogManager.getLogger(Generic.class);
 
     static MessageToCommand messageToCommand = new MessageToCommand();
 
