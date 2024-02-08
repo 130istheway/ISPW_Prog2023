@@ -1,6 +1,5 @@
 package util;
 
-import carrello.Carrello;
 import carrello.CarrelloCache;
 import model.domain.ControllerInfoSulThread;
 
@@ -19,7 +18,5 @@ public class VisualizzaArtPerRepeatedCode {
         message.setCommand("SI");
         message.setPayload(articolo);
         info.sendMessage(message.toMessage());
-
-        System.out.println(message.toMessage());
     }
 }

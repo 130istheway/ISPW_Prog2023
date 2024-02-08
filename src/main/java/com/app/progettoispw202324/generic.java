@@ -11,19 +11,17 @@ import org.apache.logging.log4j.Logger;
 import util.MessageToCommand;
 
 import java.util.List;
-import java.util.Objects;
 
-public class VisualizzaDB {
-    
-    static Logger logger = LogManager.getLogger(VisualizzaDB.class);
+public class generic {
+    static Logger logger = LogManager.getLogger(VisualizzaController.class);
 
     static MessageToCommand messageToCommand = new MessageToCommand();
 
-    private static final String VDB = "VisualizzaDB";
+    private static final String VC = "VisualizzaController";
 
     static GestionePerUI gestionePerUI;
 
-    private int posizione = 0;
+    protected int posizione = 0;
     private boolean finiti = false;
 
     @FXML
@@ -33,7 +31,8 @@ public class VisualizzaDB {
     @FXML
     TextArea testoLibero;
 
-    Comandi comandi = new Comandi(gestionePerUI, testoLibero);
+    protected Comandi comandi = new Comandi(gestionePerUI, testoLibero);
+
 
     public void menu(ActionEvent event){
         setComandi();
@@ -42,33 +41,24 @@ public class VisualizzaDB {
 
     public void vaiSuccessivo(){
         setComandi();
-        posizione = comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, false);
+        posizione = comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, true);
     }
+
 
     public void vaiPrecedente(){
         setComandi();
-        List<Object> ritorno = comandi.vaiPrecedente(finiti,posizione,successivo,precedente,testoLibero,false);
+        List<Object> ritorno = comandi.vaiPrecedente(finiti,posizione,successivo,precedente,testoLibero,true);
         finiti = (boolean)ritorno.get(0);
         posizione = (Integer)ritorno.get(1);
-    }
-
-    public void elimina(){
-        setComandi();
-        comandi.elimina(posizione,testoLibero);
     }
 
     public void visualizzaCarrello(){
         setComandi();
         comandi.setTestoLibero(testoLibero);
-        comandi.visualizzaCarrello(false,posizione,null);
+        comandi.visualizzaCarrello(true,posizione,successivo);
     }
 
-    public static void passGestione(GestionePerUI temporaneo){
-        gestionePerUI = temporaneo;
-    }
-
-    private void setComandi(){
+    protected void setComandi(){
         comandi.setGestionePerUI(gestionePerUI);
     }
-
 }

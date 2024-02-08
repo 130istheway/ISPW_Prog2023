@@ -17,19 +17,19 @@ import util.ConvertiStringToArticolo;
 public class DAORecuperaTuttiArticoliBase implements GenericProcedureDAO<String>{
     @Override
     public String execute(Object... params) throws DAOException {
-        Integer id = (Integer) params[0];
+        Integer idNegozio = (Integer) params[0];
 
         try{
             Connection conn = ConnectionFactory.getConnection();
             
             String sql = "SELECT * FROM Articoli WHERE `idNegozio` = ?";
             try(PreparedStatement stmt = conn.prepareStatement(sql)){
-                stmt.setLong(1, id);
+                stmt.setLong(1, idNegozio);
 
                 ResultSet rs = stmt.executeQuery();
 
-                String capo = "_";
                 StringBuilder daRestituire = new StringBuilder();
+                String capo = "_";
 
                 while(rs.next()){
 

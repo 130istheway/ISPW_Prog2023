@@ -12,14 +12,14 @@ public class DAOUser implements GenericProcedureDAO<String>{
     
     @Override
     public String execute(Object... params) throws DAOException {
-        Integer id = (Integer) params[0];
+        Integer idUtente = (Integer) params[0];
 
         try{
             Connection conn = ConnectionFactory.getConnection();
             
             String sql = "SELECT * FROM ORDINI WHERE `idUtente` = ?";
             try(PreparedStatement stmt = conn.prepareStatement(sql)){
-                stmt.setLong(1, id);
+                stmt.setLong(1, idUtente);
 
                 ResultSet rs = stmt.executeQuery();
 

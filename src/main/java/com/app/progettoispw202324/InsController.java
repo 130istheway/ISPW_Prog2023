@@ -18,45 +18,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-public class InsController {
-    
-    static Logger logger = LogManager.getLogger(InsController.class);
+public class InsController extends generic {
 
-    static MessageToCommand messageToCommand = new MessageToCommand();
-
-    static GestionePerUI gestionePerUI;
-
-
-    private Integer posizione = 0;
-    private Boolean finiti = false;
-
-    @FXML
-    Button precedente;
-    @FXML
-    Button successivo;
     @FXML
     TextField quantita;
-    @FXML
-    TextArea testoLibero;
-
-    Comandi comandi = new Comandi(gestionePerUI, testoLibero);
-
-    public void menu(ActionEvent event){
-        setComandi();
-        comandi.menu(event, 2);
-    }
-
-    public void vaiSuccessivo(){
-        setComandi();
-        posizione = comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, false);
-    }
-
-    public void vaiPrecedente(){
-        setComandi();
-        List<Object> ritorno = comandi.vaiPrecedente(finiti,posizione,successivo,precedente,testoLibero, false);
-        finiti = (boolean)ritorno.get(0);
-        posizione = (Integer)ritorno.get(1);
-    }
 
     public void inserisci(){
         String receive = "NO";
@@ -91,7 +56,7 @@ public class InsController {
         return null;
     }
 
-
+    @Override
     public void visualizzaCarrello(){
         String receive = "NO";
         messageToCommand.setCommand("VISUALIZZAART");
@@ -113,7 +78,4 @@ public class InsController {
         gestionePerUI = temporaneo;
     }
 
-    private void setComandi(){
-        comandi.setGestionePerUI(gestionePerUI);
-    }
 }

@@ -24,18 +24,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.app.progettoispw202324.util.PrintArticoli;
 
-public class VisualizzaController {
-    
-    static Logger logger = LogManager.getLogger(VisualizzaController.class);
-
-    static MessageToCommand messageToCommand = new MessageToCommand();
-
-    private static final String VC = "VisualizzaController";
-
-    static GestionePerUI gestionePerUI;
-
-    private int posizione = 0;
-    private boolean finiti = false;
+public class VisualizzaController extends generic {
 
     @FXML
     Button precedente;
@@ -46,41 +35,12 @@ public class VisualizzaController {
 
     Comandi comandi = new Comandi(gestionePerUI, testoLibero);
 
-
-    public void menu(ActionEvent event){
-        setComandi();
-        comandi.menu(event, 2);
-    }
-
-    public void vaiSuccessivo(){
-        setComandi();
-        posizione = comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, true);
-    }
-
-
-    public void vaiPrecedente(){
-        setComandi();
-        List<Object> ritorno = comandi.vaiPrecedente(finiti,posizione,successivo,precedente,testoLibero,true);
-        finiti = (boolean)ritorno.get(0);
-        posizione = (Integer)ritorno.get(1);
-    }
-
     public void elimina(){
         setComandi();
         comandi.elimina(posizione,testoLibero);
     }
 
-    public void visualizzaCarrello(){
-        setComandi();
-        comandi.setTestoLibero(testoLibero);
-        comandi.visualizzaCarrello(true,posizione,successivo);
-    }
-
     public static void passGestione(GestionePerUI temporaneo){
         gestionePerUI = temporaneo;
-    }
-
-    private void setComandi(){
-        comandi.setGestionePerUI(gestionePerUI);
     }
 }
