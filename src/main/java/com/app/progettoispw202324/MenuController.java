@@ -1,7 +1,5 @@
 package com.app.progettoispw202324;
 
-import com.app.progettoispw202324.allertBox.AllertBox;
-import com.app.progettoispw202324.allertBox.AllertBoxNumeroOrdini;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +12,10 @@ import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.app.progettoispw202324.allertbox.AllertBox;
+import com.app.progettoispw202324.allertbox.AllertBoxNumeroOrdini;
+
 import util.MessageToCommand;
 
 import java.io.IOException;

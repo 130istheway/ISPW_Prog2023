@@ -1,4 +1,4 @@
-package com.app.progettoispw202324.allertBox;
+package com.app.progettoispw202324.allertbox;
 
 import com.app.progettoispw202324.MenuController;
 import javafx.geometry.Pos;
