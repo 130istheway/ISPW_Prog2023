@@ -1,5 +1,6 @@
 package com.app.progettoispw202324;
 
+import com.app.progettoispw202324.allertbox.AllertBoxNumeroOrdini;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
