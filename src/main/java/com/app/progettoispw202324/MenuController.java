@@ -1,5 +1,7 @@
 package com.app.progettoispw202324;
 
+import com.app.progettoispw202324.allertBox.AllertBox;
+import com.app.progettoispw202324.allertBox.AllertBoxNumeroOrdini;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,26 +10,23 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.FocusModel;
 import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import util.MessageToCommand;
 
 import java.io.IOException;
-import java.util.EventListener;
 import java.util.Objects;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.app.progettoispw202324.*;
 
 public class MenuController {
     
     Logger logger = LogManager.getLogger(MenuController.class);
     
     private static final String IMPOSTAROSSO = "-fx-background-color: red;";
+    private static final String IMPOSTAGIALLO = "-fx-background-color: yellow;";
     private static final String IMPOSTAVERDE = "-fx-background-color: green;";
+    private static final String IMPOSTANORMALE = "-fx-background-color: lightgrey;";
     private static final String STOPIT = "STOPIT";
 
     MessageToCommand messageToCommand = new MessageToCommand();
@@ -176,12 +175,14 @@ public class MenuController {
     }
 
 
-    public void notificheDaAccettare(ActionEvent event) {
+    public void ordiniDaAccettare(ActionEvent event) {
         if (livello>=2){
             ordine.setStyle(IMPOSTAROSSO);
             return;
         }
-        String input = cech("NOTIFICA", null);
+        System.out.println("----------------------------------------------------------------------");
+        String input = cech("CONFERMAORDINI", null);
+        System.out.println(input);
         if (Objects.equals(input, "OK")) {
             ordine.setText("ORDINE");
             try {
@@ -225,6 +226,31 @@ public class MenuController {
             stage.show();
         }else{
             Platform.exit();
+        }
+    }
+
+    public void cechOrdini(){
+        if (livello < 2 ){
+            String invioNotifica = "RECUPERANORDINI";
+            gestionePerUI.sendMessage(invioNotifica);
+            String ordini = null;
+            try {
+                ordini = gestionePerUI.getMessage();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            if (ordini.contains("SI")){
+                int numero = Integer.parseInt(ordini.substring(5));
+                if (numero >0 && numero <= 3){
+                    ordine.setStyle(IMPOSTAVERDE);
+                } else if (numero >3 && numero < 10) {
+                    ordine.setStyle(IMPOSTAGIALLO);
+                } else if (numero >= 10) {
+                    ordine.setStyle(IMPOSTAROSSO);
+                } else{
+                    ordine.setStyle(IMPOSTANORMALE);
+                }
+            }
         }
     }
 

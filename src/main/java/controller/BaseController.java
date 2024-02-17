@@ -21,7 +21,7 @@ import carrello.Carrello;
 
 import controller.negozio.*;
 import controller.user.*;
-import controller.notifica.NotificaNegozioController;
+import controller.notifica.ConfermaOrdiniNegozioController;
 
 /**
  * Classe per la gestione principale del menu, un controller principale che smista richieste agli altri controller in caso non sia in grado di gestirle d'asolo, ciò avviene quando sono commandi innestati
@@ -94,18 +94,18 @@ public class BaseController {
             break;
 
 
-            case "NOTIFICA":
-                notifica();
+            case "CONFERMAORDINI":
+                confermaOrdini();
             break;
+            
+            case "RECUPERANORDINI":
+                recuperaNOrdini();
+            break;
+
 
             case "RESETNEGOZIO":
                 resetNegozio();
             break;
-
-            case "RECUPERA":
-                recuperaInfo();
-            break;
-
 
             default:
                 messageToCommand.setCommand("NOTAVALIDCOMAND");
@@ -115,7 +115,10 @@ public class BaseController {
         }
     }
 
-    private void recuperaInfo() {
+    /**
+     * Recupera il numero di ordini che devono essere accettati o rifiutati asseconda di quello che viene deciso
+     */
+    private void recuperaNOrdini() {
         if (cred!=null && (cred.getRole().ordinal()<3)){
             if (cred.getRole().ordinal()<2) {
                 List<Integer> listaID;
@@ -124,14 +127,14 @@ public class BaseController {
                 try {
                     int id = daoIdNegozio.execute(cred.getUsername());
                     listaID = idOrdini.execute(id);
-                    if (listaID == null){
+                    if (listaID.size() <= 0){
                         messageToCommand.setCommand("NO");
                         messageToCommand.setPayload(null);
                         info.sendMessage(messageToCommand.toMessage());
                         return;
                     }
                     messageToCommand.setCommand("SI");
-                    messageToCommand.setPayload(null);
+                    messageToCommand.setPayload(String.valueOf(listaID.size()));
                     info.sendMessage(messageToCommand.toMessage());
                     return;
                 } catch (DAOException e) {
@@ -364,13 +367,13 @@ public class BaseController {
     /**
      * Metodo per gli ordini del negozio
      */
-    private void notifica() {
+    private void confermaOrdini() {
         if (cred!=null && (cred.getRole().ordinal()<2)){
             cred.getUsername();
-            logger.trace("Entering NOTIFICA per il negozio : %s", cred.getUsername());
-            NotificaNegozioController notifica = new NotificaNegozioController();
-            notifica.notificaController(cred, info);
-            logger.trace("Exiting NOTIFICA per il negozio : %s", cred.getUsername());
+            logger.trace("Entering Conferma Ordini per il negozio : %s", cred.getUsername());
+            ConfermaOrdiniNegozioController confermaOrdini = new ConfermaOrdiniNegozioController();
+            confermaOrdini.confermaOrdiniController(cred, info);
+            logger.trace("Exiting Conferma Ordini per il negozio : %s", cred.getUsername());
             return;
         }
         logger.trace("Ha provato a vedere notifica senza essere Loggato");

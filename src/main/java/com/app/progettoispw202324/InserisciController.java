@@ -95,7 +95,7 @@ public class InserisciController {
         setComandi();
         String receive = "";
         cosaInserisco = pippo;
-        AllerBoxPerInserimentoArticoli allert = new AllerBoxPerInserimentoArticoli();
+        BoxInserimentoArticoli allert = new BoxInserimentoArticoli();
         allert.allertSceltaNegozio(cosaInserisco);
         if (giusto) {
             messageToCommand.setCommand("AGGIUNGIARTICOLODB");
