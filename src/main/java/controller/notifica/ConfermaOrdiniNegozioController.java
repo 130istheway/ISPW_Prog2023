@@ -20,9 +20,9 @@ import util.MessageToCommand;
  * Il controler che permette ad un negozio di vedere gli ordini che ha ricevuto e che permette di accettarli o rifiutarli
  * @author Stefano
  */
-public class NotificaNegozioController {
+public class ConfermaOrdiniNegozioController {
     
-    Logger logger = LogManager.getLogger(NotificaNegozioController.class);
+    Logger logger = LogManager.getLogger(ConfermaOrdiniNegozioController.class);
 
     boolean cambiaAttivita = false;
     List<Integer> listaID;
@@ -34,7 +34,7 @@ public class NotificaNegozioController {
      * @param credentials
      * @param info
      */
-    public void notificaController(Credential credentials, ControllerInfoSulThread info){
+    public void confermaOrdiniController(Credential credentials, ControllerInfoSulThread info){
         MessageToCommand messageToCommand = new MessageToCommand();
         String inputLine;
 

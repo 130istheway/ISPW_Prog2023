@@ -51,7 +51,7 @@ public class NotificaController {
     TextField visualizza;
 
     Comandi comandi = new Comandi(gestionePerUI, testoLibero);
-
+    private static final String NORMAL = "-fx-background-color: lightgrey;";
 
     public void menu(ActionEvent event){
         setComandi();
@@ -59,11 +59,17 @@ public class NotificaController {
     }
 
     public void vaiSuccessivo(){
+        accetta.setStyle(NORMAL);
+        rifiuta.setStyle(NORMAL);
+        visualizza.setStyle(NORMAL);
         setComandi();
         posizione = comandi.vaiSuccessivo(finiti,posizione,successivo,precedente,testoLibero, false);
     }
 
     public void vaiPrecedente(){
+        accetta.setStyle(NORMAL);
+        rifiuta.setStyle(NORMAL);
+        visualizza.setStyle(NORMAL);
         setComandi();
         List<Object> ritorno = comandi.vaiPrecedente(finiti,posizione,successivo,precedente,testoLibero,false);
         finiti = (boolean)ritorno.get(0);

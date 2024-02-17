@@ -9,13 +9,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.xml.transform.Result;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class AllerBoxPerInserimentoArticoli {
+public class BoxInserimentoArticoli {
 
     static AtomicBoolean ok = new AtomicBoolean(true);
 
@@ -41,7 +40,7 @@ public class AllerBoxPerInserimentoArticoli {
     ChoiceBox<String> forma = new ChoiceBox<>();
 
 
-    AllerBoxPerInserimentoArticoli(){
+    BoxInserimentoArticoli(){
         setGiusto(false);
         nome.setPromptText("nome");
         prezzo.setPromptText("prezzo");

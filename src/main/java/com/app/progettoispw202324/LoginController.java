@@ -1,5 +1,6 @@
 package com.app.progettoispw202324;
 
+import com.app.progettoispw202324.allertBox.AllertBoxNumeroOrdini;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,6 +49,9 @@ public class LoginController {
             Role ruolo;
             ruolo = Role.values()[Integer.parseInt(ricevi.substring(ricevi.length()-1))];
             gestionePerUI.setCredential(username.getText(), ruolo);
+            if (n<2){
+                controllaNotifica();
+            }
             setControllerMenu(event, n);
         } else if (ricevi.contains("Riprova")){
             buttonLogin.setText("Riprova");
@@ -80,7 +84,19 @@ public class LoginController {
             stage.show();
 
         }catch (IOException e){
-            logger.error("0x000100   %s", e.getMessage());
+            logger.error("0x000100   "+e.getMessage());
         }
+    }
+
+    private void controllaNotifica(){
+        String invioNotifica = "RECUPERANORDINI";
+        gestionePerUI.sendMessage(invioNotifica);
+        String ordini = null;
+        try {
+            ordini = gestionePerUI.getMessage();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (ordini.contains("SI")) AllertBoxNumeroOrdini.allertOrdini("Allerta Ordini", ordini.substring(4));
     }
 }
