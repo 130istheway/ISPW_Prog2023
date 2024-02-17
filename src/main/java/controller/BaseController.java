@@ -127,7 +127,7 @@ public class BaseController {
                 try {
                     int id = daoIdNegozio.execute(cred.getUsername());
                     listaID = idOrdini.execute(id);
-                    if (listaID.size() <= 0){
+                    if (listaID.isEmpty()){
                         messageToCommand.setCommand("NO");
                         messageToCommand.setPayload(null);
                         info.sendMessage(messageToCommand.toMessage());

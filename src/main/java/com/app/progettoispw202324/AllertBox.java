@@ -1,6 +1,5 @@
-package com.app.progettoispw202324.allertbox;
+package com.app.progettoispw202324;
 
-import com.app.progettoispw202324.MenuController;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

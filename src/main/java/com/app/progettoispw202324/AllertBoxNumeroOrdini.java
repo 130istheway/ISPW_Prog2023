@@ -1,4 +1,4 @@
-package com.app.progettoispw202324.allertbox;
+package com.app.progettoispw202324;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

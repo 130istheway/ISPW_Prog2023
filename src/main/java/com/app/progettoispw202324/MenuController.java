@@ -13,9 +13,6 @@ import model.domain.ui.GestionePerUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.app.progettoispw202324.allertbox.AllertBox;
-import com.app.progettoispw202324.allertbox.AllertBoxNumeroOrdini;
-
 import util.MessageToCommand;
 
 import java.io.IOException;
@@ -182,9 +179,7 @@ public class MenuController {
             ordine.setStyle(IMPOSTAROSSO);
             return;
         }
-        System.out.println("----------------------------------------------------------------------");
         String input = cech("CONFERMAORDINI", null);
-        System.out.println(input);
         if (Objects.equals(input, "OK")) {
             ordine.setText("ORDINE");
             try {
@@ -235,14 +230,14 @@ public class MenuController {
         if (livello < 2 ){
             String invioNotifica = "RECUPERANORDINI";
             gestionePerUI.sendMessage(invioNotifica);
-            String ordini = null;
+            String ordiniRitorno = null;
             try {
-                ordini = gestionePerUI.getMessage();
+                ordiniRitorno = gestionePerUI.getMessage();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                logger.error("0x000023   "+e.getMessage());
             }
-            if (ordini.contains("SI")){
-                int numero = Integer.parseInt(ordini.substring(5));
+            if (ordiniRitorno.contains("SI")){
+                int numero = Integer.parseInt(ordiniRitorno.substring(5));
                 if (numero >0 && numero <= 3){
                     ordine.setStyle(IMPOSTAVERDE);
                 } else if (numero >3 && numero < 10) {

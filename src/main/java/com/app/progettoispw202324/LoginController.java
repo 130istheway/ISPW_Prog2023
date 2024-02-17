@@ -19,8 +19,6 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.app.progettoispw202324.allertbox.AllertBoxNumeroOrdini;
-
 public class LoginController {
     
     Logger logger = LogManager.getLogger(LoginController.class);
@@ -43,6 +41,7 @@ public class LoginController {
             ricevi = gestionePerUI.getMessage();
         } catch (IOException e){
             ricevi = "non riuscito a recuperare il messaggio";
+            logger.error("0x000103   "+e.getMessage());
         }
         if (ricevi.contains("ACCETTATA")){
             int n = Integer.parseInt(ricevi.substring(ricevi.length()-1));
@@ -96,7 +95,8 @@ public class LoginController {
         try {
             ordini = gestionePerUI.getMessage();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            ordini = "non riuscito a recuperare il messaggio";
+            logger.error("0x000104   "+e.getMessage());
         }
         if (ordini.contains("SI")) AllertBoxNumeroOrdini.allertOrdini("Allerta Ordini", ordini.substring(4));
     }
