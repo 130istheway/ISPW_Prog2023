@@ -1,23 +1,18 @@
 package com.app.progettoispw202324;
 
+import boundary.BoundaryUserControl;
 import com.app.progettoispw202324.util.Comandi;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
-import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import util.MessageToCommand;
 
 import java.io.IOException;
 import java.util.Objects;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class OrdiniCarrelloController {
     
@@ -47,11 +42,8 @@ public class OrdiniCarrelloController {
     }
 
     public void visualizza(){
-        messageToCommand = new MessageToCommand();
         String receive = null;
-        messageToCommand.setCommand("ORDINI");
-        messageToCommand.setPayload(null);
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
+        gestionePerUI.sendMessage(BoundaryUserControl.returnOrdiniConfermatiCommadn());
         receive = messaggio();
         assert receive != null;
         messageToCommand.fromMessage(receive);
@@ -59,7 +51,7 @@ public class OrdiniCarrelloController {
             String[] ordini = messageToCommand.getPayload().split("_");
             StringBuilder bld = new StringBuilder();
             for (String string : ordini) {
-                bld = bld.append(string + "\n");
+                bld.append(string).append("\n");
             }
             testoLibero.setText(bld.toString());
         } else if (Objects.equals(messageToCommand.getCommand(),"STOPIT")){

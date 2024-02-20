@@ -1,19 +1,12 @@
 package com.app.progettoispw202324;
 
 import com.app.progettoispw202324.util.Comandi;
-import com.app.progettoispw202324.util.PrintOnTextField;
-import com.app.progettoispw202324.util.StringToOrdini;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
 import util.MessageToCommand;
 import java.io.IOException;
@@ -32,7 +25,7 @@ public class NotificaController {
     private static final String NC = "NotificaController";
     private static final String SETGREY = "-fx-background-color: grey;";
 
-    static MessageToCommand messageToCommand = new MessageToCommand();
+    MessageToCommand messageToCommand = new MessageToCommand();
     static GestionePerUI gestionePerUI;
 
     private int posizione = 0;
@@ -85,7 +78,7 @@ public class NotificaController {
         confermaRifiuta("NO");
     }
 
-    private synchronized void confermaRifiuta(String stringa){
+    private void confermaRifiuta(String stringa){
         if (Objects.equals(stringa, "SI")) {
             accetta.setStyle("-fx-background-color: blue;");
         }else{

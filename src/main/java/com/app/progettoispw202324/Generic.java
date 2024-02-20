@@ -6,14 +6,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import model.domain.ui.GestionePerUI;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import util.MessageToCommand;
 
 import java.util.List;
 
 public class Generic {
-    static Logger logger = LogManager.getLogger(Generic.class);
 
     static MessageToCommand messageToCommand = new MessageToCommand();
 

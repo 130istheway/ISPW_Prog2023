@@ -1,5 +1,6 @@
 package com.app.progettoispw202324;
 
+import boundary.BoundaryLogin;
 import com.app.progettoispw202324.allertbox.AllertBoxNumeroOrdini;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -14,11 +15,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.domain.Role;
 import model.domain.ui.GestionePerUI;
-
-import java.io.IOException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 public class LoginController {
     
@@ -36,8 +36,7 @@ public class LoginController {
     @FXML
     public void login(ActionEvent event) {
         String ricevi;
-        String invio = "user:" + username.getText() + ",pass:" + password.getText();
-        gestionePerUI.sendMessage(invio);
+        gestionePerUI.sendMessage(BoundaryLogin.returnAutentication(username.getText(), password.getText()));
         try {
             ricevi = gestionePerUI.getMessage();
         } catch (IOException e){

@@ -6,18 +6,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import model.domain.ui.GestionePerUI;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import util.MessageToCommand;
 
 import java.util.List;
-import java.util.Objects;
 
 public class VisualizzaDB {
-    
-    static Logger logger = LogManager.getLogger(VisualizzaDB.class);
-
-    static MessageToCommand messageToCommand = new MessageToCommand();
 
     private static final String VDB = "VisualizzaDB";
 

@@ -1,10 +1,13 @@
 package com.app.progettoispw202324;
 
+import boundary.BoundaryLogin;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import util.MessageToCommand;
 
 import java.io.BufferedReader;
@@ -13,9 +16,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Objects;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class ClientApplication extends Application {
 
@@ -51,10 +51,9 @@ public class ClientApplication extends Application {
         gestionePerUI.sendMessage(messageToCommand.toMessage());
 
         String ricevi;
+        //Qui verrà fatto tornare qualcosa dal server quando inseriro il metodo di criptazione
         ricevi = gestionePerUI.getMessage();
-        messageToCommand.setCommand("LOGIN");
-        messageToCommand.setPayload(null);
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
+        gestionePerUI.sendMessage(BoundaryLogin.returnLogin());
         ricevi = gestionePerUI.getMessage();
         if(!Objects.equals(ricevi, "Autenticarsi: ")) return;
 

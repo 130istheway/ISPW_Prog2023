@@ -1,5 +1,7 @@
 package com.app.progettoispw202324.util;
 
+import boundary.BoundaryBasicController;
+import boundary.BoundaryUserControl;
 import com.app.progettoispw202324.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -9,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
 import org.apache.logging.log4j.LogManager;
@@ -35,10 +36,8 @@ public class Comandi {
     }
 
     public void menu(ActionEvent event, int nExit){
-        messageToCommand.setCommand("EXIT");
-        messageToCommand.setPayload("0");
         for (int i=0; i<nExit; i++){
-            gestionePerUI.sendMessage(messageToCommand.toMessage());
+            gestionePerUI.sendMessage(BoundaryBasicController.returnExitCommand());
         }
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("menu.fxml"));
@@ -91,24 +90,20 @@ public class Comandi {
         return ritorno;
     }
 
-    private void riceviMessaggio(String string, int posizione){
-        messageToCommand = new MessageToCommand();
+    private String riceviMessaggio(String string){
         String receive = "";
-
-        messageToCommand.setCommand(string);
-        messageToCommand.setPayload(String.valueOf(posizione));
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
+        gestionePerUI.sendMessage(string);
         try{
             receive = gestionePerUI.getMessage();
         }catch (IOException e){
             logger.error("Errore nel recupero del messaggio");
             Platform.exit();
         }
-        messageToCommand.fromMessage(receive);
+        return receive;
     }
 
     public void elimina(Integer posizione, TextArea testoLibero){
-        riceviMessaggio("RIMUOVIART", posizione);
+        messageToCommand.fromMessage(riceviMessaggio(BoundaryUserControl.returnRimuoviArticoloCommand(posizione)));
         if (Objects.equals(messageToCommand.getCommand(), "NO")){
             testoLibero.setText(messageToCommand.getPayload());
         }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
@@ -117,7 +112,7 @@ public class Comandi {
     }
 
     public void visualizzaCarrello(boolean scelta, int posizione, Button successivo){
-        riceviMessaggio("VISUALIZZAART",posizione);
+        messageToCommand.fromMessage(riceviMessaggio(BoundaryUserControl.returnVisualizzaArticoloCommand(posizione)));
         if (Objects.equals(messageToCommand.getCommand(), "NO")){
             testoLibero.setText("Articoli Finiti");
             if (scelta) successivo.setText("|");
