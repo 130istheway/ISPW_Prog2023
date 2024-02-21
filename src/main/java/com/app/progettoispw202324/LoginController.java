@@ -41,7 +41,7 @@ public class LoginController {
             ricevi = gestionePerUI.getMessage();
         } catch (IOException e){
             ricevi = "non riuscito a recuperare il messaggio";
-            logger.error("0x000103   "+e.getMessage());
+            logger.error("0x000103   %s",e.getMessage());
         }
         if (ricevi.contains("ACCETTATA")){
             int n = Integer.parseInt(ricevi.substring(ricevi.length()-1));
@@ -84,7 +84,7 @@ public class LoginController {
             stage.show();
 
         }catch (IOException e){
-            logger.error("0x000100   "+e.getMessage());
+            logger.error("0x000100   %s",e.getMessage());
         }
     }
 
@@ -96,7 +96,7 @@ public class LoginController {
             ordini = gestionePerUI.getMessage();
         } catch (IOException e) {
             ordini = "non riuscito a recuperare il messaggio";
-            logger.error("0x000104   "+e.getMessage());
+            logger.error("0x000104   %s",e.getMessage());
         }
         if (ordini.contains("SI")) AllertBoxNumeroOrdini.allertOrdini("Allerta Ordini", ordini.substring(4));
     }

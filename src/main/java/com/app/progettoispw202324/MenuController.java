@@ -228,7 +228,7 @@ public class MenuController {
             try {
                 ordiniRitorno = gestionePerUI.getMessage();
             } catch (IOException e) {
-                logger.error("0x000023   "+e.getMessage());
+                logger.error("0x000023   %s",e.getMessage());
             }
             if (ordiniRitorno != null && ordiniRitorno.contains("SI")){
                 int numero = Integer.parseInt(ordiniRitorno.substring(5));
