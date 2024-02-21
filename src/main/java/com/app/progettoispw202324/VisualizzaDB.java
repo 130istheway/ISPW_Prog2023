@@ -11,8 +11,6 @@ import java.util.List;
 
 public class VisualizzaDB {
 
-    private static final String VDB = "VisualizzaDB";
-
     static GestionePerUI gestionePerUI;
 
     private int posizione = 0;

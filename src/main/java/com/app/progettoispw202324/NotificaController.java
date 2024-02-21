@@ -24,7 +24,6 @@ public class NotificaController {
 
     private static final String ER = "Errore nel recupero del messaggio";
 
-    private static final String NC = "NotificaController";
     private static final String SETGREY = "-fx-background-color: grey;";
 
     MessageToCommand messageToCommand = new MessageToCommand();

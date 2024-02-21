@@ -52,7 +52,7 @@ public class InsController extends Generic {
 
     @Override
     public void visualizzaCarrello(){
-        String receive = "NO";
+        String receive;
         gestionePerUI.sendMessage(BoundaryUserControl.returnVisualizzaArticoloCommand(posizione));
         receive = messaggio();
         messageToCommand.fromMessage(receive);

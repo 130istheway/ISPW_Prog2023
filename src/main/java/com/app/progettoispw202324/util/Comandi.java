@@ -62,8 +62,8 @@ public class Comandi {
                 precedente.setText("<<");
             }
             if (Objects.equals(testoLibero.getText(),"Articoli Finiti")) {
-                successivo.setText("|");
                 finiti = true;
+                successivo.setText("|");
             }
         }
         return posizione;

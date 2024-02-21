@@ -14,8 +14,6 @@ public class Generic {
 
     static MessageToCommand messageToCommand = new MessageToCommand();
 
-    private static final String VC = "VisualizzaController";
-
     static GestionePerUI gestionePerUI;
 
     protected int posizione = 0;

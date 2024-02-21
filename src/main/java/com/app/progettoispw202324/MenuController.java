@@ -208,7 +208,7 @@ public class MenuController {
     }
 
     public void logOut(ActionEvent event ) throws IOException {
-        String input = cech(BoundaryLogin.returnLogin);
+        String input = cech(BoundaryLogin.RETURNLOGIN);
         if(Objects.equals(input, "Autenticarsi: ")) {
             fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("ControllerLogin.fxml"));
             root = fxmlLoader.load();
@@ -230,7 +230,7 @@ public class MenuController {
             } catch (IOException e) {
                 logger.error("0x000023   "+e.getMessage());
             }
-            if (ordiniRitorno.contains("SI")){
+            if (ordiniRitorno != null && ordiniRitorno.contains("SI")){
                 int numero = Integer.parseInt(ordiniRitorno.substring(5));
                 if (numero >0 && numero <= 3){
                     ordine.setStyle(IMPOSTAVERDE);
@@ -241,7 +241,10 @@ public class MenuController {
                 } else{
                     ordine.setStyle(IMPOSTANORMALE);
                 }
+            }else{
+                ordine.setStyle(IMPOSTANORMALE);
             }
+
         }
     }
 
