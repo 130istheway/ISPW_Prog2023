@@ -85,7 +85,7 @@ public class ConfermaOrdiniNegozioController {
                     for (String string : listaDati) {
                         appoggio = appoggio.append(string + "_");
                     }
-                    messaggio = BoundaryGestioneNotifica.returnVisualizzaArticoloCommand(appoggio.toString());
+                    messaggio = BoundaryGestioneNotifica.returnVisualizzaArticoloCommandVariable(appoggio.toString());
 
                 } catch (IndexOutOfBoundsException | DAOException e) {
                     messaggio = BoundaryGestioneNotifica.RETURNVISUALIZZAARTICOLOCOMMAND;

@@ -103,7 +103,7 @@ public class Comandi {
     }
 
     public void elimina(Integer posizione, TextArea testoLibero){
-        messageToCommand.fromMessage(riceviMessaggio(BoundaryUserControl.returnRimuoviArticoloCommand(posizione)));
+        messageToCommand.fromMessage(riceviMessaggio(BoundaryUserControl.returnRimuoviArticoloCommandVariable(posizione)));
         if (Objects.equals(messageToCommand.getCommand(), "NO")){
             testoLibero.setText(messageToCommand.getPayload());
         }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
@@ -112,7 +112,7 @@ public class Comandi {
     }
 
     public void visualizzaCarrello(boolean scelta, int posizione, Button successivo){
-        messageToCommand.fromMessage(riceviMessaggio(BoundaryUserControl.returnVisualizzaArticoloCommand(posizione)));
+        messageToCommand.fromMessage(riceviMessaggio(BoundaryUserControl.returnVisualizzaArticoloCommandVariable(posizione)));
         if (Objects.equals(messageToCommand.getCommand(), "NO")){
             testoLibero.setText("Articoli Finiti");
             if (scelta) successivo.setText("|");

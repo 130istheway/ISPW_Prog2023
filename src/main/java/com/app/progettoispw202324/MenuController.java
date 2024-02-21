@@ -88,7 +88,7 @@ public class MenuController {
         if (gestionePerUI.getNegozio() == null) {
             scegliNegozio();
         } else {
-            String input = cech(BoundaryBasicController.returnInserisciArticoloCommand(gestionePerUI.getNegozio()));
+            String input = cech(BoundaryBasicController.returnInserisciArticoloCommandVariable(gestionePerUI.getNegozio()));
             if (Objects.equals(input, BoundaryBasicResponse.RETURNSI)) {
                 try {
                     fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("InserisciCarrello.fxml"));
@@ -110,7 +110,7 @@ public class MenuController {
         if (gestionePerUI.getNegozio() == null){
             scegliNegozio();
         }else {
-            String input = cech(BoundaryBasicController.returnConfermaOrdineCommand(gestionePerUI.getNegozio()));
+            String input = cech(BoundaryBasicController.returnConfermaOrdineCommandVariable(gestionePerUI.getNegozio()));
             if (Objects.equals(input, BoundaryBasicResponse.RETURNSI)) {
                 confermaCarrello.setStyle(IMPOSTAVERDE);
                 gestionePerUI.sendMessage(BoundaryBasicController.RETURNRESETNEGOZIOCOMMAND);

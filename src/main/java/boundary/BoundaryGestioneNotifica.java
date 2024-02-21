@@ -6,11 +6,11 @@ public class BoundaryGestioneNotifica {
     }
 
     public static final String RETURNCONFERMANOTIFICACOMMAND = "CONFERMANOTIFICA";
-    public static String returnConfermaNotificaCommand(Integer pos, String scelta){
+    public static String returnConfermaNotificaCommandVariable(Integer pos, String scelta){
         return "CONFERMANOTIFICA | "+pos+"|"+scelta;
     }
 
-    public static String returnVisualizzaArticoloCommand(String messaggio){
+    public static String returnVisualizzaArticoloCommandVariable(String messaggio){
         return "SINOTI | "+messaggio;
     }
     public static final String RETURNVISUALIZZAARTICOLOCOMMAND = "NO | Elemento non esistente";

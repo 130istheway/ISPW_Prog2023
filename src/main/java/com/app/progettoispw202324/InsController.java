@@ -24,7 +24,7 @@ public class InsController extends Generic {
         String receive = "NO";
         try {
             int quant = Integer.parseInt(quantita.getText());
-            gestionePerUI.sendMessage(BoundaryUserControl.returnAggiungiAllaListaCommand(posizione, quant));
+            gestionePerUI.sendMessage(BoundaryUserControl.returnAggiungiAllaListaCommandVariable(posizione, quant));
             receive = messaggio();
             messageToCommand.fromMessage(receive);
             if (Objects.equals(messageToCommand.getCommand(), "NO")) {
@@ -53,7 +53,7 @@ public class InsController extends Generic {
     @Override
     public void visualizzaCarrello(){
         String receive;
-        gestionePerUI.sendMessage(BoundaryUserControl.returnVisualizzaArticoloCommand(posizione));
+        gestionePerUI.sendMessage(BoundaryUserControl.returnVisualizzaArticoloCommandVariable(posizione));
         receive = messaggio();
         messageToCommand.fromMessage(receive);
         if (Objects.equals(messageToCommand.getCommand(), "NO")){

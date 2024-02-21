@@ -1,6 +1,10 @@
 package boundary;
 
 public class BoundaryBasicResponse {
+    private BoundaryBasicResponse(){
+        throw new IllegalStateException("Utility class");
+    }
+
     public static final String RETURNOK = "OK";
     public static final String RETURNNULL = "NULL";
     public static final String RETURNSI = "SI";
@@ -12,10 +16,13 @@ public class BoundaryBasicResponse {
     public static final String RETURNNAUTORIZZATO = "NON AUTORIZATO";
     public static final String RETURNDECIDI = "DECIDI";
 
-    public static String returnSi(Integer size){
+    public static String returnSiVariable(Integer size){
         return RETURNSI+" | "+size;
     }
-    public static String returnNo(String message){
+    public static String returnNoVariable(String message){
         return RETURNNO+" | "+message;
+    }
+    public static String returnPregoVariable(String ordini){
+        return RETURNPREGO+" | "+ordini;
     }
 }

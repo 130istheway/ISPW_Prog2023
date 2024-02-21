@@ -117,8 +117,7 @@ public class BaseController {
      * Recupera il numero di ordini che devono essere accettati o rifiutati asseconda di quello che viene deciso
      */
     private void recuperaNOrdini() {
-        if (cred!=null && (cred.getRole().ordinal()<3)){
-            if (cred.getRole().ordinal()<2) {
+        if (cred!=null && (cred.getRole().ordinal()<2)){
                 List<Integer> listaID;
                 DAOIdNegozio daoIdNegozio = new DAOIdNegozio();
                 DAORecuperaIdOrdini idOrdini = new DAORecuperaIdOrdini();
@@ -129,12 +128,11 @@ public class BaseController {
                         info.sendMessage(BoundaryBasicResponse.RETURNNO);
                         return;
                     }
-                    info.sendMessage(BoundaryBasicResponse.returnSi(listaID.size()));
+                    info.sendMessage(BoundaryBasicResponse.returnSiVariable(listaID.size()));
                     return;
                 } catch (DAOException e) {
                     logger.error("Problema rilevato nelle DAO per recuperare l'id del negozio %s", e.getMessage());
-                }    
-            }
+                }
         }
         throw new UnsupportedOperationException("Unimplemented method 'recuperaInfo'");
     }
@@ -152,7 +150,7 @@ public class BaseController {
                 id = daoIdNegozio.execute(cred.getUsername());
             } catch (DAOException e) {
                 logger.error("OrdiniConfermati %s",e.getMessage());
-                info.sendMessage(BoundaryBasicResponse.returnNo("Problema con l'id contatta l'amministratore con messaggio 0x321123654"));
+                info.sendMessage(BoundaryBasicResponse.returnNoVariable("Problema con l'id contatta l'amministratore con messaggio 0x321123654"));
                 return;
             }
             String ordini;
@@ -160,10 +158,10 @@ public class BaseController {
                 ordini = daoUser.execute(id);
             } catch (DAOException e) {
                 logger.error("Errore nel recupero degli ORDINI da confermare %s",e.getMessage());
-                info.sendMessage(BoundaryBasicResponse.returnNo("Problema con l'id contatta l'amministratore con messaggio 0x321123662"));
+                info.sendMessage(BoundaryBasicResponse.returnNoVariable("Problema con l'id contatta l'amministratore con messaggio 0x321123662"));
                 return;
             }
-            info.sendMessage(BoundaryBasicResponse.RETURNPREGO);
+            info.sendMessage(BoundaryBasicResponse.returnPregoVariable(ordini));
         }
     }
 

@@ -11,10 +11,10 @@ public class BoundaryBasicController {
     public static final String RETURNVISUALIZZACOMAND = "VISUALIZZA";
     public static final String RETURNINSERISCIARTICOLOCOMMAND = "AGGIUNGILISTA";
     public static final String RETURNCONFERMAORDINECOMMAND = "CONFERMALISTA";
-    public static String returnInserisciArticoloCommand(String negozio){
+    public static String returnInserisciArticoloCommandVariable(String negozio){
         return "AGGIUNGILISTA | "+negozio;
     }
-    public static String returnConfermaOrdineCommand(String negozio){
+    public static String returnConfermaOrdineCommandVariable(String negozio){
         return "CONFERMALISTA | "+negozio; 
     }
 

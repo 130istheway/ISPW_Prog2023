@@ -90,7 +90,7 @@ public class NotificaController {
         messageToCommand = new MessageToCommand();
         String receive = null;
         
-        gestionePerUI.sendMessage(BoundaryGestioneNotifica.returnConfermaNotificaCommand(posizione, stringa));
+        gestionePerUI.sendMessage(BoundaryGestioneNotifica.returnConfermaNotificaCommandVariable(posizione, stringa));
         try{
             receive = gestionePerUI.getMessage();
         }catch (IOException e){
