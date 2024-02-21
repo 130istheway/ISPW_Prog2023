@@ -1,18 +1,14 @@
 package com.app.progettoispw202324;
 
+import boundary.BoundaryUserControl;
 import com.app.progettoispw202324.util.PrintArticoli;
-import com.app.progettoispw202324.util.Comandi;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import model.domain.ui.GestionePerUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConvertiStringToArticolo;
-import util.MessageToCommand;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,10 +24,7 @@ public class InsController extends Generic {
         String receive = "NO";
         try {
             int quant = Integer.parseInt(quantita.getText());
-            messageToCommand.setCommand("AGGIUNGILISTA");
-            String message = posizione + "|" + quant;
-            messageToCommand.setPayload(message);
-            gestionePerUI.sendMessage(messageToCommand.toMessage());
+            gestionePerUI.sendMessage(BoundaryUserControl.returnAggiungiAllaListaCommand(posizione, quant));
             receive = messaggio();
             messageToCommand.fromMessage(receive);
             if (Objects.equals(messageToCommand.getCommand(), "NO")) {
@@ -59,10 +52,8 @@ public class InsController extends Generic {
 
     @Override
     public void visualizzaCarrello(){
-        String receive = "NO";
-        messageToCommand.setCommand("VISUALIZZAART");
-        messageToCommand.setPayload(String.valueOf(posizione));
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
+        String receive;
+        gestionePerUI.sendMessage(BoundaryUserControl.returnVisualizzaArticoloCommand(posizione));
         receive = messaggio();
         messageToCommand.fromMessage(receive);
         if (Objects.equals(messageToCommand.getCommand(), "NO")){

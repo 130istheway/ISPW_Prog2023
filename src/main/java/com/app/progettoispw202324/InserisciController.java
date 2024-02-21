@@ -1,5 +1,6 @@
 package com.app.progettoispw202324;
 
+import boundary.BoundaryNegozioControl;
 import com.app.progettoispw202324.util.Comandi;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -98,9 +99,7 @@ public class InserisciController {
         BoxInserimentoArticoli allert = new BoxInserimentoArticoli();
         allert.allertSceltaNegozio(cosaInserisco);
         if (giusto) {
-            messageToCommand.setCommand("AGGIUNGIARTICOLODB");
-            messageToCommand.setPayload(lista);
-            gestionePerUI.sendMessage(messageToCommand.toMessage());
+            gestionePerUI.sendMessage(BoundaryNegozioControl.returnAggiungiArticoloAlDB(lista));
             receive = messaggio();
             messageToCommand.fromMessage(receive);
             pizza.setStyle("-fx-background-color: green;");

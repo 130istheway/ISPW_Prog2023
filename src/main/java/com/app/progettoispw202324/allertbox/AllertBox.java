@@ -1,5 +1,6 @@
 package com.app.progettoispw202324.allertbox;
 
+import boundary.BoundaryBasicController;
 import com.app.progettoispw202324.MenuController;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,7 +11,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.domain.ui.GestionePerUI;
-import util.MessageToCommand;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,8 +24,6 @@ public class AllertBox {
     }
 
     public static void allertSceltaNegozio(String title, String message, GestionePerUI gestionePerUI, boolean cambioCarrello){
-
-        MessageToCommand messageToCommand = new MessageToCommand();
 
         Stage window = new Stage();
 
@@ -45,9 +43,7 @@ public class AllertBox {
                     int id = Integer.parseInt(textField.getText());
                     setControllerMenu(String.valueOf(id));
                     if (cambioCarrello) {
-                        messageToCommand.setCommand("RESETNEGOZIO");
-                        messageToCommand.setPayload(null);
-                        gestionePerUI.sendMessage(messageToCommand.toMessage());
+                        gestionePerUI.sendMessage(BoundaryBasicController.RETURNRESETNEGOZIOCOMMAND);
                     }
                     window.close();
                 });

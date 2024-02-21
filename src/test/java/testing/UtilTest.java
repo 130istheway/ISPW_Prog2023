@@ -1,6 +1,5 @@
 package testing;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import util.MessageToCommand;
 import util.PayloadToCredential;

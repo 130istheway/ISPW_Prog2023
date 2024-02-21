@@ -1,5 +1,7 @@
 package com.app.progettoispw202324;
 
+import boundary.BoundaryBasicController;
+import boundary.BoundaryLogin;
 import com.app.progettoispw202324.allertbox.AllertBox;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -14,8 +16,6 @@ import model.domain.ui.GestionePerUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import util.MessageToCommand;
-
 import java.io.IOException;
 import java.util.Objects;
 
@@ -28,8 +28,6 @@ public class MenuController {
     private static final String IMPOSTAVERDE = "-fx-background-color: green;";
     private static final String IMPOSTANORMALE = "-fx-background-color: lightgrey;";
     private static final String STOPIT = "STOPIT";
-
-    MessageToCommand messageToCommand = new MessageToCommand();
 
     FXMLLoader fxmlLoader;
     Parent root;
@@ -57,10 +55,8 @@ public class MenuController {
         }
     }
 
-    private String cech(String cose, String pay){
-        messageToCommand.setCommand(cose);
-        messageToCommand.setPayload(pay);
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
+    private String cech(String cose){
+        gestionePerUI.sendMessage(cose);
         try {
             return gestionePerUI.getMessage();
         } catch (IOException e){
@@ -70,7 +66,7 @@ public class MenuController {
 
     public void visualizza(ActionEvent event){
         if (livello>=3){return;}
-        String input = cech("VISUALIZZA", null);
+        String input = cech(BoundaryBasicController.RETURNVISUALIZZACOMAND);
         if (Objects.equals(input, "OK")) {
             try {
                 fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaCarrello.fxml"));
@@ -91,7 +87,7 @@ public class MenuController {
         if (gestionePerUI.getNegozio() == null) {
             scegliNegozio();
         } else {
-            String input = cech("AGGIUNGILISTA", gestionePerUI.getNegozio());
+            String input = cech(BoundaryBasicController.returnInserisciArticoloCommand(gestionePerUI.getNegozio()));
             if (Objects.equals(input, "OK")) {
                 try {
                     fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("InserisciCarrello.fxml"));
@@ -113,12 +109,10 @@ public class MenuController {
         if (gestionePerUI.getNegozio() == null){
             scegliNegozio();
         }else {
-            String input = cech("CONFERMALISTA", gestionePerUI.getNegozio());
+            String input = cech(BoundaryBasicController.returnConfermaOrdineCommand(gestionePerUI.getNegozio()));
             if (Objects.equals(input, "OK")) {
                 confermaCarrello.setStyle(IMPOSTAVERDE);
-                messageToCommand.setCommand("RESETNEGOZIO");
-                messageToCommand.setPayload(null);
-                gestionePerUI.sendMessage(messageToCommand.toMessage());
+                gestionePerUI.sendMessage(BoundaryBasicController.RETURNRESETNEGOZIOCOMMAND);
             } else if (input.contains(STOPIT)){
             Platform.exit();
             } else {
@@ -160,7 +154,7 @@ public class MenuController {
         if (livello>=2){
             visualizza.setStyle(IMPOSTAROSSO);
             return;}
-        String input = cech("VISUALIZZAARTICOLODB", null);
+        String input = cech(BoundaryBasicController.RETURNVISUALIZZAARTICOLIDADBCOMMAND);
         if (Objects.equals(input, "OK")) {
             try {
                 fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaDB.fxml"));
@@ -180,7 +174,7 @@ public class MenuController {
             ordine.setStyle(IMPOSTAROSSO);
             return;
         }
-        String input = cech("CONFERMAORDINI", null);
+        String input = cech(BoundaryBasicController.RETURNCONFERMAORDINICOMMAND);
         if (Objects.equals(input, "OK")) {
             ordine.setText("ORDINE");
             try {
@@ -214,7 +208,7 @@ public class MenuController {
     }
 
     public void logOut(ActionEvent event ) throws IOException {
-        String input = cech("LOGIN", null);
+        String input = cech(BoundaryLogin.RETURNLOGIN);
         if(Objects.equals(input, "Autenticarsi: ")) {
             fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("ControllerLogin.fxml"));
             root = fxmlLoader.load();
@@ -229,15 +223,14 @@ public class MenuController {
 
     public void cechOrdini(){
         if (livello < 2 ){
-            String invioNotifica = "RECUPERANORDINI";
-            gestionePerUI.sendMessage(invioNotifica);
+            gestionePerUI.sendMessage(BoundaryBasicController.RETURNCECHORDINICOMMAND);
             String ordiniRitorno = null;
             try {
                 ordiniRitorno = gestionePerUI.getMessage();
             } catch (IOException e) {
                 logger.error("0x000023   "+e.getMessage());
             }
-            if (ordiniRitorno.contains("SI")){
+            if (ordiniRitorno != null && ordiniRitorno.contains("SI")){
                 int numero = Integer.parseInt(ordiniRitorno.substring(5));
                 if (numero >0 && numero <= 3){
                     ordine.setStyle(IMPOSTAVERDE);
@@ -248,7 +241,10 @@ public class MenuController {
                 } else{
                     ordine.setStyle(IMPOSTANORMALE);
                 }
+            }else{
+                ordine.setStyle(IMPOSTANORMALE);
             }
+
         }
     }
 
