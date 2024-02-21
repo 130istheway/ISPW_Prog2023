@@ -43,7 +43,7 @@ public class OrdiniCarrelloController {
 
     public void visualizza(){
         String receive = null;
-        gestionePerUI.sendMessage(BoundaryUserControl.returnOrdiniConfermatiCommadn);
+        gestionePerUI.sendMessage(BoundaryUserControl.RETURNORDINICONFERMATICOMMADN);
         receive = messaggio();
         assert receive != null;
         messageToCommand.fromMessage(receive);

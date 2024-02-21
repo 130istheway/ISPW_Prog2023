@@ -66,7 +66,7 @@ public class MenuController {
 
     public void visualizza(ActionEvent event){
         if (livello>=3){return;}
-        String input = cech(BoundaryBasicController.returnVisualizzaComand);
+        String input = cech(BoundaryBasicController.RETURNVISUALIZZACOMAND);
         if (Objects.equals(input, "OK")) {
             try {
                 fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaCarrello.fxml"));
@@ -112,7 +112,7 @@ public class MenuController {
             String input = cech(BoundaryBasicController.returnConfermaOrdineCommand(gestionePerUI.getNegozio()));
             if (Objects.equals(input, "OK")) {
                 confermaCarrello.setStyle(IMPOSTAVERDE);
-                gestionePerUI.sendMessage(BoundaryBasicController.returnResetNegozioCommand);
+                gestionePerUI.sendMessage(BoundaryBasicController.RETURNRESETNEGOZIOCOMMAND);
             } else if (input.contains(STOPIT)){
             Platform.exit();
             } else {
@@ -154,7 +154,7 @@ public class MenuController {
         if (livello>=2){
             visualizza.setStyle(IMPOSTAROSSO);
             return;}
-        String input = cech(BoundaryBasicController.returnVisualizzaArticoliDaDBCommand);
+        String input = cech(BoundaryBasicController.RETURNVISUALIZZAARTICOLIDADBCOMMAND);
         if (Objects.equals(input, "OK")) {
             try {
                 fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaDB.fxml"));
@@ -174,7 +174,7 @@ public class MenuController {
             ordine.setStyle(IMPOSTAROSSO);
             return;
         }
-        String input = cech(BoundaryBasicController.returnConfermaOrdiniCommand);
+        String input = cech(BoundaryBasicController.RETURNCONFERMAORDINICOMMAND);
         if (Objects.equals(input, "OK")) {
             ordine.setText("ORDINE");
             try {
@@ -223,7 +223,7 @@ public class MenuController {
 
     public void cechOrdini(){
         if (livello < 2 ){
-            gestionePerUI.sendMessage(BoundaryBasicController.returnCechOrdiniCommand);
+            gestionePerUI.sendMessage(BoundaryBasicController.RETURNCECHORDINICOMMAND);
             String ordiniRitorno = null;
             try {
                 ordiniRitorno = gestionePerUI.getMessage();

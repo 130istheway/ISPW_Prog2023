@@ -1,6 +1,11 @@
 package boundary;
 
 public class BoundaryUserControl {
+    
+    private BoundaryUserControl(){
+        throw new IllegalStateException("Utility class");
+    }
+
     public static String returnRimuoviArticoloCommand(Integer posizione){
         return "RIMUOVIART | "+posizione;
     }
@@ -12,5 +17,5 @@ public class BoundaryUserControl {
         return "AGGIUNGILISTA | "+pos+"|"+quant;
     }
 
-    public static final String returnOrdiniConfermatiCommadn = "ORDINI";
+    public static final String RETURNORDINICONFERMATICOMMADN = "ORDINI";
 }

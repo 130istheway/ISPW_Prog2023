@@ -1,10 +1,13 @@
 package boundary;
 
 public class BoundaryBasicController {
+    private BoundaryBasicController(){
+        throw new IllegalStateException("Utility class");
+    }
 
-    public static final String returnResetNegozioCommand = "RESETNEGOZIO";
+    public static final String RETURNRESETNEGOZIOCOMMAND = "RESETNEGOZIO";
 
-    public static final String returnVisualizzaComand = "VISUALIZZA";
+    public static final String RETURNVISUALIZZACOMAND = "VISUALIZZA";
     
     public static String returnInserisciArticoloCommand(String negozio){
         return "AGGIUNGILISTA | "+negozio;
@@ -13,12 +16,12 @@ public class BoundaryBasicController {
         return "CONFERMALISTA | "+negozio; 
     }
 
-    public static final String returnVisualizzaArticoliDaDBCommand =  "VISUALIZZAARTICOLODB";
+    public static final String RETURNVISUALIZZAARTICOLIDADBCOMMAND =  "VISUALIZZAARTICOLODB";
 
-    public static final String returnConfermaOrdiniCommand = "CONFERMAORDINI";
+    public static final String RETURNCONFERMAORDINICOMMAND = "CONFERMAORDINI";
 
 
-    public static final String returnCechOrdiniCommand = "RECUPERANORDINI";
+    public static final String RETURNCECHORDINICOMMAND = "RECUPERANORDINI";
 
-    public static final String returnExitCommand = "EXIT | 0";
+    public static final String RETURNEXITCOMMAND = "EXIT | 0";
 }
