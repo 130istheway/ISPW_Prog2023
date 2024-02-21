@@ -53,7 +53,7 @@ public class ClientApplication extends Application {
         String ricevi;
         //Qui verrà fatto tornare qualcosa dal server quando inseriro il metodo di criptazione
         ricevi = gestionePerUI.getMessage();
-        gestionePerUI.sendMessage(BoundaryLogin.returnLogin());
+        gestionePerUI.sendMessage(BoundaryLogin.returnLogin);
         ricevi = gestionePerUI.getMessage();
         if(!Objects.equals(ricevi, "Autenticarsi: ")) return;
 

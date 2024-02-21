@@ -1,6 +1,8 @@
 package com.app.progettoispw202324;
 
 import com.app.progettoispw202324.util.Comandi;
+
+import boundary.BoundaryGestioneNotifica;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -87,10 +89,8 @@ public class NotificaController {
 
         messageToCommand = new MessageToCommand();
         String receive = null;
-
-        messageToCommand.setCommand("CONFERMANOTIFICA");
-        messageToCommand.setPayload(String.valueOf(posizione)+"|"+stringa);
-        gestionePerUI.sendMessage(messageToCommand.toMessage());
+        
+        gestionePerUI.sendMessage(BoundaryGestioneNotifica.returnConfermaNotificaCommand(posizione, stringa));
         try{
             receive = gestionePerUI.getMessage();
         }catch (IOException e){

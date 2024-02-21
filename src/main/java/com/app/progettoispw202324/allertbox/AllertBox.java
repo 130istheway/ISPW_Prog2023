@@ -43,7 +43,7 @@ public class AllertBox {
                     int id = Integer.parseInt(textField.getText());
                     setControllerMenu(String.valueOf(id));
                     if (cambioCarrello) {
-                        gestionePerUI.sendMessage(BoundaryBasicController.returnResetNegozioCommand());
+                        gestionePerUI.sendMessage(BoundaryBasicController.returnResetNegozioCommand);
                     }
                     window.close();
                 });

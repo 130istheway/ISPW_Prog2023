@@ -37,7 +37,7 @@ public class Comandi {
 
     public void menu(ActionEvent event, int nExit){
         for (int i=0; i<nExit; i++){
-            gestionePerUI.sendMessage(BoundaryBasicController.returnExitCommand());
+            gestionePerUI.sendMessage(BoundaryBasicController.returnExitCommand);
         }
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("menu.fxml"));

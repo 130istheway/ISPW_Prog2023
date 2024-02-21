@@ -1,13 +1,11 @@
 package boundary;
 
 public class BoundaryBasicController {
-    public static String returnResetNegozioCommand(){
-        return "RESETNEGOZIO";
-    }
 
-    public static String returnVisualizzaComand(){
-        return "VISUALIZZA";
-    }
+    public static final String returnResetNegozioCommand = "RESETNEGOZIO";
+
+    public static final String returnVisualizzaComand = "VISUALIZZA";
+    
     public static String returnInserisciArticoloCommand(String negozio){
         return "AGGIUNGILISTA | "+negozio;
     }
@@ -15,20 +13,12 @@ public class BoundaryBasicController {
         return "CONFERMALISTA | "+negozio; 
     }
 
+    public static final String returnVisualizzaArticoliDaDBCommand =  "VISUALIZZAARTICOLODB";
 
-    public static String returnVisualizzaArticoliDaDBCommand(){
-        return "VISUALIZZAARTICOLODB";
-    }
-    public static String returnConfermaOrdiniCommand(){
-        return "CONFERMAORDINI";
-    }
+    public static final String returnConfermaOrdiniCommand = "CONFERMAORDINI";
 
 
-    public static String returnCechOrdiniCommand(){
-        return "RECUPERANORDINI";
-    }
+    public static final String returnCechOrdiniCommand = "RECUPERANORDINI";
 
-    public static String returnExitCommand(){
-        return "EXIT | 0";
-    }
+    public static final String returnExitCommand = "EXIT | 0";
 }

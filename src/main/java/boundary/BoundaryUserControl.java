@@ -12,7 +12,5 @@ public class BoundaryUserControl {
         return "AGGIUNGILISTA | "+pos+"|"+quant;
     }
 
-    public static String returnOrdiniConfermatiCommadn(){
-        return "ORDINI";
-    }
+    public static final String returnOrdiniConfermatiCommadn = "ORDINI";
 }
