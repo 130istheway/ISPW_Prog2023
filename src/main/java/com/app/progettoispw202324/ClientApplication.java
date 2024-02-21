@@ -2,6 +2,7 @@ package com.app.progettoispw202324;
 
 import boundary.BoundaryLogin;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -20,6 +21,9 @@ import java.util.Objects;
 public class ClientApplication extends Application {
 
     static Logger logger = LogManager.getLogger(ClientApplication.class);
+    
+    BufferedReader in = null;
+    PrintWriter out = null;
 
     @Override
     public void start(Stage stage){
@@ -27,15 +31,8 @@ public class ClientApplication extends Application {
         int port = 5000;
 
         try(Socket socket = new Socket(host, port)) {
-            BufferedReader in = null;
-            PrintWriter out = null;
-    
-            try {
-                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                out = new PrintWriter(socket.getOutputStream(), true);
-            } catch (IOException | NullPointerException e) {
-                logger.error("Errore nell apertura del Lettore e Scrittore sulla socket");
-            }
+            
+            creazioneConnessioneConSocket(socket);
     
             //far arrivare il server al LOGIN
             GestionePerUI gestionePerUI = new GestionePerUI(in, out);
@@ -63,7 +60,15 @@ public class ClientApplication extends Application {
         }
     }
 
-
+    private void creazioneConnessioneConSocket(Socket socket){
+        try {
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new PrintWriter(socket.getOutputStream(), true);
+        } catch (IOException | NullPointerException e) {
+            logger.error("Errore nell apertura del Lettore e Scrittore sulla socket");
+            Platform.exit();
+        }
+    }
 
     public static void starter() {
         launch();
