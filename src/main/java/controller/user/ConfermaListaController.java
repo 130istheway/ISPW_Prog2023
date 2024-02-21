@@ -8,13 +8,13 @@ import java.util.Objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import boundary.BoundaryBasicResponse;
 import carrello.Carrello;
 import model.dao.exception.DAOException;
 import model.dao.negozio.DAOIdNegozio;
 import model.dao.notifica.DAOInserisciOrdine;
 import model.domain.ControllerInfoSulThread;
 import model.domain.Credential;
-import util.MessageToCommand;
 
 /**
  * Classe che si occupa della conferma dell'Ordinazione, inserendo la lista di id sotto forma di stringa nel DB per il Negozio corrispondente
@@ -40,7 +40,6 @@ public class ConfermaListaController {
      * @param carrello
      */
     public void confermaLista(Credential credentials, ControllerInfoSulThread info, Carrello carrello){
-        MessageToCommand messageToCommand = new MessageToCommand();
 
         java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
         Calendar calendar = Calendar.getInstance();
@@ -49,9 +48,7 @@ public class ConfermaListaController {
         date = new java.sql.Date(calendar.getTimeInMillis());
 
         if (carrello.getLista() == null || Objects.equals(carrello.getLista(), "")){
-            messageToCommand.setCommand("NO");
-            messageToCommand.setPayload(null);
-            info.sendMessage(messageToCommand.toMessage());
+            info.sendMessage(BoundaryBasicResponse.RETURNNO);
             return;
         }
 
@@ -60,9 +57,7 @@ public class ConfermaListaController {
         try {
             username = daoIdNegozio.execute(credentials.getUsername());
         } catch (DAOException e) {
-            messageToCommand.setCommand("NO");
-            messageToCommand.setPayload(null);
-            info.sendMessage(messageToCommand.toMessage());
+            info.sendMessage(BoundaryBasicResponse.RETURNNO);
             return;
         }
 
@@ -75,15 +70,11 @@ public class ConfermaListaController {
 
             boolean conferma = inserisciOrdine.execute(negozio, username, carrello.getLista(), date);
 
-            if (conferma){ 
-                messageToCommand.setCommand("OK");
-                messageToCommand.setPayload(null);
-                info.sendMessage(messageToCommand.toMessage());
+            if (conferma){
+                info.sendMessage(BoundaryBasicResponse.RETURNOK);
                 return;
             }
-            messageToCommand.setCommand("NO");
-            messageToCommand.setPayload(null);
-            info.sendMessage(messageToCommand.toMessage());
+            info.sendMessage(BoundaryBasicResponse.RETURNNO);
         } catch ( DAOException e ) {
             logger.error(e.getMessage());
         }

@@ -1,6 +1,7 @@
 package com.app.progettoispw202324;
 
 import boundary.BoundaryBasicController;
+import boundary.BoundaryBasicResponse;
 import boundary.BoundaryLogin;
 import com.app.progettoispw202324.allertbox.AllertBox;
 import javafx.application.Platform;
@@ -67,7 +68,7 @@ public class MenuController {
     public void visualizza(ActionEvent event){
         if (livello>=3){return;}
         String input = cech(BoundaryBasicController.RETURNVISUALIZZACOMAND);
-        if (Objects.equals(input, "OK")) {
+        if (Objects.equals(input, BoundaryBasicResponse.RETURNSI)) {
             try {
                 fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaCarrello.fxml"));
                 root = fxmlLoader.load();
@@ -88,7 +89,7 @@ public class MenuController {
             scegliNegozio();
         } else {
             String input = cech(BoundaryBasicController.returnInserisciArticoloCommand(gestionePerUI.getNegozio()));
-            if (Objects.equals(input, "OK")) {
+            if (Objects.equals(input, BoundaryBasicResponse.RETURNSI)) {
                 try {
                     fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("InserisciCarrello.fxml"));
                     root = fxmlLoader.load();
@@ -110,7 +111,7 @@ public class MenuController {
             scegliNegozio();
         }else {
             String input = cech(BoundaryBasicController.returnConfermaOrdineCommand(gestionePerUI.getNegozio()));
-            if (Objects.equals(input, "OK")) {
+            if (Objects.equals(input, BoundaryBasicResponse.RETURNSI)) {
                 confermaCarrello.setStyle(IMPOSTAVERDE);
                 gestionePerUI.sendMessage(BoundaryBasicController.RETURNRESETNEGOZIOCOMMAND);
             } else if (input.contains(STOPIT)){
@@ -155,7 +156,7 @@ public class MenuController {
             visualizza.setStyle(IMPOSTAROSSO);
             return;}
         String input = cech(BoundaryBasicController.RETURNVISUALIZZAARTICOLIDADBCOMMAND);
-        if (Objects.equals(input, "OK")) {
+        if (Objects.equals(input, BoundaryBasicResponse.RETURNSI)) {
             try {
                 fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaDB.fxml"));
                 root = fxmlLoader.load();
@@ -175,7 +176,7 @@ public class MenuController {
             return;
         }
         String input = cech(BoundaryBasicController.RETURNCONFERMAORDINICOMMAND);
-        if (Objects.equals(input, "OK")) {
+        if (Objects.equals(input, BoundaryBasicResponse.RETURNSI)) {
             ordine.setText("ORDINE");
             try {
                 fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("VisualizzaNotifica.fxml"));
@@ -230,7 +231,7 @@ public class MenuController {
             } catch (IOException e) {
                 logger.error("0x000023   %s",e.getMessage());
             }
-            if (ordiniRitorno != null && ordiniRitorno.contains("SI")){
+            if (ordiniRitorno != null && ordiniRitorno.contains(BoundaryBasicResponse.RETURNSI)){
                 int numero = Integer.parseInt(ordiniRitorno.substring(5));
                 if (numero >0 && numero <= 3){
                     ordine.setStyle(IMPOSTAVERDE);

@@ -209,7 +209,6 @@ public class BoxInserimentoArticoli {
                 List<String> ingredientiString = new ArrayList<>();
 
                 if (ok.get()) {
-                    assert splitted != null;
                     for (String fruit : splitted) {
                         ingredientiString.add(fruit.trim());
                     }
@@ -267,7 +266,6 @@ public class BoxInserimentoArticoli {
                 List<String> ingredientiString = new ArrayList<>();
 
                 if (ok.get()) {
-                    assert splitted != null;
                     for (String fruit : splitted) {
                         ingredientiString.add(fruit.trim());
                     }

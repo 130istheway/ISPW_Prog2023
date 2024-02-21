@@ -6,6 +6,11 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import boundary.BoundaryBasicController;
+import boundary.BoundaryBasicResponse;
+import boundary.BoundaryErrori;
+import boundary.BoundaryGestioneNotifica;
+import boundary.BoundaryUserControl;
 import model.dao.exception.DAOException;
 import model.dao.negozio.DAOIdNegozio;
 import model.dao.notifica.DAOConfermaOrdineDalID;
@@ -35,21 +40,16 @@ public class ConfermaOrdiniNegozioController {
      * @param info
      */
     public void confermaOrdiniController(Credential credentials, ControllerInfoSulThread info){
-        MessageToCommand messageToCommand = new MessageToCommand();
         String inputLine;
 
         setcache(credentials);
 
         if (listaID == null) {
-            messageToCommand.setCommand("NULL");
-            messageToCommand.setPayload(null);
-            info.sendMessage(messageToCommand.toMessage());
+            info.sendMessage(BoundaryBasicResponse.RETURNNULL);
             return;
         }
         
-        messageToCommand.setCommand("OK");
-        messageToCommand.setPayload(null);
-        info.sendMessage(messageToCommand.toMessage());
+        info.sendMessage(BoundaryBasicResponse.RETURNOK);
         try {
         if (info.isRunning()) {
             while (((inputLine = info.getMessage()) != null) && (!cambiaAttivita)) {
@@ -76,7 +76,8 @@ public class ConfermaOrdiniNegozioController {
 
 
         switch (command) {
-            case "VISUALIZZAART":
+            case BoundaryUserControl.RETURNVISUALIZZAARTICOLOCOMMAND:
+                String messaggio;
                 try {
                     StringBuilder appoggio = new StringBuilder();
                     int number = Integer.parseInt(messageToCommand.getPayload());
@@ -84,52 +85,44 @@ public class ConfermaOrdiniNegozioController {
                     for (String string : listaDati) {
                         appoggio = appoggio.append(string + "_");
                     }
-                    messageToCommand.setCommand("SINOTI");
-                    messageToCommand.setPayload(appoggio.toString());
+                    messaggio = BoundaryGestioneNotifica.returnVisualizzaArticoloCommand(appoggio.toString());
+
                 } catch (IndexOutOfBoundsException | DAOException e) {
-                    messageToCommand.setCommand("NO");
-                    messageToCommand.setPayload("Elemento non esistente");
+                    messaggio = BoundaryGestioneNotifica.RETURNVISUALIZZAARTICOLOCOMMAND;
                 }
-                info.sendMessage(messageToCommand.toMessage());
+                info.sendMessage(messaggio);
 
                 break;
-                
+            
 
-            case "CONFERMANOTIFICA":
+            case BoundaryGestioneNotifica.RETURNCONFERMANOTIFICACOMMAND:
                 DAOConfermaOrdineDalID confermaOrdine = new DAOConfermaOrdineDalID();
                 String[] cose = messageToCommand.getPayload().split("\\|");
+                String messaggio2;
                 try {
                     boolean noti = confermaOrdine.execute(listaID.get(Integer.parseInt(cose[0])), cose[1]);
                     if (noti) {
-                        messageToCommand.setCommand("SI");
-                        messageToCommand.setPayload(null);
+                        messaggio2 = BoundaryBasicResponse.RETURNSI;
                     }else{
-                        messageToCommand.setCommand("NO");
-                        messageToCommand.setPayload(null);
+                        messaggio2 = BoundaryBasicResponse.RETURNNO;
                     }
-                    info.sendMessage(messageToCommand.toMessage());
+                    info.sendMessage(messaggio2);
                 } catch (DAOException e) {
                     logger.error("Problema rilevato nelle DAO per confermare le notifiche");
-                    messageToCommand.setCommand("ERROR");
-                    messageToCommand.setPayload(null);
-                    info.sendMessage(messageToCommand.toMessage());
+                    info.sendMessage(BoundaryErrori.ERROR);
                 } catch (NumberFormatException e1) {
                     logger.error("Problema rilevato nella conversione della stringa ad intero");
-                    messageToCommand.setCommand("ERRORConversione");
-                    messageToCommand.setPayload(null);
-                    info.sendMessage(messageToCommand.toMessage());
+                    info.sendMessage(BoundaryErrori.ERRORCONVERSIONE);
                 }
                 setcache(credentials);
                 break;
 
-            case "EXIT":
+            case BoundaryBasicController.RETURNEXITCOMMAND:
                 cambiaAttivita = true;
             break;
         
             default:
-                messageToCommand.setCommand("NONRICONOSCIUTO");
-                messageToCommand.setPayload(null);
-                info.sendMessage(messageToCommand.toMessage());
+                info.sendMessage(BoundaryBasicResponse.RETURNNONRICONOSCIUTO);
                 cambiaAttivita = true;
                 break;
         }

@@ -2,6 +2,7 @@ package com.app.progettoispw202324;
 
 import com.app.progettoispw202324.util.Comandi;
 
+import boundary.BoundaryBasicResponse;
 import boundary.BoundaryGestioneNotifica;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -97,13 +98,13 @@ public class NotificaController {
             Platform.exit();
         }
         messageToCommand.fromMessage(receive);
-        if (Objects.equals(messageToCommand.getCommand(), "NO")){
+        if (Objects.equals(messageToCommand.getCommand(), BoundaryBasicResponse.RETURNNO)){
             testoLibero.setText(messageToCommand.getPayload());
             visualizza.setStyle("-fx-background-color: red;");
             accetta.setStyle(SETGREY);
             rifiuta.setStyle(SETGREY);
 
-        }else if (Objects.equals(messageToCommand.getCommand(), "SI")){
+        }else if (Objects.equals(messageToCommand.getCommand(), BoundaryBasicResponse.RETURNSI)){
             testoLibero.setText(messageToCommand.getPayload());
             visualizza.setStyle("-fx-background-color: green;");
             accetta.setStyle(SETGREY);
